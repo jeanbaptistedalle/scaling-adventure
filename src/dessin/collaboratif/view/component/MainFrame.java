@@ -50,6 +50,10 @@ public class MainFrame extends JFrame {
 		validate();
 	}
 
+	/**
+	 * Repaint the drawPanel and all the components link to it (like close and
+	 * undo menu items)
+	 */
 	public void repaintDrawPanel() {
 		if (Client.getInstance().getImage() != null) {
 			drawPanel.setImage(Client.getInstance().getImage());
@@ -57,8 +61,21 @@ public class MainFrame extends JFrame {
 			drawPanel.setImage(null);
 		}
 		menu.getFileMenu().getClose().repaint();
+		menu.getEditionMenu().getUndo().repaint();
 		drawPanel.repaint();
 		repaint();
+	}
+
+	/**
+	 * Get instance of the MainFrame (or create one if not exists)
+	 * 
+	 * @return
+	 */
+	public static MainFrame getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new MainFrame();
+		}
+		return INSTANCE;
 	}
 
 	public Menu getMenu() {
@@ -85,15 +102,4 @@ public class MainFrame extends JFrame {
 		this.drawPanel = drawPanel;
 	}
 
-	/**
-	 * Get instance of the MainFrame (or create one if not exists)
-	 * 
-	 * @return
-	 */
-	public static MainFrame getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new MainFrame();
-		}
-		return INSTANCE;
-	}
 }

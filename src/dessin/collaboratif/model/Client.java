@@ -16,7 +16,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import dessin.collaboratif.misc.DrawModelEnum;
-import dessin.collaboratif.view.component.MainFrame;
 
 public class Client {
 
@@ -47,36 +46,98 @@ public class Client {
 		}
 	}
 
+	/**
+	 * This method return true if there is a currentDraw selected and if the
+	 * points are legal, false elsewhere
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return
+	 */
+	private boolean isLegal(final Integer x1, final Integer y1,
+			final Integer x2, final Integer y2) {
+		return x1 != null && x1 >= 0 && y1 != null && y1 >= 0 && x2 != null
+				&& x2 >= 0 && y2 != null && y2 >= 0;
+	}
+
+	/**
+	 * Draw the selected form on the .svg if the dimension are legal.
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
 	public void draw(final Integer x1, final Integer y1, final Integer x2,
 			final Integer y2) {
-		if (currentDraw != null) {
-			switch (currentDraw) {
-			case CIRCLE:
-				// TODO
-				break;
-			case LINE:
-				// TODO
-				break;
-			case SQUARE:
-				drawSquare(x1, y1, x2, y2);
-			default:
-				break;
+		if (isLegal(x1, x2, y1, y2)) {
+			if (currentDraw != null) {
+				switch (currentDraw) {
+				case CIRCLE:
+					// TODO
+					break;
+				case LINE:
+					// TODO
+					break;
+				case SQUARE:
+					drawSquare(x1, y1, x2, y2);
+				default:
+					break;
+				}
+			} else {
+				/*
+				 * TODO si aucune forme à dessiner n'est selectionnée, on doit
+				 * pouvoir déplacer une forme
+				 */
 			}
 		}
 	}
 
-	public void drawSquare(final Integer x1, final Integer y1,
+	/**
+	 * This method draw a square on the selected .svg
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
+	private void drawSquare(final Integer x1, final Integer y1,
 			final Integer x2, final Integer y2) {
+		/*
+		 * On réorganise les valeurs afin que le point d'origine soit toujours
+		 * le plus petit afin que les largeurs et hauteurs soient positives.
+		 */
+		Integer nx1;
+		Integer ny1;
+		Integer nx2;
+		Integer ny2;
+		if (x1 < x2) {
+			nx1 = x1;
+			nx2 = x2;
+		} else {
+			nx2 = x1;
+			nx1 = x2;
+		}
+		if (y1 < y2) {
+			ny1 = y1;
+			ny2 = y2;
+		} else {
+			ny2 = y1;
+			ny1 = y2;
+		}
+
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
 		Element rectangle = doc.createElementNS(Client.getInstance()
 				.getSvgNameSpace(), "rect");
 		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE,
-				x1.toString());
+				nx1.toString());
 		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE,
-				y1.toString());
-		Integer height = Math.abs(y1 - y2);
-		Integer width = Math.abs(x1 - x2);
+				ny1.toString());
+		Integer height = ny2 - ny1;
+		Integer width = nx2 - nx1;
 		rectangle.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE,
 				height.toString());
 		rectangle.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE,
@@ -84,19 +145,49 @@ public class Client {
 		rectangle
 				.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "black");
 		svgRoot.appendChild(rectangle);
-		saveSVG(doc, Client.getInstance().getFileImage());
+		saveSVG();
 	}
 
-	public void saveSVG(final Document doc, final File file) {
-		// Save the file
-		final DOMSource source = new DOMSource(doc);
-		final StreamResult result = new StreamResult(file.getPath());
-		try {
-			getTransformer().transform(source, result);
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
+	/**
+	 * This method undo the last form of the selected .svg
+	 */
+	public void undo() {
+		final Document doc = getImage();
+		if (doc != null && doc.getFirstChild().getFirstChild() != null) {
+			doc.getFirstChild().removeChild(
+					doc.getDocumentElement().getLastChild());
+			saveSVG();
 		}
-		MainFrame.getInstance().repaintDrawPanel();
+	}
+
+	/**
+	 * This method save the .svg currently selected by the client
+	 */
+	public void saveSVG() {
+		final Document doc = getImage();
+		final File file = getFileImage();
+		if (doc != null && file != null) {
+			final DOMSource source = new DOMSource(doc);
+			final StreamResult result = new StreamResult(file.getPath());
+			try {
+				getTransformer().transform(source, result);
+			} catch (final Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	/**
+	 * Return the current instance of the Client if exist, or create a new one
+	 * if there isn't
+	 * 
+	 * @return
+	 */
+	public static Client getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new Client();
+		}
+		return INSTANCE;
 	}
 
 	public DrawModelEnum getCurrentDraw() {
@@ -161,13 +252,6 @@ public class Client {
 
 	public void setTransformer(Transformer transformer) {
 		this.transformer = transformer;
-	}
-
-	public static Client getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new Client();
-		}
-		return INSTANCE;
 	}
 
 	public File getFileImage() {
