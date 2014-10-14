@@ -30,7 +30,7 @@ public class OverviewBoxListener extends JPanel implements MouseMotionListener,
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		setOpaque(true);
+//		setOpaque(true);
 
 		Graphics2D g2 = (Graphics2D) getGraphics();
 		Rectangle2D selectionBox = new Rectangle2D.Double();

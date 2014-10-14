@@ -9,7 +9,6 @@ import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.Document;
 import org.w3c.dom.svg.SVGDocument;
 
-import dessin.collaboratif.controller.component.OverviewBoxListener;
 import dessin.collaboratif.controller.component.SvgCanvasMouseAdapter;
 
 public class DrawPanel extends JPanel {
@@ -30,7 +29,8 @@ public class DrawPanel extends JPanel {
 		svgCanvas.addMouseListener(mouseAdapter);
 		svgCanvas.addMouseMotionListener(mouseAdapter);
 		this.add(svgCanvas);
-		this.add(new OverviewBoxListener());
+		/* Test Select box */
+		// this.add(new OverviewBoxListener());
 	}
 
 	public DrawPanel(final int width, final int height) {
