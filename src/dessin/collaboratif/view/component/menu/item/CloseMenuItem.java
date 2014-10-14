@@ -15,7 +15,7 @@ public class CloseMenuItem extends JMenuItem {
 
 	public CloseMenuItem() {
 		super(GeneralVariables.FILE_MENU_CLOSE);
-		if (Client.getInstance().getImageToModify() != null) {
+		if (Client.getInstance().getImage() != null) {
 			this.setEnabled(true);
 		} else {
 			this.setEnabled(false);
@@ -25,11 +25,11 @@ public class CloseMenuItem extends JMenuItem {
 
 	@Override
 	public void repaint() {
-		super.repaint();
-		if (Client.getInstance().getImageToModify() != null) {
+		if (Client.getInstance().getImage() != null) {
 			this.setEnabled(true);
 		} else {
 			this.setEnabled(false);
 		}
+		super.repaint();
 	}
 }

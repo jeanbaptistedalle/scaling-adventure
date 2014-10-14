@@ -1,10 +1,10 @@
 package dessin.collaboratif.view.component.button;
 
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 
 import dessin.collaboratif.controller.component.button.CursorButtonListener;
 
-public class CursorButton extends JButton {
+public class CursorButton extends JToggleButton {
 
 	/**
 	 * 

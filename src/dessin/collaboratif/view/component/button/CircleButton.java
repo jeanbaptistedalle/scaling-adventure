@@ -1,10 +1,10 @@
 package dessin.collaboratif.view.component.button;
 
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 
 import dessin.collaboratif.controller.component.button.CircleButtonListener;
 
-public class CircleButton extends JButton {
+public class CircleButton extends JToggleButton {
 
 	/**
 	 * 

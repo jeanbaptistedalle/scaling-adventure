@@ -1,5 +1,6 @@
 package dessin.collaboratif.view.component;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 
 import dessin.collaboratif.misc.DrawModelEnum;
@@ -15,6 +16,8 @@ public class ToolPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 7961403117980955928L;
 
+	private ButtonGroup toolButtonGroup;
+
 	private SquareButton squareButton;
 
 	private CircleButton circleButton;
@@ -24,17 +27,23 @@ public class ToolPanel extends JPanel {
 	private CursorButton cursorButton;
 
 	public ToolPanel() {
+		toolButtonGroup = new ButtonGroup();
+
 		cursorButton = new CursorButton();
 		this.add(cursorButton);
+		toolButtonGroup.add(cursorButton);
 		cursorButton.getModel().setPressed(true);
 
 		lineButton = new LineButton();
+		toolButtonGroup.add(lineButton);
 		this.add(lineButton);
 
 		squareButton = new SquareButton();
+		toolButtonGroup.add(squareButton);
 		this.add(squareButton);
 
 		circleButton = new CircleButton();
+		toolButtonGroup.add(circleButton);
 		this.add(circleButton);
 	}
 

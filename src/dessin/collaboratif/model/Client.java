@@ -1,7 +1,5 @@
 package dessin.collaboratif.model;
 
-import java.io.File;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -24,7 +22,6 @@ public class Client {
 	private TransformerFactory transformerFactory;
 	private Transformer transformer;
 
-	private File imageToModify;
 	private Document image;
 
 	private DrawModelEnum currentDraw = null;
@@ -40,14 +37,6 @@ public class Client {
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public File getImageToModify() {
-		return imageToModify;
-	}
-
-	public void setImageToModify(final File imageToModify) {
-		this.imageToModify = imageToModify;
 	}
 
 	public DrawModelEnum getCurrentDraw() {

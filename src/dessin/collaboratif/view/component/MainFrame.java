@@ -8,6 +8,13 @@ import javax.swing.JFrame;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.menu.Menu;
 
+/**
+ * 
+ * The MainFrame of the application. it's implement the Singleton design pattern
+ * 
+ * @author JBD
+ *
+ */
 public class MainFrame extends JFrame {
 
 	/**
@@ -44,13 +51,13 @@ public class MainFrame extends JFrame {
 	}
 
 	public void repaintDrawPanel() {
-		Client client = Client.getInstance();
-		if (client.getImageToModify() == null) {
-			drawPanel.setImage(null);
+		if (Client.getInstance().getImage() != null) {
+			drawPanel.setImage(Client.getInstance().getImage());
 		} else {
-			drawPanel.setImage(Client.getInstance().getImageToModify());
+			drawPanel.setImage(null);
 		}
 		menu.getFileMenu().getClose().repaint();
+		drawPanel.repaint();
 		repaint();
 	}
 
@@ -78,6 +85,11 @@ public class MainFrame extends JFrame {
 		this.drawPanel = drawPanel;
 	}
 
+	/**
+	 * Get instance of the MainFrame (or create one if not exists)
+	 * 
+	 * @return
+	 */
 	public static MainFrame getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new MainFrame();

@@ -23,7 +23,7 @@ public class OpenMenuItem extends JMenuItem {
 		fileChooser.setAcceptAllFileFilterUsed(false);
 
 		fileChooser.setFileFilter(new FileNameExtensionFilter(
-				".jpeg Images", "jpeg", "jpg"));
+				".svg", "svg"));
 
 		this.addActionListener(new OpenListener(fileChooser));
 	}

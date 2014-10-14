@@ -1,10 +1,10 @@
 package dessin.collaboratif.view.component.button;
 
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 
 import dessin.collaboratif.controller.component.button.SquareButtonListener;
 
-public class SquareButton extends JButton {
+public class SquareButton extends JToggleButton {
 
 	/**
 	 * 

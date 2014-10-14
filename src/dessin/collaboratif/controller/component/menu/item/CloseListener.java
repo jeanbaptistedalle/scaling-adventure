@@ -8,8 +8,8 @@ import dessin.collaboratif.view.component.MainFrame;
 
 public class CloseListener implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
-		if(Client.getInstance().getImageToModify() != null){
-			Client.getInstance().setImageToModify(null);
+		if(Client.getInstance().getImage() != null){
+			Client.getInstance().setImage(null);
 			MainFrame.getInstance().repaintDrawPanel();
 		}
 	}

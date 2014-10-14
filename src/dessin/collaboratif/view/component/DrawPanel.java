@@ -1,14 +1,13 @@
 package dessin.collaboratif.view.component;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import dessin.collaboratif.controller.component.DrawPanelMouseListener;
+import org.apache.batik.swing.JSVGCanvas;
+import org.w3c.dom.Document;
+import org.w3c.dom.svg.SVGDocument;
 
 public class DrawPanel extends JPanel {
 
@@ -16,11 +15,15 @@ public class DrawPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -6311776541493011834L;
-	private BufferedImage bufferedImage;
+	private JSVGCanvas svgCanvas = new JSVGCanvas();
 
 	public DrawPanel() {
-		super();
-		this.addMouseListener(new DrawPanelMouseListener());
+		super(new BorderLayout());
+		svgCanvas.setVisible(false);
+		this.setSize(600, 600);
+		svgCanvas.setSize(600, 600);
+		svgCanvas.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+		this.add(svgCanvas);
 	}
 
 	public DrawPanel(final int width, final int height) {
@@ -28,44 +31,14 @@ public class DrawPanel extends JPanel {
 		this.setSize(width, height);
 	}
 
-	public DrawPanel(final File image) {
-		this();
-		try {
-			bufferedImage = ImageIO.read(image);
-		} catch (final IOException e) {
-			// TODO gerer erreur
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Override
-	protected void paintComponent(final Graphics g) {
-		super.paintComponent(g);
-		if (bufferedImage != null) {
-			this.setSize(bufferedImage.getWidth(), bufferedImage.getHeight());
-			g.drawImage(bufferedImage, 0, 0, null);
-		}
-	}
-
-	public void setImage(final File image) {
-		if (image == null) {
-			bufferedImage = null;
+	public void setImage(Document image) {
+		if (image != null) {
+			svgCanvas.setDocument(image);
+			svgCanvas.setSVGDocument((SVGDocument) image);
+			svgCanvas.setVisible(true);
 		} else {
-			try {
-				bufferedImage = ImageIO.read(image);
-			} catch (final Exception e) {
-				// TODO
-				throw new RuntimeException(e);
-			}
+			svgCanvas.setSVGDocument(null);
+			svgCanvas.setVisible(false);
 		}
 	}
-
-	public BufferedImage getBufferedImage() {
-		return bufferedImage;
-	}
-
-	public void setBufferedImage(BufferedImage bufferedImage) {
-		this.bufferedImage = bufferedImage;
-	}
-
 }
