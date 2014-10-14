@@ -10,6 +10,7 @@ public class CloseListener implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if(Client.getInstance().getImage() != null){
 			Client.getInstance().setImage(null);
+			Client.getInstance().setFileImage(null);
 			MainFrame.getInstance().repaintDrawPanel();
 		}
 	}

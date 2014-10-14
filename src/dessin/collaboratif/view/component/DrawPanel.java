@@ -9,6 +9,8 @@ import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.Document;
 import org.w3c.dom.svg.SVGDocument;
 
+import dessin.collaboratif.controller.component.SvgCanvasMouseAdapter;
+
 public class DrawPanel extends JPanel {
 
 	/**
@@ -20,9 +22,11 @@ public class DrawPanel extends JPanel {
 	public DrawPanel() {
 		super(new BorderLayout());
 		svgCanvas.setVisible(false);
-		this.setSize(600, 600);
 		svgCanvas.setSize(600, 600);
 		svgCanvas.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+		SvgCanvasMouseAdapter mouseAdapter = new SvgCanvasMouseAdapter();
+		svgCanvas.addMouseListener(mouseAdapter);
+		svgCanvas.addMouseMotionListener(mouseAdapter);
 		this.add(svgCanvas);
 	}
 
@@ -39,6 +43,15 @@ public class DrawPanel extends JPanel {
 		} else {
 			svgCanvas.setSVGDocument(null);
 			svgCanvas.setVisible(false);
+		}
+	}
+
+	@Override
+	public void repaint() {
+		// TODO Auto-generated method stub
+		super.repaint();
+		if (svgCanvas != null) {
+			svgCanvas.repaint();
 		}
 	}
 }

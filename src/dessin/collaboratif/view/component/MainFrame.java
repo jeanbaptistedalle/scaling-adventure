@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
 
 	private MainFrame() {
 		this.setTitle("Dessin colaboratif");
-		this.setSize(600, 600);
+		this.setSize(600, 680);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);

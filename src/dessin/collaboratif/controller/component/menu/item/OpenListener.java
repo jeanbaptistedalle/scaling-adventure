@@ -25,13 +25,14 @@ public class OpenListener implements ActionListener {
 		int returnVal = fileChooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			final Client client = Client.getInstance();
-			final File f = fileChooser.getSelectedFile();
+			final File file = fileChooser.getSelectedFile();
 			try {
 				String parser = XMLResourceDescriptor.getXMLParserClassName();
 				SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(
 						parser);
-				Document doc = factory.createDocument(f.toURI().toString());
+				Document doc = factory.createDocument(file.toURI().toString());
 				client.setImage(doc);
+				client.setFileImage(file);
 			} catch (final Exception e1) {
 				throw new RuntimeException(e1);
 			}

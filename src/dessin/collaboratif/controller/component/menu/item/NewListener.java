@@ -75,6 +75,7 @@ public class NewListener implements ActionListener {
 				throw new RuntimeException(e);
 			}
 			client.setImage(doc);
+			client.setFileImage(file);
 			MainFrame.getInstance().repaintDrawPanel();
 		}
 	}

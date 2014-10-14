@@ -5,6 +5,11 @@ import java.awt.Dimension;
 public class RectShape extends Shape {
 
 	protected Dimension size;
+	
+	public RectShape() {
+		super();
+		setSize(new Dimension(10, 10));
+	}
 
 	public Dimension getSize() {
 		return size;
@@ -14,10 +19,6 @@ public class RectShape extends Shape {
 		this.size = size;
 	}
 
-	public RectShape() {
-		super();
-		setSize(new Dimension(10, 10));
-	}
 
 	@Override
 	public String toSVGEntity(String misc) {
