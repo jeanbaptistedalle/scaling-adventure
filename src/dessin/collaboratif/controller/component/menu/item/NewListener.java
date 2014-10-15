@@ -12,6 +12,7 @@ import org.apache.batik.util.SVGConstants;
 import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
@@ -47,24 +48,16 @@ public class NewListener implements ActionListener {
 			svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, "600");
 			svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, "600");
 
+			Text text = doc.createTextNode("Scaling Adventure by JB/K/A/R");
+			
 			// Create the rectangle.
 			Element rectangle = doc.createElementNS(client.getSvgNameSpace(),
-					"rect");
-			rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, "10");
+					"text");
+			rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, "20");
 			rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, "20");
-			rectangle.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, "100");
-			rectangle.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, "50");
-			rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "red");
+			rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "silver");
+			rectangle.appendChild(text);
 			svgRoot.appendChild(rectangle);
-
-			Element rectangle2 = doc.createElementNS(client.getSvgNameSpace(),
-					"rect");
-			rectangle2.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, "110");
-			rectangle2.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, "70");
-			rectangle2.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, "100");
-			rectangle2.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, "50");
-			rectangle2.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "blue");
-			svgRoot.appendChild(rectangle2);
 
 			// Save the file
 			final DOMSource source = new DOMSource(doc);
