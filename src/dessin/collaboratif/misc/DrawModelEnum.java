@@ -5,5 +5,7 @@ public enum DrawModelEnum {
 	
 	SQUARE,
 	
-	LINE;
+	LINE,
+	
+	ELLIPSE;
 }

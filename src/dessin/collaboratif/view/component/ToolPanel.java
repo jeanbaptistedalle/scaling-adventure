@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.view.component.button.CircleButton;
 import dessin.collaboratif.view.component.button.CursorButton;
+import dessin.collaboratif.view.component.button.EllipseButton;
 import dessin.collaboratif.view.component.button.LineButton;
 import dessin.collaboratif.view.component.button.SquareButton;
 
@@ -21,6 +22,8 @@ public class ToolPanel extends JPanel {
 	private SquareButton squareButton;
 
 	private CircleButton circleButton;
+
+	private EllipseButton ellipseButton;
 
 	private LineButton lineButton;
 
@@ -45,6 +48,10 @@ public class ToolPanel extends JPanel {
 		circleButton = new CircleButton();
 		toolButtonGroup.add(circleButton);
 		this.add(circleButton);
+
+		ellipseButton = new EllipseButton();
+		toolButtonGroup.add(ellipseButton);
+		this.add(ellipseButton);
 	}
 
 	public void press(final DrawModelEnum drawModelEnum) {
@@ -61,6 +68,9 @@ public class ToolPanel extends JPanel {
 				break;
 			case LINE:
 				lineButton.getModel().setPressed(true);
+				break;
+			case ELLIPSE:
+				ellipseButton.getModel().setPressed(true);
 				break;
 			default:
 				throw new RuntimeException("Type de bouton non géré");
@@ -82,6 +92,11 @@ public class ToolPanel extends JPanel {
 			return false;
 		case LINE:
 			if (lineButton.getModel().isPressed()) {
+				return true;
+			}
+			return false;
+		case ELLIPSE:
+			if (ellipseButton.getModel().isPressed()) {
 				return true;
 			}
 			return false;

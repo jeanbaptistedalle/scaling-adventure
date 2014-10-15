@@ -83,6 +83,8 @@ public class Client {
 					break;
 				case SQUARE:
 					drawSquare(x1, y1, x2, y2);
+				case ELLIPSE:
+					drawEllipse(x1, y1, x2, y2);
 				default:
 					break;
 				}
@@ -149,7 +151,67 @@ public class Client {
 	}
 
 	/**
-	 * This method draw a square on the selected .svg
+	 * This method draw an ellipse on the selected .svg
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
+	private void drawEllipse(final Integer x1, final Integer y1,
+			final Integer x2, final Integer y2) {
+		/*
+		 * On réorganise les valeurs afin que le point d'origine soit toujours
+		 * le plus petit afin que les largeurs et hauteurs soient positives.
+		 */
+		Integer nx1;
+		Integer ny1;
+		Integer nx2;
+		Integer ny2;
+		if (x1 < x2) {
+			nx1 = x1;
+			nx2 = x2;
+		} else {
+			nx2 = x1;
+			nx1 = x2;
+		}
+		if (y1 < y2) {
+			ny1 = y1;
+			ny2 = y2;
+		} else {
+			ny2 = y1;
+			ny1 = y2;
+		}
+
+		final Document doc = getImage();
+		final Element svgRoot = doc.getDocumentElement();
+		Element ell = doc.createElementNS(Client.getInstance()
+				.getSvgNameSpace(), "ellipse");
+		
+		Integer cx, cy, rx, ry;
+
+		cx = ((nx2-nx1)/2) + nx1;
+		cy = ((ny2-ny1)/2) + ny1;
+		rx = ((nx2-nx1)/2);
+		ry = ((ny2-ny1)/2);
+		
+		
+		ell.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE,
+				cx.toString());
+		ell.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE,
+				cy.toString());
+		ell.setAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE,
+				rx.toString());
+		ell.setAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE,
+				ry.toString());
+		ell
+				.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "black");
+		svgRoot.appendChild(ell);
+		saveSVG();
+	}
+
+	/**
+	 * This method draw a circle on the selected .svg
 	 * 
 	 * @param x1
 	 * @param y1
