@@ -1,5 +1,6 @@
 package dessin.collaboratif.view.component.menu.item;
 
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
 import dessin.collaboratif.controller.component.menu.item.UndoListener;
@@ -15,6 +16,9 @@ public class UndoMenuItem extends JMenuItem {
 
 	public UndoMenuItem() {
 		super(GeneralVariables.EDITION_MENU_UNDO);
+		ImageIcon undoIcon = new ImageIcon(
+				GeneralVariables.EDITION_MENU_UNDO_ICON_PATH);
+		this.setIcon(undoIcon);
 		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null) {
 			this.setEnabled(true);
 		} else {

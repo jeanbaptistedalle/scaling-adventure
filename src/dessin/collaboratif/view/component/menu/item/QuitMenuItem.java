@@ -1,5 +1,6 @@
 package dessin.collaboratif.view.component.menu.item;
 
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
 import dessin.collaboratif.controller.component.menu.item.QuitListener;
@@ -14,6 +15,9 @@ public class QuitMenuItem extends JMenuItem {
 
 	public QuitMenuItem() {
 		super(GeneralVariables.FILE_MENU_QUIT);
+		ImageIcon quitIcon = new ImageIcon(
+				GeneralVariables.FILE_MENU_QUIT_ICON_PATH);
+		this.setIcon(quitIcon);
 		this.addActionListener(new QuitListener());
 	}
 }

@@ -1,5 +1,6 @@
 package dessin.collaboratif.view.component.menu.item;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -18,6 +19,9 @@ public class OpenMenuItem extends JMenuItem {
 
 	public OpenMenuItem() {
 		super(GeneralVariables.FILE_MENU_OPEN);
+		ImageIcon openIcon = new ImageIcon(
+				GeneralVariables.FILE_MENU_OPEN_ICON_PATH);
+		this.setIcon(openIcon);
 		fileChooser = new JFileChooser();
 
 		fileChooser.setAcceptAllFileFilterUsed(false);

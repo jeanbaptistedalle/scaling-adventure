@@ -1,10 +1,14 @@
 package dessin.collaboratif.view.component;
 
+import java.awt.GridLayout;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 
 import dessin.collaboratif.misc.DrawModelEnum;
+import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.button.CircleButton;
+import dessin.collaboratif.view.component.button.ColorPickerButton;
 import dessin.collaboratif.view.component.button.CursorButton;
 import dessin.collaboratif.view.component.button.LineButton;
 import dessin.collaboratif.view.component.button.SquareButton;
@@ -26,7 +30,12 @@ public class ToolPanel extends JPanel {
 
 	private CursorButton cursorButton;
 
+	private ColorPickerButton colorPickerButton;
+
+	private JPanel selectedColor;
+
 	public ToolPanel() {
+		super(new GridLayout());
 		toolButtonGroup = new ButtonGroup();
 
 		cursorButton = new CursorButton();
@@ -45,6 +54,14 @@ public class ToolPanel extends JPanel {
 		circleButton = new CircleButton();
 		toolButtonGroup.add(circleButton);
 		this.add(circleButton);
+
+		colorPickerButton = new ColorPickerButton();
+		toolButtonGroup.add(colorPickerButton);
+		this.add(colorPickerButton);
+
+		selectedColor = new JPanel();
+		selectedColor.setBackground(Client.getInstance().getSelectedColor());
+		this.add(selectedColor);
 	}
 
 	public void press(final DrawModelEnum drawModelEnum) {
@@ -104,5 +121,53 @@ public class ToolPanel extends JPanel {
 
 	public void setSquareButton(SquareButton squareButton) {
 		this.squareButton = squareButton;
+	}
+
+	public ButtonGroup getToolButtonGroup() {
+		return toolButtonGroup;
+	}
+
+	public void setToolButtonGroup(ButtonGroup toolButtonGroup) {
+		this.toolButtonGroup = toolButtonGroup;
+	}
+
+	public CircleButton getCircleButton() {
+		return circleButton;
+	}
+
+	public void setCircleButton(CircleButton circleButton) {
+		this.circleButton = circleButton;
+	}
+
+	public LineButton getLineButton() {
+		return lineButton;
+	}
+
+	public void setLineButton(LineButton lineButton) {
+		this.lineButton = lineButton;
+	}
+
+	public CursorButton getCursorButton() {
+		return cursorButton;
+	}
+
+	public void setCursorButton(CursorButton cursorButton) {
+		this.cursorButton = cursorButton;
+	}
+
+	public ColorPickerButton getColorPickerButton() {
+		return colorPickerButton;
+	}
+
+	public void setColorPickerButton(ColorPickerButton colorPickerButton) {
+		this.colorPickerButton = colorPickerButton;
+	}
+
+	public JPanel getSelectedColor() {
+		return selectedColor;
+	}
+
+	public void setSelectedColor(JPanel selectedColor) {
+		this.selectedColor = selectedColor;
 	}
 }

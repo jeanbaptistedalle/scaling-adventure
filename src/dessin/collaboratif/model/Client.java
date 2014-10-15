@@ -1,5 +1,6 @@
 package dessin.collaboratif.model;
 
+import java.awt.Color;
 import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -31,6 +32,7 @@ public class Client {
 	private Document image;
 	private File fileImage;
 
+	private Color selectedColor = Color.black;
 	private DrawModelEnum currentDraw = null;
 
 	private Client() {
@@ -260,5 +262,13 @@ public class Client {
 
 	public void setFileImage(File file) {
 		this.fileImage = file;
+	}
+
+	public Color getSelectedColor() {
+		return selectedColor;
+	}
+
+	public void setSelectedColor(Color selectedColor) {
+		this.selectedColor = selectedColor;
 	}
 }

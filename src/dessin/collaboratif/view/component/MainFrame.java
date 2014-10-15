@@ -29,7 +29,7 @@ public class MainFrame extends JFrame {
 	private ToolPanel toolPanel;
 
 	private DrawPanel drawPanel;
-
+	
 	private MainFrame() {
 		this.setTitle("Dessin colaboratif");
 		this.setSize(600, 680);
@@ -47,6 +47,7 @@ public class MainFrame extends JFrame {
 		drawPanel = new DrawPanel(600, 600);
 		drawPanel.setBackground(Color.LIGHT_GRAY);
 		this.add(drawPanel, BorderLayout.CENTER);
+		
 		validate();
 	}
 

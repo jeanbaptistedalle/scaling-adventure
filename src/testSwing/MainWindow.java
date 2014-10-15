@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 public class MainWindow extends JFrame {
 
@@ -16,7 +15,6 @@ public class MainWindow extends JFrame {
 	 */
 	private static final long serialVersionUID = 6748325253307146260L;
 
-	private JPanel content;
 	private JMenuBar menuBar;
 
 	private JMenu fichier;
@@ -31,7 +29,6 @@ public class MainWindow extends JFrame {
 		this.setSize(600, 600);
 		// Pour centrer, sinon relatif à un autre élément
 		this.setLocationRelativeTo(null);
-		content = new JPanel();
 		menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar);
 		fichier = new JMenu("Fichier");

@@ -14,6 +14,8 @@ public class Menu extends JMenuBar {
 	private EditionMenu editionMenu;
 
 	private CollaborationMenu collaborationMenu;
+	
+	private HelpMenu helpMenu;
 
 	public Menu() {
 		super();
@@ -23,6 +25,8 @@ public class Menu extends JMenuBar {
 		this.add(editionMenu);
 		collaborationMenu = new CollaborationMenu();
 		this.add(collaborationMenu);
+		helpMenu = new HelpMenu();
+		this.add(helpMenu);
 	}
 
 	public FileMenu getFileMenu() {

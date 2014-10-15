@@ -1,16 +1,38 @@
 package dessin.collaboratif.misc;
 
-public class GeneralVariables {
 
+public class GeneralVariables {
+	
+	public final static String PROJECT_PATH = System.getProperty("user.dir")+"/";
+	
 	public final static String FILE_MENU_TITLE = "Fichier";
+	
 	public final static String FILE_MENU_NEW = "Nouveau"; 
+	public final static String FILE_MENU_NEW_ICON_PATH = PROJECT_PATH+"ressources/icons/file_icon.png";
+	
 	public final static String FILE_MENU_OPEN = "Ouvrir"; 
+	public final static String FILE_MENU_OPEN_ICON_PATH = PROJECT_PATH+"ressources/icons/open_icon.png";
+	
 	public final static String FILE_MENU_CLOSE = "Fermer";
+	public final static String FILE_MENU_CLOSE_ICON_PATH = PROJECT_PATH+"ressources/icons/close_icon.png";
+	
 	public final static String FILE_MENU_QUIT = "Quitter"; 
+	public final static String FILE_MENU_QUIT_ICON_PATH = PROJECT_PATH+"ressources/icons/exit_icon.png";
 
 	public final static String EDITION_MENU_TITLE = "Edition"; 
+	
 	public final static String EDITION_MENU_UNDO = "Annuler";
+	public final static String EDITION_MENU_UNDO_ICON_PATH = PROJECT_PATH+"ressources/icons/undo_icon.png";
 	
 	public final static String COLLABORATION_MENU_TITLE = "Collaboration";
+	
 	public final static String COLLABORATION_MENU_TAKE_HAND = "Prendre la main";
+	public final static String COLLABORATION_MENU_TAKE_HAND_ICON_PATH = PROJECT_PATH+"ressources/icons/modify_icon.png";
+	
+	public final static String HELP_MENU_TITLE = "Aide";
+	
+	public final static String HELP_MENU_HELP = "Aide";
+	public final static String HELP_MENU_HELP_ICON_PATH = PROJECT_PATH+"ressources/icons/help_icon.png";
+	
+	public static final String CHOOSE_COLOR_MESSAGE = "Choisissez une couleur";
 }

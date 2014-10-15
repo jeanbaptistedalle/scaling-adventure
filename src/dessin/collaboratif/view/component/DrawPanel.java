@@ -30,7 +30,7 @@ public class DrawPanel extends JPanel {
 		svgCanvas.addMouseMotionListener(mouseAdapter);
 		this.add(svgCanvas);
 		/* Test Select box */
-		// this.add(new OverviewBoxListener());
+//		 this.add(new OverviewBoxListener());
 	}
 
 	public DrawPanel(final int width, final int height) {
