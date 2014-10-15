@@ -14,6 +14,7 @@ public class ColorPickerButton extends JButton {
 
 	public ColorPickerButton(){
 		super();
+		setToolTipText("Changer la couleur");
 		this.setBackground(Client.getInstance().getSelectedColor());
 		this.addActionListener(new ColorPickerButtonListener());
 	}

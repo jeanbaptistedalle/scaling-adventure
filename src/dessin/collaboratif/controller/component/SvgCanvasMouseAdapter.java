@@ -28,8 +28,9 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 		x2 = e.getX();
 		y2 = e.getY();
 		if (x1 != null && x2 != null && y1 != null && y2 != null) {
-			Client.getInstance().draw(x1, y1, x2, y2);
-			MainFrame.getInstance().repaintDrawPanel();
+			if (Client.getInstance().draw(x1, y1, x2, y2)) {
+				MainFrame.getInstance().repaintDrawPanel();
+			}
 		}
 		x1 = null;
 		y1 = null;
@@ -44,7 +45,7 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-
+		MainFrame.getInstance().getDrawPanel().click(arg0.getX(), arg0.getY());
 	}
 
 	@Override

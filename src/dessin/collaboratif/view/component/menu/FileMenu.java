@@ -4,6 +4,7 @@ import javax.swing.JMenu;
 
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.view.component.menu.item.CloseMenuItem;
+import dessin.collaboratif.view.component.menu.item.ExportMenuItem;
 import dessin.collaboratif.view.component.menu.item.NewMenuItem;
 import dessin.collaboratif.view.component.menu.item.OpenMenuItem;
 import dessin.collaboratif.view.component.menu.item.QuitMenuItem;
@@ -19,6 +20,8 @@ public class FileMenu extends JMenu {
 
 	private OpenMenuItem open;
 
+	private ExportMenuItem export;
+
 	private CloseMenuItem close;
 
 	private QuitMenuItem quit;
@@ -29,6 +32,8 @@ public class FileMenu extends JMenu {
 		this.add(newI);
 		open = new OpenMenuItem();
 		this.add(open);
+		export = new ExportMenuItem();
+		this.add(export);
 		close = new CloseMenuItem();
 		this.add(close);
 		quit = new QuitMenuItem();
@@ -65,5 +70,13 @@ public class FileMenu extends JMenu {
 
 	public void setQuit(QuitMenuItem quit) {
 		this.quit = quit;
+	}
+
+	public ExportMenuItem getExport() {
+		return export;
+	}
+
+	public void setExport(ExportMenuItem export) {
+		this.export = export;
 	}
 }

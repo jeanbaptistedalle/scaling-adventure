@@ -13,6 +13,9 @@ public class GeneralVariables {
 	public final static String FILE_MENU_OPEN = "Ouvrir"; 
 	public final static String FILE_MENU_OPEN_ICON_PATH = PROJECT_PATH+"ressources/icons/open_icon.png";
 	
+	public final static String FILE_MENU_EXPORT = "Exporter";
+	public final static String FILE_MENU_EXPORT_ICON_PATH = PROJECT_PATH+"ressources/icons/export_icon.png";
+	
 	public final static String FILE_MENU_CLOSE = "Fermer";
 	public final static String FILE_MENU_CLOSE_ICON_PATH = PROJECT_PATH+"ressources/icons/close_icon.png";
 	

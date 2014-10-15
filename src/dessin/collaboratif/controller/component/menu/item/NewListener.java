@@ -27,7 +27,7 @@ public class NewListener implements ActionListener {
 	public void actionPerformed(final ActionEvent action) {
 		// Allow user to choose a name for the new file
 		final Client client = Client.getInstance();
-
+		
 		int returnVal = fileChooser.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();

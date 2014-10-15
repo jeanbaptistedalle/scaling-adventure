@@ -13,6 +13,7 @@ public class CircleButton extends JToggleButton {
 
 	public CircleButton() {
 		super("circle");
+		setToolTipText("Dessiner un cercle");
 		this.addActionListener(new CircleButtonListener());
 	}
 

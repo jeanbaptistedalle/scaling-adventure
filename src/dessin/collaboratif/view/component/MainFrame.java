@@ -62,6 +62,7 @@ public class MainFrame extends JFrame {
 			drawPanel.setImage(null);
 		}
 		menu.getFileMenu().getClose().repaint();
+		menu.getFileMenu().getExport().repaint();
 		menu.getEditionMenu().getUndo().repaint();
 		drawPanel.repaint();
 		repaint();

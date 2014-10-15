@@ -13,6 +13,7 @@ public class CursorButton extends JToggleButton {
 
 	public CursorButton() {
 		super("cursor");
+		setToolTipText("Selection d'élément");
 		this.addActionListener(new CursorButtonListener());
 	}
 }

@@ -1,0 +1,50 @@
+package dessin.collaboratif.view.component.menu.item;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import dessin.collaboratif.controller.component.menu.item.ExportListener;
+import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.model.Client;
+
+public class ExportMenuItem extends JMenuItem {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8034532338930762358L;
+
+	private JFileChooser fileChooser;
+
+	public ExportMenuItem() {
+		super(GeneralVariables.FILE_MENU_EXPORT);
+		final ImageIcon exportIcon = new ImageIcon(
+				GeneralVariables.FILE_MENU_EXPORT_ICON_PATH);
+		setIcon(exportIcon);
+		if (Client.getInstance().getImage() != null) {
+			this.setEnabled(true);
+		} else {
+			this.setEnabled(false);
+		}
+		fileChooser = new JFileChooser();
+
+		fileChooser.setAcceptAllFileFilterUsed(false);
+
+		fileChooser.setFileFilter(new FileNameExtensionFilter(".jpeg", "jpeg",
+				"jpg"));
+		this.addActionListener(new ExportListener(fileChooser));
+	}
+
+	@Override
+	public void repaint() {
+		if (Client.getInstance().getImage() != null) {
+			this.setEnabled(true);
+		} else {
+			this.setEnabled(false);
+		}
+		super.repaint();
+	}
+
+}

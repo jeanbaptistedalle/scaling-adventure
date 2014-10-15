@@ -2,6 +2,8 @@ package dessin.collaboratif.model;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,6 +13,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.batik.dom.svg.SVGDOMImplementation;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.apache.batik.util.SVGConstants;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -65,14 +70,16 @@ public class Client {
 	}
 
 	/**
-	 * Draw the selected form on the .svg if the dimension are legal.
+	 * Draw the selected form on the .svg if the dimension are legal. return
+	 * true if something was draw
 	 * 
+	 * @return
 	 * @param x1
 	 * @param y1
 	 * @param x2
 	 * @param y2
 	 */
-	public void draw(final Integer x1, final Integer y1, final Integer x2,
+	public boolean draw(final Integer x1, final Integer y1, final Integer x2,
 			final Integer y2) {
 		if (isLegal(x1, x2, y1, y2)) {
 			if (currentDraw != null) {
@@ -85,18 +92,23 @@ public class Client {
 					break;
 				case SQUARE:
 					drawSquare(x1, y1, x2, y2);
+					break;
 				case ELLIPSE:
 					drawEllipse(x1, y1, x2, y2);
+					break;
 				default:
 					break;
 				}
+				return true;
 			} else {
 				/*
 				 * TODO si aucune forme à dessiner n'est selectionnée, on doit
 				 * pouvoir déplacer une forme
 				 */
+				return false;
 			}
 		}
+		return false;
 	}
 
 	/**
@@ -146,8 +158,9 @@ public class Client {
 				height.toString());
 		rectangle.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE,
 				width.toString());
-		rectangle
-				.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "black");
+		String rgbString = colorToRGB(selectedColor);
+		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE,
+				rgbString);
 		svgRoot.appendChild(rectangle);
 		saveSVG();
 	}
@@ -189,25 +202,21 @@ public class Client {
 		final Element svgRoot = doc.getDocumentElement();
 		Element ell = doc.createElementNS(Client.getInstance()
 				.getSvgNameSpace(), "ellipse");
-		
+
 		Integer cx, cy, rx, ry;
 
-		cx = ((nx2-nx1)/2) + nx1;
-		cy = ((ny2-ny1)/2) + ny1;
-		rx = ((nx2-nx1)/2);
-		ry = ((ny2-ny1)/2);
-		
-		
-		ell.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE,
-				cx.toString());
-		ell.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE,
-				cy.toString());
-		ell.setAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE,
-				rx.toString());
-		ell.setAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE,
-				ry.toString());
-		ell
-				.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "black");
+		cx = ((nx2 - nx1) / 2) + nx1;
+		cy = ((ny2 - ny1) / 2) + ny1;
+		rx = ((nx2 - nx1) / 2);
+		ry = ((ny2 - ny1) / 2);
+
+		ell.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, cx.toString());
+		ell.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, cy.toString());
+		ell.setAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE, rx.toString());
+		ell.setAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE, ry.toString());
+
+		String rgbString = colorToRGB(selectedColor);
+		ell.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
 		svgRoot.appendChild(ell);
 		saveSVG();
 	}
@@ -249,22 +258,19 @@ public class Client {
 		final Element svgRoot = doc.getDocumentElement();
 		Element cercle = doc.createElementNS(Client.getInstance()
 				.getSvgNameSpace(), "circle");
-		
+
 		Integer cx, cy;
 		Integer rayon;
-		
-		if(nx2-nx1 > ny2-ny1)
-		{
-			ny2 = nx2-nx1 + ny1; 
+
+		if (nx2 - nx1 > ny2 - ny1) {
+			ny2 = nx2 - nx1 + ny1;
+		} else {
+			nx2 = ny2 - ny1 + nx1;
 		}
-		else
-		{
-			nx2 = ny2-ny1 + nx1;
-		}
-		
-		cx = ((nx2-nx1)/2) + nx1;
-		cy = ((ny2-ny1)/2) + ny1;
-		
+
+		cx = ((nx2 - nx1) / 2) + nx1;
+		cy = ((ny2 - ny1) / 2) + ny1;
+
 		rayon = nx2 - cx;
 
 		cercle.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE,
@@ -273,8 +279,8 @@ public class Client {
 				cy.toString());
 		cercle.setAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE,
 				rayon.toString());
-		cercle
-				.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "black");
+		String rgbString = colorToRGB(selectedColor);
+		cercle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
 		svgRoot.appendChild(cercle);
 		saveSVG();
 	}
@@ -287,22 +293,19 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawLine(final Integer x1, final Integer y1,
-			final Integer x2, final Integer y2) {
+	private void drawLine(final Integer x1, final Integer y1, final Integer x2,
+			final Integer y2) {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
 		Element ligne = doc.createElementNS(Client.getInstance()
 				.getSvgNameSpace(), "line");
-		ligne.setAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE,
-				x1.toString());
-		ligne.setAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE,
-				y1.toString());
-		ligne.setAttributeNS(null, SVGConstants.SVG_X2_ATTRIBUTE,
-				x2.toString());
-		ligne.setAttributeNS(null, SVGConstants.SVG_Y2_ATTRIBUTE,
-				y2.toString());
-		ligne.setAttributeNS(null, SVGConstants.SVG_STROKE_ATTRIBUTE, "black");
+		ligne.setAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE, x1.toString());
+		ligne.setAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE, y1.toString());
+		ligne.setAttributeNS(null, SVGConstants.SVG_X2_ATTRIBUTE, x2.toString());
+		ligne.setAttributeNS(null, SVGConstants.SVG_Y2_ATTRIBUTE, y2.toString());
+		String rgbString = colorToRGB(selectedColor);
+		ligne.setAttributeNS(null, SVGConstants.SVG_STROKE_ATTRIBUTE, rgbString);
 		svgRoot.appendChild(ligne);
 		saveSVG();
 	}
@@ -334,6 +337,46 @@ public class Client {
 				throw new RuntimeException(e);
 			}
 		}
+	}
+
+	public void exportToJPG(final File outputFile) {
+		try {
+			// Create a JPEGTranscoder and set its quality hint.
+			JPEGTranscoder t = new JPEGTranscoder();
+			t.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, new Float(.8));
+
+			// Set the transcoder input and output.
+			TranscoderInput input = new TranscoderInput(image);
+			OutputStream ostream = new FileOutputStream(outputFile);
+			TranscoderOutput output = new TranscoderOutput(ostream);
+
+			// Perform the transcoding.
+			t.transcode(input, output);
+			ostream.flush();
+			ostream.close();
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Return a String which follow the syntax : 'rgb(x,y,z)'<br/>
+	 * This method is use to generate the rgb code for generate the tag in a
+	 * .svg
+	 * 
+	 * @param color
+	 * @return
+	 */
+	public String colorToRGB(final Color color) {
+		final StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("rgb(");
+		stringBuilder.append(selectedColor.getRed());
+		stringBuilder.append(",");
+		stringBuilder.append(selectedColor.getGreen());
+		stringBuilder.append(",");
+		stringBuilder.append(selectedColor.getBlue());
+		stringBuilder.append(")");
+		return stringBuilder.toString();
 	}
 
 	/**

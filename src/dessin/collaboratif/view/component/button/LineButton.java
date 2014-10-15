@@ -13,6 +13,7 @@ public class LineButton extends JToggleButton {
 
 	public LineButton() {
 		super("line");
+		setToolTipText("Dessiner une ligne");
 		this.addActionListener(new LineButtonListener());
 	}
 
