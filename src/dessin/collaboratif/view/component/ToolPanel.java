@@ -6,7 +6,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 
 import dessin.collaboratif.misc.DrawModelEnum;
-import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.button.CircleButton;
 import dessin.collaboratif.view.component.button.ColorPickerButton;
 import dessin.collaboratif.view.component.button.CursorButton;
@@ -35,8 +34,6 @@ public class ToolPanel extends JPanel {
 
 	private ColorPickerButton colorPickerButton;
 
-	private JPanel selectedColor;
-
 	public ToolPanel() {
 		super(new GridLayout());
 		toolButtonGroup = new ButtonGroup();
@@ -58,17 +55,13 @@ public class ToolPanel extends JPanel {
 		toolButtonGroup.add(circleButton);
 		this.add(circleButton);
 
-		colorPickerButton = new ColorPickerButton();
-		toolButtonGroup.add(colorPickerButton);
-		this.add(colorPickerButton);
-		
 		ellipseButton = new EllipseButton();
 		toolButtonGroup.add(ellipseButton);
 		this.add(ellipseButton);
 
-		selectedColor = new JPanel();
-		selectedColor.setBackground(Client.getInstance().getSelectedColor());
-		this.add(selectedColor);
+		colorPickerButton = new ColorPickerButton();
+		toolButtonGroup.add(colorPickerButton);
+		this.add(colorPickerButton);
 	}
 
 	public void press(final DrawModelEnum drawModelEnum) {
@@ -176,13 +169,5 @@ public class ToolPanel extends JPanel {
 
 	public void setColorPickerButton(ColorPickerButton colorPickerButton) {
 		this.colorPickerButton = colorPickerButton;
-	}
-
-	public JPanel getSelectedColor() {
-		return selectedColor;
-	}
-
-	public void setSelectedColor(JPanel selectedColor) {
-		this.selectedColor = selectedColor;
 	}
 }
