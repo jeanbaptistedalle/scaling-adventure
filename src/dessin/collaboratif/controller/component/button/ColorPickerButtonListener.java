@@ -18,7 +18,7 @@ public class ColorPickerButtonListener implements ActionListener {
 		Color chosenColor = JColorChooser.showDialog(MainFrame.getInstance(),
 	               GeneralVariables.CHOOSE_COLOR_MESSAGE, Color.white);
 		Client.getInstance().setSelectedColor(chosenColor);
-		MainFrame.getInstance().getToolPanel().getSelectedColor().setBackground(chosenColor);
+		MainFrame.getInstance().getToolPanel().getColorPickerButton().setBackground(chosenColor);
 	}
 
 }
