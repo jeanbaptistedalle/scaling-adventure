@@ -14,6 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
+import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
 
@@ -45,8 +46,8 @@ public class NewListener implements ActionListener {
 			Element svgRoot = doc.getDocumentElement();
 
 			// Set the width and height attributes on the root 'svg' element.
-			svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, "600");
-			svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, "600");
+			svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, GeneralVariables.DEFAULT_WIDTH);
+			svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, GeneralVariables.DEFAULT_HEIGHT);
 
 			Text text = doc.createTextNode("Scaling Adventure by JB/K/A/R");
 			

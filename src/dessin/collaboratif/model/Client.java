@@ -22,6 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import dessin.collaboratif.misc.DrawModelEnum;
+import dessin.collaboratif.misc.GeneralVariables;
 
 public class Client {
 
@@ -306,6 +307,7 @@ public class Client {
 		ligne.setAttributeNS(null, SVGConstants.SVG_Y2_ATTRIBUTE, y2.toString());
 		String rgbString = colorToRGB(selectedColor);
 		ligne.setAttributeNS(null, SVGConstants.SVG_STROKE_ATTRIBUTE, rgbString);
+		ligne.setAttributeNS(null, SVGConstants.SVG_STROKE_WIDTH_ATTRIBUTE, GeneralVariables.DEFAULT_STROKE_WIDTH);
 		svgRoot.appendChild(ligne);
 		saveSVG();
 	}
