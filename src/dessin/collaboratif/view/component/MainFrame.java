@@ -29,7 +29,7 @@ public class MainFrame extends JFrame {
 	private ToolPanel toolPanel;
 
 	private DrawPanel drawPanel;
-	
+
 	private MainFrame() {
 		this.setTitle("Dessin colaboratif");
 		this.setSize(600, 680);
@@ -47,7 +47,7 @@ public class MainFrame extends JFrame {
 		drawPanel = new DrawPanel(600, 600);
 		drawPanel.setBackground(Color.LIGHT_GRAY);
 		this.add(drawPanel, BorderLayout.CENTER);
-		
+
 		validate();
 	}
 
@@ -57,15 +57,14 @@ public class MainFrame extends JFrame {
 	 */
 	public void repaintDrawPanel() {
 		if (Client.getInstance().getImage() != null) {
-			drawPanel.setImage(Client.getInstance().getImage());
+			drawPanel.getSvgCanvas().setImage(Client.getInstance().getImage());
 		} else {
-			drawPanel.setImage(null);
+			drawPanel.getSvgCanvas().setImage(null);
 		}
 		menu.getFileMenu().getClose().repaint();
 		menu.getFileMenu().getExport().repaint();
 		menu.getEditionMenu().getUndo().repaint();
 		drawPanel.repaint();
-		repaint();
 	}
 
 	/**
