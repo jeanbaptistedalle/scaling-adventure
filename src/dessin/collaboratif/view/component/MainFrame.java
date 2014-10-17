@@ -61,8 +61,8 @@ public class MainFrame extends JComponent {
 		this.add(drawPanel, BorderLayout.CENTER);
 		this.setVisible(true);
 		
-//		frame.setVisible(true);
-//
+		frame.setVisible(true);
+
 //		setIgnoreRepaint(true);
 //		frame.createBufferStrategy(2);
 //		bufferStrategy = frame.getBufferStrategy();
