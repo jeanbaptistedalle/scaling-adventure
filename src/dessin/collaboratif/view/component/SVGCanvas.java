@@ -1,8 +1,6 @@
 package dessin.collaboratif.view.component;
 
-import java.awt.AlphaComposite;
 import java.awt.Cursor;
-import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -14,7 +12,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGDocument;
 
-import dessin.collaboratif.controller.component.OverviewBoxListener;
 import dessin.collaboratif.controller.component.SvgCanvasMouseAdapter;
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
@@ -26,7 +23,7 @@ public class SVGCanvas extends JSVGCanvas {
 	 */
 	private static final long serialVersionUID = 5846489199288523503L;
 
-//	private OverviewBoxListener overviewBox = new OverviewBoxListener();
+	// private OverviewBoxListener overviewBox = new OverviewBoxListener();
 
 	public SVGCanvas() {
 		setVisible(false);
@@ -35,22 +32,22 @@ public class SVGCanvas extends JSVGCanvas {
 		SvgCanvasMouseAdapter mouseAdapter = new SvgCanvasMouseAdapter();
 		addMouseListener(mouseAdapter);
 		addMouseMotionListener(mouseAdapter);
-//		addMouseListener(overviewBox);
-//		addMouseMotionListener(overviewBox);
+		// addMouseListener(overviewBox);
+		// addMouseMotionListener(overviewBox);
 	}
 
 	@Override
 	public void repaint() {
-//		Graphics2D g2 = (Graphics2D) getGraphics();
-//		if (overviewBox != null && g2 != null) {
-//			Rectangle2D selectionBox = overviewBox.getSelectionBox();
-//			if (selectionBox != null) {
-//				g2.setComposite(AlphaComposite.getInstance(overviewBox.getRule(),
-//						overviewBox.getAlpha()));
-//				g2.draw(selectionBox);
-//				paintComponent(g2);
-//			}
-//		}
+		// Graphics2D g2 = (Graphics2D) getGraphics();
+		// if (overviewBox != null && g2 != null) {
+		// Rectangle2D selectionBox = overviewBox.getSelectionBox();
+		// if (selectionBox != null) {
+		// g2.setComposite(AlphaComposite.getInstance(overviewBox.getRule(),
+		// overviewBox.getAlpha()));
+		// g2.draw(selectionBox);
+		// paintComponent(g2);
+		// }
+		// }
 		super.repaint();
 	}
 
