@@ -45,7 +45,7 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		MainFrame.getInstance().getDrawPanel().click(arg0.getX(), arg0.getY());
+		MainFrame.getInstance().getDrawPanel().getSvgCanvas().click(arg0.getX(), arg0.getY());
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Dessin colaboratif" company="" webLink="http://" view-date="2014-10-13" view-index="0" gantt-divider-location="506" resource-divider-location="648" version="2.0" locale="fr_FR">
+<project name="Dessin colaboratif" company="" webLink="http://" view-date="2014-10-06" view-index="0" gantt-divider-location="506" resource-divider-location="648" version="2.0" locale="fr">
     <description/>
     <view zooming-state="default:5" id="gantt-chart">
         <field id="tpd3" name="Nom" width="49" order="0"/>
@@ -55,18 +55,18 @@
             <depend id="5" type="2" difference="0" hardness="Strong"/>
             <depend id="7" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="3" name="Montée en compétence (Swing)" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="9" expand="true">
-            <task id="51" name="Montée en compétence 1" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="0" expand="true">
+        <task id="3" name="Montée en compétence (Swing)" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="31" expand="true">
+            <task id="51" name="Montée en compétence 1" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="25" expand="true">
                 <depend id="20" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="52" name="Montée en compétence 2" color="#00ff00" meeting="false" start="2014-10-10" duration="1" complete="100" expand="true"/>
         </task>
-        <task id="5" name="Montée en compétence (Batik)" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="25" expand="true">
+        <task id="5" name="Montée en compétence (Batik)" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="11" expand="true">
             <depend id="20" type="2" difference="0" hardness="Strong"/>
             <task id="59" name="Montée en compétence 1" color="#00ff00" meeting="false" start="2014-10-10" duration="1" complete="100" expand="true">
                 <depend id="15" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="60" name="Montée en compétence 2" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="0" expand="true"/>
+            <task id="60" name="Montée en compétence 2" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="25" expand="true"/>
             <task id="61" name="Montée en compétence 3" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="0" expand="true">
                 <depend id="34" type="2" difference="0" hardness="Strong"/>
             </task>
@@ -82,7 +82,7 @@
                 <depend id="34" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="88" name="Client" color="#8cb6ce" meeting="false" start="2014-10-11" duration="24" complete="0" expand="true">
+        <task id="88" name="Client" color="#8cb6ce" meeting="false" start="2014-10-11" duration="24" complete="21" expand="true">
             <task id="15" name="Création d'image" color="#8cb6ce" meeting="false" start="2014-10-11" duration="1" complete="100" expand="true">
                 <depend id="18" type="2" difference="0" hardness="Strong"/>
             </task>
@@ -93,7 +93,7 @@
             <task id="19" name="Choix de forme" color="#8cb6ce" meeting="false" start="2014-10-13" duration="1" complete="100" expand="true">
                 <depend id="21" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="20" name="Ajout de forme" color="#8cb6ce" meeting="false" start="2014-10-20" duration="3" complete="0" expand="true">
+            <task id="20" name="Ajout de forme" color="#8cb6ce" meeting="false" start="2014-10-20" duration="3" complete="50" expand="true">
                 <depend id="22" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="21" name="Annulation dernier élément" color="#8cb6ce" meeting="false" start="2014-10-14" duration="1" complete="100" expand="true">
@@ -102,7 +102,7 @@
             <task id="27" name="Suppression d'un élément" color="#8cb6ce" meeting="false" start="2014-10-20" duration="3" complete="0" expand="true">
                 <depend id="22" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="22" name="Zone de texte" color="#8cb6ce" meeting="false" start="2014-10-23" duration="3" complete="0" expand="true">
+            <task id="22" name="Zone de texte" color="#8cb6ce" meeting="false" start="2014-10-23" duration="3" complete="10" expand="true">
                 <depend id="25" type="2" difference="0" hardness="Strong"/>
             </task>
             <task id="24" name="Selection d'un élément" color="#8cb6ce" meeting="false" start="2014-10-15" duration="5" complete="0" expand="true">

@@ -78,30 +78,30 @@ public class ToolPanel extends JPanel {
 	}
 
 	public void press(final DrawModelEnum drawModelEnum) {
-		unpressAll();
-		if (drawModelEnum == null) {
-			cursorButton.getModel().setPressed(true);
-		} else {
-			switch (drawModelEnum) {
-			case SQUARE:
-				squareButton.getModel().setPressed(true);
-				break;
-			case CIRCLE:
-				circleButton.getModel().setPressed(true);
-				break;
-			case LINE:
-				lineButton.getModel().setPressed(true);
-				break;
-			case ELLIPSE:
-				ellipseButton.getModel().setPressed(true);
-				break;
+//		unpressAll();
+//		if (drawModelEnum == null) {
+//			cursorButton.getModel().setPressed(true);
+//		} else {
+//			switch (drawModelEnum) {
+//			case SQUARE:
+//				squareButton.getModel().setPressed(true);
+//				break;
+//			case CIRCLE:
+//				circleButton.getModel().setPressed(true);
+//				break;
+//			case LINE:
+//				lineButton.getModel().setPressed(true);
+//				break;
+//			case ELLIPSE:
+//				ellipseButton.getModel().setPressed(true);
+//				break;
 			case TEXT:
 				textButton.getModel().setPressed(true);
 				break;
-			default:
-				throw new RuntimeException("Type de bouton non géré");
-			}
-		}
+//			default:
+//				throw new RuntimeException("Type de bouton non géré");
+//			}
+//		}
 	}
 
 	public boolean isPress(final DrawModelEnum drawModelEnum) {

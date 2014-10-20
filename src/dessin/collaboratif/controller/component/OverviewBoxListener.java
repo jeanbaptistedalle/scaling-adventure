@@ -1,79 +1,115 @@
 package dessin.collaboratif.controller.component;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JPanel;
+import dessin.collaboratif.view.component.MainFrame;
+import dessin.collaboratif.view.component.SVGCanvas;
 
-public class OverviewBoxListener extends JPanel implements MouseMotionListener,
-		MouseListener {
+public class OverviewBoxListener implements MouseMotionListener, MouseListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6621279712781222550L;
-
-	private int x;
-	private int y;
+	private Integer x;
+	private Integer y;
 	private int rule = AlphaComposite.SRC_OVER;
 	private float alpha = 0.85F;
+	private Rectangle2D selectionBox;
 
 	public OverviewBoxListener() {
 		super();
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
 	}
 
 	public void mouseDragged(MouseEvent e) {
-//		setOpaque(true);
-
-		Graphics2D g2 = (Graphics2D) getGraphics();
-		Rectangle2D selectionBox = new Rectangle2D.Double();
-
-		selectionBox.setFrameFromDiagonal(e.getX(), e.getY(), x, y);
+		if (x == null || y == null) {
+			x = e.getX();
+			y = e.getY();
+		}
+		SVGCanvas svgCanvas = MainFrame.getInstance().getDrawPanel().getSvgCanvas();
+		selectionBox = new Rectangle2D.Double();
+		Graphics2D g2 = (Graphics2D) svgCanvas.getGraphics();
+		selectionBox.setFrameFromDiagonal(x, y, e.getX(), e.getY());
 		g2.setComposite(AlphaComposite.getInstance(rule, alpha));
 		g2.draw(selectionBox);
-		g2.setColor(Color.BLUE);
-		g2.fill(selectionBox);
-		paintComponent(g2);
+		svgCanvas.paintComponent(g2);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		x = e.getX();
-		y = e.getY();
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		if (x == null || y == null) {
+			x = e.getX();
+			y = e.getY();
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		repaint();
+		MainFrame.getInstance().getDrawPanel().getSvgCanvas().repaint();
+		selectionBox = null;
+		x = null;
+		y = null;
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
+
+	public Rectangle2D getSelectionBox() {
+		return selectionBox;
+	}
+
+	public void setSelectionBox(Rectangle2D selectionBox) {
+		this.selectionBox = selectionBox;
+	}
+
+	public Integer getX() {
+		return x;
+	}
+
+	public void setX(Integer x) {
+		this.x = x;
+	}
+
+	public Integer getY() {
+		return y;
+	}
+
+	public void setY(Integer y) {
+		this.y = y;
+	}
+
+	public int getRule() {
+		return rule;
+	}
+
+	public void setRule(int rule) {
+		this.rule = rule;
+	}
+
+	public float getAlpha() {
+		return alpha;
+	}
+
+	public void setAlpha(float alpha) {
+		this.alpha = alpha;
+	}
+
 }

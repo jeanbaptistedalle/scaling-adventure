@@ -20,7 +20,7 @@ public class HelpFrame extends JFrame {
 	private JLabel helpText;
 
 	private HelpFrame() {
-		this.setTitle("Dessin colaboratif - Aide");
+		this.setTitle(GeneralVariables.HELP_FRAME_TITLE);
 		final ImageIcon helpIcon = new ImageIcon(
 				GeneralVariables.HELP_MENU_HELP_ICON_PATH);
 		this.setIconImage(helpIcon.getImage());

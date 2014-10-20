@@ -2,7 +2,13 @@ package dessin.collaboratif.view.component;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import dessin.collaboratif.model.Client;
@@ -15,7 +21,7 @@ import dessin.collaboratif.view.component.menu.Menu;
  * @author JBD
  *
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JComponent {
 
 	/**
 	 * 
@@ -24,31 +30,44 @@ public class MainFrame extends JFrame {
 
 	public static MainFrame INSTANCE = null;
 
+	private BufferStrategy bufferStrategy;
+
 	private Menu menu;
 
 	private ToolPanel toolPanel;
 
 	private DrawPanel drawPanel;
-	
+
+	private JFrame frame;
+
 	private MainFrame() {
-		this.setTitle("Dessin colaboratif");
-		this.setSize(600, 680);
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setVisible(true);
+		frame = new JFrame();
+		frame.setTitle("Dessin colaboratif");
+		frame.setSize(600, 680);
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		menu = new Menu();
-		this.setJMenuBar(menu);
+		frame.setJMenuBar(menu);
 		menu.setVisible(true);
 
+		frame.add(this);
+
 		toolPanel = new ToolPanel();
-		this.add(toolPanel, BorderLayout.NORTH);
+		frame.add(toolPanel, BorderLayout.NORTH);
 
 		drawPanel = new DrawPanel(600, 600);
 		drawPanel.setBackground(Color.LIGHT_GRAY);
 		this.add(drawPanel, BorderLayout.CENTER);
+		this.setVisible(true);
 		
-		validate();
+		frame.setVisible(true);
+
+//		setIgnoreRepaint(true);
+//		frame.createBufferStrategy(2);
+//		bufferStrategy = frame.getBufferStrategy();
+//
+//		new Renderer().start();
 	}
 
 	/**
@@ -57,15 +76,14 @@ public class MainFrame extends JFrame {
 	 */
 	public void repaintDrawPanel() {
 		if (Client.getInstance().getImage() != null) {
-			drawPanel.setImage(Client.getInstance().getImage());
+			drawPanel.getSvgCanvas().setImage(Client.getInstance().getImage());
 		} else {
-			drawPanel.setImage(null);
+			drawPanel.getSvgCanvas().setImage(null);
 		}
 		menu.getFileMenu().getClose().repaint();
 		menu.getFileMenu().getExport().repaint();
 		menu.getEditionMenu().getUndo().repaint();
 		drawPanel.repaint();
-		repaint();
 	}
 
 	/**
@@ -78,6 +96,44 @@ public class MainFrame extends JFrame {
 			INSTANCE = new MainFrame();
 		}
 		return INSTANCE;
+	}
+
+	private class Renderer extends Thread {
+		private BufferedImage image;
+
+		public Renderer() {
+			// NOTE: image size is fixed now, but better to bind image size to
+			// the size of viewport
+			image = new BufferedImage(600, 680, BufferedImage.TYPE_INT_ARGB);
+		}
+
+		public void run() {
+			while (true) {
+				Graphics g = null;
+				try {
+					g = bufferStrategy.getDrawGraphics();
+					drawSprites(g);
+				} finally {
+					g.dispose();
+				}
+				bufferStrategy.show();
+				Toolkit.getDefaultToolkit().sync();
+
+				try {
+					Thread.sleep(1000 / 24);
+				} catch (InterruptedException ie) {
+				}
+			}
+		}
+
+		private void drawSprites(Graphics g) {
+			Graphics2D g2d = (Graphics2D) g;
+
+			Graphics graph = image.createGraphics();
+			graph.drawImage(frame.createImage(getWidth(), getHeight()), 0, 0, null);
+			g2d.drawImage(image, 0, 0, null);
+			graph.dispose();
+		}
 	}
 
 	public Menu getMenu() {
