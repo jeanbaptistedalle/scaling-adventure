@@ -20,6 +20,7 @@ import org.apache.batik.util.SVGConstants;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
@@ -40,7 +41,11 @@ public class Client {
 
 	private Color selectedColor = Color.black;
 	private DrawModelEnum currentDraw = null;
-
+	
+	private String textToInsert ="";
+	private String sizeTextToInsert = "12";
+	
+	
 	private Client() {
 		try {
 			domImpl = SVGDOMImplementation.getDOMImplementation();
@@ -97,6 +102,9 @@ public class Client {
 				case ELLIPSE:
 					drawEllipse(x1, y1, x2, y2);
 					break;
+				case TEXT:
+					drawText(x1, y1);
+					break;
 				default:
 					break;
 				}
@@ -110,6 +118,28 @@ public class Client {
 			}
 		}
 		return false;
+	}
+
+	private void drawText(final Integer x1, final Integer y1) {
+		
+		System.out.println(">" + textToInsert);
+		
+		final Document doc = getImage();
+		final Element svgRoot = doc.getDocumentElement();
+		
+		Text text = doc.createTextNode(textToInsert);
+		
+		// Create the rectangle.
+		Element rectangle = doc.createElementNS(Client.getInstance().getSvgNameSpace(),
+				"text");
+		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, x1.toString());
+		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, y1.toString());
+		String rgbString = colorToRGB(selectedColor);
+		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
+		rectangle.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, sizeTextToInsert);
+		rectangle.appendChild(text);
+		svgRoot.appendChild(rectangle);
+		
 	}
 
 	/**
@@ -473,4 +503,21 @@ public class Client {
 	public void setSelectedColor(Color selectedColor) {
 		this.selectedColor = selectedColor;
 	}
+
+	public String getTextToInsert() {
+		return textToInsert;
+	}
+
+	public void setTextToInsert(String textToInsert) {
+		this.textToInsert = textToInsert;
+	}
+
+	public String getSizeTextToInsert() {
+		return sizeTextToInsert;
+	}
+
+	public void setSizeTextToInsert(String sizeTextToInsert) {
+		this.sizeTextToInsert = sizeTextToInsert;
+	}
+
 }

@@ -14,6 +14,7 @@ public class LineButton extends JToggleButton {
 	public LineButton() {
 		super("line");
 		setToolTipText("Dessiner une ligne");
+		setFocusable(false);
 		this.addActionListener(new LineButtonListener());
 	}
 

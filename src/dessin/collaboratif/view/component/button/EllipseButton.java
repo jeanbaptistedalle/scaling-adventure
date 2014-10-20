@@ -14,6 +14,7 @@ public class EllipseButton extends JToggleButton {
 	public EllipseButton() {
 		super("ellipse");
 		setToolTipText("Dessiner une ellipse");
+		setFocusable(false);
 		this.addActionListener(new EllipseButtonListener());
 	}
 

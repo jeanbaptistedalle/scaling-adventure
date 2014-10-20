@@ -14,6 +14,7 @@ import dessin.collaboratif.view.component.button.LineButton;
 import dessin.collaboratif.view.component.button.SquareButton;
 import dessin.collaboratif.view.component.button.TextButton;
 import dessin.collaboratif.view.component.field.TextInsertField;
+import dessin.collaboratif.view.component.field.TextSizeField;
 
 public class ToolPanel extends JPanel {
 
@@ -39,6 +40,8 @@ public class ToolPanel extends JPanel {
 	private ColorPickerButton colorPickerButton;
 
 	private TextInsertField textInsertField;
+
+	private TextSizeField textSizeField;
 
 	public ToolPanel() {
 		super(new GridLayout());
@@ -75,6 +78,17 @@ public class ToolPanel extends JPanel {
 
 		textInsertField = new TextInsertField();
 		this.add(textInsertField);
+
+		textSizeField = new TextSizeField();
+		this.add(textSizeField);
+	}
+
+	public TextSizeField getTextSizeField() {
+		return textSizeField;
+	}
+
+	public void setTextSizeField(TextSizeField textSizeField) {
+		this.textSizeField = textSizeField;
 	}
 
 	public void press(final DrawModelEnum drawModelEnum) {
@@ -95,9 +109,9 @@ public class ToolPanel extends JPanel {
 //			case ELLIPSE:
 //				ellipseButton.getModel().setPressed(true);
 //				break;
-			case TEXT:
-				textButton.getModel().setPressed(true);
-				break;
+//			case TEXT:
+//				textButton.getModel().setPressed(true);
+//				break;
 //			default:
 //				throw new RuntimeException("Type de bouton non géré");
 //			}
@@ -208,5 +222,13 @@ public class ToolPanel extends JPanel {
 
 	public void setTextButton(TextButton textButton) {
 		this.textButton = textButton;
+	}
+
+	public TextInsertField getTextInsertField() {
+		return textInsertField;
+	}
+
+	public void setTextInsertField(TextInsertField textInsertField) {
+		this.textInsertField = textInsertField;
 	}
 }

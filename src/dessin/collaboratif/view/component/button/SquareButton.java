@@ -14,6 +14,7 @@ public class SquareButton extends JToggleButton {
 	public SquareButton() {
 		super("square");
 		setToolTipText("Dessiner un rectangle");
+		setFocusable(false);
 		this.addActionListener(new SquareButtonListener());
 	}
 

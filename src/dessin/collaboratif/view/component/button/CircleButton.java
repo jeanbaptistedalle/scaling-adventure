@@ -14,6 +14,7 @@ public class CircleButton extends JToggleButton {
 	public CircleButton() {
 		super("circle");
 		setToolTipText("Dessiner un cercle");
+		setFocusable(false);
 		this.addActionListener(new CircleButtonListener());
 	}
 
