@@ -10,7 +10,9 @@ public enum DrawModelEnum {
 
 	LINE("line"),
 
-	ELLIPSE("ellipse");
+	ELLIPSE("ellipse"),
+	
+	TEXT("text");
 
 	private String tagName;
 

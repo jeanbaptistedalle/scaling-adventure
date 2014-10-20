@@ -12,6 +12,8 @@ import dessin.collaboratif.view.component.button.CursorButton;
 import dessin.collaboratif.view.component.button.EllipseButton;
 import dessin.collaboratif.view.component.button.LineButton;
 import dessin.collaboratif.view.component.button.SquareButton;
+import dessin.collaboratif.view.component.button.TextButton;
+import dessin.collaboratif.view.component.field.TextInsertField;
 
 public class ToolPanel extends JPanel {
 
@@ -30,9 +32,13 @@ public class ToolPanel extends JPanel {
 
 	private LineButton lineButton;
 
+	private TextButton textButton;
+
 	private CursorButton cursorButton;
 
 	private ColorPickerButton colorPickerButton;
+
+	private TextInsertField textInsertField;
 
 	public ToolPanel() {
 		super(new GridLayout());
@@ -42,6 +48,10 @@ public class ToolPanel extends JPanel {
 		this.add(cursorButton);
 		toolButtonGroup.add(cursorButton);
 		cursorButton.getModel().setPressed(true);
+
+		colorPickerButton = new ColorPickerButton();
+		toolButtonGroup.add(colorPickerButton);
+		this.add(colorPickerButton);
 
 		lineButton = new LineButton();
 		toolButtonGroup.add(lineButton);
@@ -59,9 +69,12 @@ public class ToolPanel extends JPanel {
 		toolButtonGroup.add(ellipseButton);
 		this.add(ellipseButton);
 
-		colorPickerButton = new ColorPickerButton();
-		toolButtonGroup.add(colorPickerButton);
-		this.add(colorPickerButton);
+		textButton = new TextButton();
+		toolButtonGroup.add(textButton);
+		this.add(textButton);
+
+		textInsertField = new TextInsertField();
+		this.add(textInsertField);
 	}
 
 	public void press(final DrawModelEnum drawModelEnum) {
@@ -81,6 +94,9 @@ public class ToolPanel extends JPanel {
 				break;
 			case ELLIPSE:
 				ellipseButton.getModel().setPressed(true);
+				break;
+			case TEXT:
+				textButton.getModel().setPressed(true);
 				break;
 			default:
 				throw new RuntimeException("Type de bouton non géré");
@@ -110,6 +126,11 @@ public class ToolPanel extends JPanel {
 				return true;
 			}
 			return false;
+		case TEXT:
+			if (textButton.getModel().isPressed()) {
+				return true;
+			}
+			return false;
 		default:
 			break;
 		}
@@ -121,6 +142,8 @@ public class ToolPanel extends JPanel {
 		circleButton.getModel().setPressed(false);
 		lineButton.getModel().setPressed(false);
 		cursorButton.getModel().setPressed(false);
+		ellipseButton.getModel().setPressed(false);
+		textButton.getModel().setPressed(false);
 	}
 
 	public SquareButton getSquareButton() {
@@ -169,5 +192,21 @@ public class ToolPanel extends JPanel {
 
 	public void setColorPickerButton(ColorPickerButton colorPickerButton) {
 		this.colorPickerButton = colorPickerButton;
+	}
+
+	public EllipseButton getEllipseButton() {
+		return ellipseButton;
+	}
+
+	public void setEllipseButton(EllipseButton ellipseButton) {
+		this.ellipseButton = ellipseButton;
+	}
+
+	public TextButton getTextButton() {
+		return textButton;
+	}
+
+	public void setTextButton(TextButton textButton) {
+		this.textButton = textButton;
 	}
 }

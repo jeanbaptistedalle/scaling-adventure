@@ -1,6 +1,7 @@
 package dessin.collaboratif.misc;
 
 
+
 public class GeneralVariables {
 	
 	public final static String PROJECT_PATH = System.getProperty("user.dir")+"/";
@@ -36,10 +37,14 @@ public class GeneralVariables {
 	
 	public final static String HELP_MENU_HELP = "Aide";
 	public final static String HELP_MENU_HELP_ICON_PATH = PROJECT_PATH+"ressources/icons/help_icon.png";
+
+	public final static String HELP_MENU_TEXT_ICON_PATH = PROJECT_PATH+"ressources/icons/";
 	
 	public static final String CHOOSE_COLOR_MESSAGE = "Choisissez une couleur";
 	
 	public static final String DEFAULT_WIDTH = "600";
 	public static final String DEFAULT_HEIGHT = "600";
 	public static final String DEFAULT_STROKE_WIDTH = "3";
+
+	public static final String TEXT_INPUT_FRAME_VALIDATE_BUTTON = "Valider";
 }
