@@ -50,7 +50,6 @@ public class ToolPanel extends JPanel {
 		cursorButton = new CursorButton();
 		this.add(cursorButton);
 		toolButtonGroup.add(cursorButton);
-		cursorButton.getModel().setPressed(true);
 
 		colorPickerButton = new ColorPickerButton();
 		toolButtonGroup.add(colorPickerButton);

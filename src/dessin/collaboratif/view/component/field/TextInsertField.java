@@ -1,16 +1,11 @@
 package dessin.collaboratif.view.component.field;
 
 import javax.swing.JTextField;
-import javax.swing.SpinnerModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 
-import dessin.collaboratif.controller.component.field.TextButtonListener;
 import dessin.collaboratif.model.Client;
-import dessin.collaboratif.view.component.MainFrame;
 
 public class TextInsertField extends JTextField {
 

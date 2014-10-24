@@ -2,11 +2,9 @@ package dessin.collaboratif.view.component;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Window;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -30,13 +28,13 @@ public class MainFrame extends JComponent {
 
 	public static MainFrame INSTANCE = null;
 
-	private BufferStrategy bufferStrategy;
-
 	private Menu menu;
 
 	private ToolPanel toolPanel;
 
 	private DrawPanel drawPanel;
+
+	private ComponentListPanel compenentListPanel;
 
 	private JFrame frame;
 
@@ -58,16 +56,23 @@ public class MainFrame extends JComponent {
 
 		drawPanel = new DrawPanel(600, 600);
 		drawPanel.setBackground(Color.LIGHT_GRAY);
-		this.add(drawPanel, BorderLayout.CENTER);
-		this.setVisible(true);
-		
-		frame.setVisible(true);
+		frame.add(drawPanel, BorderLayout.CENTER);
 
-//		setIgnoreRepaint(true);
-//		frame.createBufferStrategy(2);
-//		bufferStrategy = frame.getBufferStrategy();
-//
-//		new Renderer().start();
+		compenentListPanel = new ComponentListPanel();
+		frame.add(compenentListPanel, BorderLayout.EAST);
+
+		/* Test plein écran */
+		final Window[] windows = JFrame.getWindows();
+		final GraphicsDevice[] graphicsDevices = GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getScreenDevices();
+		for (final GraphicsDevice graphicsDevise : graphicsDevices) {
+			for (final Window window : windows) {
+				graphicsDevise.setFullScreenWindow(window);
+			}
+		}
+
+		this.setVisible(true);
+		frame.setVisible(true);
 	}
 
 	/**
@@ -83,6 +88,7 @@ public class MainFrame extends JComponent {
 		menu.getFileMenu().getClose().repaint();
 		menu.getFileMenu().getExport().repaint();
 		menu.getEditionMenu().getUndo().repaint();
+		compenentListPanel.repaint();
 		drawPanel.repaint();
 	}
 
@@ -96,44 +102,6 @@ public class MainFrame extends JComponent {
 			INSTANCE = new MainFrame();
 		}
 		return INSTANCE;
-	}
-
-	private class Renderer extends Thread {
-		private BufferedImage image;
-
-		public Renderer() {
-			// NOTE: image size is fixed now, but better to bind image size to
-			// the size of viewport
-			image = new BufferedImage(600, 680, BufferedImage.TYPE_INT_ARGB);
-		}
-
-		public void run() {
-			while (true) {
-				Graphics g = null;
-				try {
-					g = bufferStrategy.getDrawGraphics();
-					drawSprites(g);
-				} finally {
-					g.dispose();
-				}
-				bufferStrategy.show();
-				Toolkit.getDefaultToolkit().sync();
-
-				try {
-					Thread.sleep(1000 / 24);
-				} catch (InterruptedException ie) {
-				}
-			}
-		}
-
-		private void drawSprites(Graphics g) {
-			Graphics2D g2d = (Graphics2D) g;
-
-			Graphics graph = image.createGraphics();
-			graph.drawImage(frame.createImage(getWidth(), getHeight()), 0, 0, null);
-			g2d.drawImage(image, 0, 0, null);
-			graph.dispose();
-		}
 	}
 
 	public Menu getMenu() {
@@ -158,6 +126,22 @@ public class MainFrame extends JComponent {
 
 	public void setDrawPanel(DrawPanel drawPanel) {
 		this.drawPanel = drawPanel;
+	}
+
+	public ComponentListPanel getCompenentListPanel() {
+		return compenentListPanel;
+	}
+
+	public void setCompenentListPanel(ComponentListPanel compenentListPanel) {
+		this.compenentListPanel = compenentListPanel;
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
 	}
 
 }

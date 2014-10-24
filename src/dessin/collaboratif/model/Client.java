@@ -87,7 +87,6 @@ public class Client {
 	 */
 	public boolean draw(final Integer x1, final Integer y1, final Integer x2,
 			final Integer y2) {
-		System.out.println(currentDraw);
 		if (isLegal(x1, x2, y1, y2)) {
 			if (currentDraw != null) {
 				switch (currentDraw) {
