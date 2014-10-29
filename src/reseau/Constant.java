@@ -32,4 +32,18 @@ public class Constant {
             return(value);
         }
     }
+    
+    /**
+     * @fn getCommand
+     * @brief Retourne la commande correspondant à l'entier passé en argument
+     * @param val
+     * @return Constant.command correspondant
+     */
+    public static command getCommand(int val){
+        for (command i : Constant.command.values())
+            if (i.getValue() == val){
+                return(i);
+            }
+        return(null);
+    }
 }

@@ -39,7 +39,7 @@ public class Message {
         System.arraycopy(b_Array, 8, b_content_size, 0, 4);
         
         from = InetAddress.getByAddress(b_addr);
-        cmd = Constant.command.values()[byteArrayToInt(b_cmd)];
+        cmd = Constant.getCommand(byteArrayToInt(b_cmd));
         int content_size = byteArrayToInt(b_content_size);
         char[] c_content = new char[content_size];
         System.arraycopy(b_Array, 12, c_content, 0, content_size);
