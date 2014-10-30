@@ -6,7 +6,8 @@ package reseau;
  * regroupe les différentes constantes employées dans la partie réseau du projet
  */
 public class Constant {
-    public static int NB_ROOM = 10; 
+    public static final int NB_ROOM = 10;
+    public static final byte SERVER_IP[] = {0, 0, 0, 0};   // L'adresse IP lorsque server est l'expéditeur
     /**
      * Les différents types de messages
      * Une valeur fixe leur est donnée afin d'éviter tout changement à la compilation

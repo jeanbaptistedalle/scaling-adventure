@@ -55,4 +55,13 @@ public class Server {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /**
+     * @fn getClients
+     * @brief accesseur du vector des clients
+     * @return vector clients
+     */
+    public Vector <ClientManager> getClients(){
+        return(this.clients);
+    }
 }
