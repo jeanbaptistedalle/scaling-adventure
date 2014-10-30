@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  * @class Server
- * @brief Va lancer les différentes rooms qui aura chacune un dessin SVG. Chaque room aura ça propre liste de cleint.
+ * @brief Va lancer les différentes rooms qui aura chacune un dessin SVG. Chaque room aura sa propre liste de clients.
  */
 public class Server {
     private Vector <Room> rooms;

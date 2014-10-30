@@ -20,8 +20,8 @@ class ClientManager extends Thread {
     public void run () {
         /**
          * Quand un nouveau client arrive on lui demande un pseudo.
-         * Lorsqu'il est connecté avec un pseudo il doit choisir une room pour déssiner.
-         * Un fois connecté à une room il peut dessiner (Avec le protocol de dessin mis en place).
+         * Lorsqu'il est connecté avec un pseudo il doit choisir une room pour dessiner.
+         * Un fois connecté à une room il peut dessiner (Avec le protocole de dessin mis en place).
          */
     }
     
