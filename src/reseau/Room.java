@@ -11,7 +11,13 @@ import java.util.Vector;
  * @class Room
  * @brief Server pour un dessin SVG.
  */
-class Room {
-    private Vector <ClientManager> clients;
+class Room extends Thread {
     
+    public Room() {
+        
+    }
+    
+    public void run() {
+        
+    }
 }

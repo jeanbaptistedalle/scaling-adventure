@@ -5,7 +5,12 @@
  */
 package reseau;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @class Server
@@ -13,20 +18,41 @@ import java.util.Vector;
  */
 public class Server {
     private Vector <Room> rooms;
+    private Vector <ClientManager> clients;
     
     public static void main(String[] args) {
         Server s = new Server();
     }
     
     public Server () {
-        /**
-         * Un server par room (Donc ouvrir un socket par Room) ?? 
-         * Ou bien un socket ouvert sur le serveur mais chaque client doit donné le numéro de ca room
-         *  dans les messages échangés.
-         */
-        rooms = new Vector<Room>();
-        for (int i = 0; i < Constant.NB_ROOM; i++) {
+        try {
+            rooms = new Vector<Room>();
+            ServerSocket sock = new ServerSocket(7030);
             
+            /**
+             * On démarre les rooms.d
+             */
+            for (int i = 0; i < Constant.NB_ROOM; i++) {
+                Room room = new Room();
+                rooms.add(room);
+                room.start();
+            }
+            
+            System.out.println("¤ Server ready... Listening");
+            
+            /**
+             * En attente de nouveaux clients.
+             */
+            while (true) {
+                Socket client_sock = sock.accept();
+
+                System.out.println("¤ New client tried to connect");
+                ClientManager client = new ClientManager(client_sock, this);
+                client.start();
+                clients.add(client);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
