@@ -6,6 +6,7 @@ package reseau;
  * regroupe les différentes constantes employées dans la partie réseau du projet
  */
 public class Constant {
+    public static int NB_ROOM = 10; 
     /**
      * Les différents types de messages
      * Une valeur fixe leur est donnée afin d'éviter tout changement à la compilation
