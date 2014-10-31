@@ -5,9 +5,12 @@
  */
 package reseau;
 
+import com.sun.corba.se.pept.transport.InboundConnectionCache;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,8 +27,14 @@ class ClientManager extends Thread {
     private PrintWriter out;
 
     public ClientManager(Socket client_sock, Server server) {
-        this.server = server;
-        this.sock = client_sock;
+            this.server = server;
+            this.sock = client_sock;
+        try{
+            this.in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+            this.out = new PrintWriter(sock.getOutputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void run () {
@@ -36,22 +45,56 @@ class ClientManager extends Thread {
          * Lorsqu'il est connecté avec un pseudo il doit choisir une room pour dessiner.
          * Un fois connecté à une room il peut dessiner (Avec le protocole de dessin mis en place).
          */
-        // TODO : ouverture des streams
         do{
-            // TODO : lecture du pseudo
-            try {
-                my_pseudo = in.readLine();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            my_pseudo = recvMessage().getContent();
             cont = false;
             for (ClientManager cli : server.getClients()){
                 if (my_pseudo.equals(cli.pseudo)){
                     cont = true;
                 }
             }
-            // On envoie un message ACCEPT si le pseudo est valide, DENY sinon
+            if (cont){
+                sendMessage(Constant.command.DENY);
+            }
+            else{
+                sendMessage(Constant.command.ACCEPT);
+            }
         }while (cont);
+        
+        // TODO choix de la room (CçD envoi de la liste des rooms, lecture de la réponse du client, validation ou non et réponse en conséquance
+        // TODO écoute des messages en provenance du client et transmission de ceux-ci au gestionnaire (?) de la room correpondante
     }
     
+    /**
+     * @fn sendMessage
+     * @brief Crée un Message et l'envoie au client
+     * @param cmd la commande
+     * @param content le contenu
+     */
+    private void sendMessage(Constant.command cmd, String content){
+        out.print(new Message(Constant.SERVER_IP, cmd, content).toByteArray());
+    }
+   
+    /**
+     * @fn sendMessage
+     * @brief Crée un Message et l'envoie au client
+     * @param cmd la commande
+     */
+    private void sendMessage(Constant.command cmd){
+        out.print(new Message(Constant.SERVER_IP, cmd).toByteArray());
+    }
+    
+    /**
+     * @fn recvMessage
+     * @brief lit un Message sur l'entrée "in" et le retourne
+     * @return le Message lu
+     */
+    private Message recvMessage(){
+        try {
+            return(new Message(in.readLine().getBytes()));
+        } catch (IOException ex) {
+            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return(null);
+    }
 }
