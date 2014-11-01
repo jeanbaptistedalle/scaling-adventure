@@ -30,12 +30,11 @@ public class Server {
             ServerSocket sock = new ServerSocket(7030);
             
             /**
-             * On démarre les rooms.d
+             * On crée les rooms
              */
             for (int i = 0; i < Constant.NB_ROOM; i++) {
                 Room room = new Room();
                 rooms.add(room);
-                room.start();
             }
             
             System.out.println("¤ Server ready... Listening");

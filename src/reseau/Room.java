@@ -9,18 +9,10 @@ import java.util.Vector;
 
 /**
  * @class Room
- * @brief Server pour un dessin SVG.
+ * @brief Correspond à un groupe de clients travaillant sur le même dessin
  */
-class Room extends Thread {
+class Room{
     private Vector <ClientManager> clients;
-    
-    public Room() {
-        
-    }
-    
-    public void run() {
-        
-    }
     
     /**
      * @fn addClient
