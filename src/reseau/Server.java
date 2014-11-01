@@ -73,4 +73,19 @@ public class Server {
     public void addClient(ClientManager cli){
         this.clients.add(cli);
     }
+    
+    /**
+     * @fn getRoomList
+     * @brief Renvoie la liste de toutes les rooms disponibles sous la forme room1,room2,roomn
+     * @return la chaîne de caractère qui liste les rooms
+     */
+    public String getRoomList(){
+        String res = "";
+        for (int i=0; i<rooms.size() - 1; i++){
+            res += rooms.get(i).toString() + ",";
+        }
+        res += rooms.get(rooms.size() - 1).toString();
+        
+        return(res);
+    }
 }

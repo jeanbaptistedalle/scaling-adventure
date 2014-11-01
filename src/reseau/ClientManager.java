@@ -64,8 +64,9 @@ class ClientManager extends Thread {
         server.addClient(this);
         
         /* Puis on envoie la liste des rooms au client */
+        sendMessage(Constant.command.LIST_ROOMS, server.getRoomList());
         
-        // TODO choix de la room (CçD envoi de la liste des rooms, lecture de la réponse du client, validation ou non et réponse en conséquance
+        // TODO choix de la room (CàD lecture de la réponse du client, validation ou non et réponse en conséquance
         // TODO écoute des messages en provenance du client et transmission de ceux-ci au gestionnaire (?) de la room correpondante
     }
     
@@ -95,6 +96,15 @@ class ClientManager extends Thread {
      */
     private void sendMessage(Constant.command cmd){
         out.print(new Message(Constant.SERVER_IP, cmd).toByteArray());
+    }
+    
+    /**
+     * @fn sendMessage
+     * @brief Envoie un Message au client
+     * @param msg le Message à envoyer
+     */
+    public void sendMessage(Message msg){
+        out.print(msg.toByteArray());
     }
     
     /**
