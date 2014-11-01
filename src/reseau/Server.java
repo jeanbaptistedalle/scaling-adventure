@@ -64,4 +64,13 @@ public class Server {
     public Vector <ClientManager> getClients(){
         return(this.clients);
     }
+    
+    /**
+     * @fn addClient
+     * @brief Ajoute un client à la liste des clients loggés
+     * @param cli le nouveau client (ClientManager)
+     */
+    public void addClient(ClientManager cli){
+        this.clients.add(cli);
+    }
 }

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  * @class ClientManager
- * @brief 
+ * @brief Gestionnaire de client, qui communiquera avec un client spécifique
  */
 class ClientManager extends Thread {
     private final Server server;
@@ -61,8 +61,21 @@ class ClientManager extends Thread {
             }
         }while (cont);
         
+        server.addClient(this);
+        
+        /* Puis on envoie la liste des rooms au client */
+        
         // TODO choix de la room (CçD envoi de la liste des rooms, lecture de la réponse du client, validation ou non et réponse en conséquance
         // TODO écoute des messages en provenance du client et transmission de ceux-ci au gestionnaire (?) de la room correpondante
+    }
+    
+    /**
+     * @fn toString
+     * @brief Renvoie la chaîne de caractère correspondant au client (en l'occurence le pseudo)
+     * @return le pseudo du client
+     */
+    public String toString(){
+        return(this.pseudo);
     }
     
     /**
