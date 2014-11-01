@@ -12,6 +12,7 @@ import java.util.Vector;
  * @brief Server pour un dessin SVG.
  */
 class Room extends Thread {
+    private Vector <ClientManager> clients;
     
     public Room() {
         
@@ -19,5 +20,14 @@ class Room extends Thread {
     
     public void run() {
         
+    }
+    
+    /**
+     * @fn addClient
+     * @brief Ajoute un client dans la liste de la room
+     * @param cli le nouveau client
+     */
+    public void addClient(ClientManager cli){
+        clients.add(cli);
     }
 }
