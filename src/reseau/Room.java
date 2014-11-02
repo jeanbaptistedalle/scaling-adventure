@@ -5,6 +5,7 @@
  */
 package reseau;
 
+import com.sun.xml.internal.ws.handler.HandlerChainsModel;
 import java.util.Vector;
 
 /**
@@ -13,6 +14,16 @@ import java.util.Vector;
  */
 class Room{
     private Vector <ClientManager> clients;
+    private  final int id;
+    
+    /**
+     * @fn Room
+     * @srief Constructeur de Room
+     * @param number 
+     */
+    public Room(int number){
+        this.id = number;
+    }
     
     /**
      * @fn addClient
@@ -42,5 +53,18 @@ class Room{
         for (ClientManager cli : clients){
             cli.sendMessage(msg);
         }
+    }
+    
+    /**
+     * @fn toString
+     * @brief renvoie la chaîne de caractère décrivant cette room (ici son ID)
+     * @return la chaîne de caractères correspondante
+     */
+    public String toString(){
+        return(Integer.toString(this.id));
+    }
+    
+    public boolean equals(int i){
+        return(this.id == i);
     }
 }

@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  */
 class ClientManager extends Thread {
     private final Server server;
+    private Room room;
     private final Socket sock;
     private String pseudo;
     private BufferedReader in;
@@ -39,34 +40,47 @@ class ClientManager extends Thread {
     
     public void run () {
         boolean cont;
-        String my_pseudo = "Anon";
+        String my_pseudo;
+        String my_room;
         /**
          * Quand un nouveau client arrive on lui demande un pseudo.
          * Lorsqu'il est connecté avec un pseudo il doit choisir une room pour dessiner.
          * Un fois connecté à une room il peut dessiner (Avec le protocole de dessin mis en place).
          */
+        
+        /* Le client choisit son pseudo */
         do{
             my_pseudo = recvMessage().getContent();
             cont = false;
+            // On teste que le pseudo soit unique
             for (ClientManager cli : server.getClients()){
                 if (my_pseudo.equals(cli.pseudo)){
                     cont = true;
                 }
             }
-            if (cont){
-                sendMessage(Constant.command.DENY);
-            }
-            else{
-                sendMessage(Constant.command.ACCEPT);
-            }
+            sendMessage((cont)?Constant.command.DENY:Constant.command.ACCEPT);            
         }while (cont);
         
         server.addClient(this);
         
-        /* Puis on envoie la liste des rooms au client */
+        /* Puis il choisit sa Room */
         sendMessage(Constant.command.LIST_ROOMS, server.getRoomList());
         
-        // TODO choix de la room (CàD lecture de la réponse du client, validation ou non et réponse en conséquance
+        do{
+            my_room = recvMessage().getContent();
+            cont = false;
+            // On vérifie que la Room existe
+            for (Room r : server.getRooms()){
+                if (my_room.equals(r.toString())){
+                    cont = false;
+                }
+            }
+            sendMessage((cont)?Constant.command.DENY:Constant.command.ACCEPT);            
+        }while (cont);
+        
+        this.room = server.getRoomById(my_room);
+        this.room.addClient(this);
+        
         // TODO écoute des messages en provenance du client et transmission de ceux-ci au gestionnaire (?) de la room correpondante
     }
     

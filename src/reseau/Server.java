@@ -33,7 +33,7 @@ public class Server {
              * On crée les rooms
              */
             for (int i = 0; i < Constant.NB_ROOM; i++) {
-                Room room = new Room();
+                Room room = new Room(i);
                 rooms.add(room);
             }
             
@@ -65,6 +65,15 @@ public class Server {
     }
     
     /**
+     * @fn getRooms
+     * @brief accesseur de la liste des Room
+     * @return vector rooms
+     */
+    public Vector <Room> getRooms(){
+        return(this.rooms);
+    }
+    
+    /**
      * @fn addClient
      * @brief Ajoute un client à la liste des clients loggés
      * @param cli le nouveau client (ClientManager)
@@ -86,5 +95,22 @@ public class Server {
         res += rooms.get(rooms.size() - 1).toString();
         
         return(res);
+    }
+    
+    /**
+     * @fn getRoomById
+     * @brief Retourne la Room d'ID correspondant au String passé en argument
+     * @param id l'ID de la Room demandée
+     * @return la Room concernée, null si elle n'existe pas
+     */
+    public Room getRoomById(String id){
+        // L'ID ne sera pas nécessairement l'indice de la rooms dans rooms, on fait donc une recherche plus générale
+        int n_id = Integer.parseInt(id);
+        for (Room r : rooms){
+            if (r.equals(n_id)){
+                return(r);
+            }
+        }
+        return(null);
     }
 }
