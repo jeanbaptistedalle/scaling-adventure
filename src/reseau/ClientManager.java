@@ -61,6 +61,8 @@ class ClientManager extends Thread {
             sendMessage((cont)?Constant.command.DENY:Constant.command.ACCEPT);            
         }while (cont);
         
+        System.out.println("¤ Client " + this.pseudo + " joined");
+        
         server.addClient(this);
         
         /* Puis il choisit sa Room */
@@ -81,7 +83,37 @@ class ClientManager extends Thread {
         this.room = server.getRoomById(my_room);
         this.room.addClient(this);
         
-        // TODO écoute des messages en provenance du client et transmission de ceux-ci au gestionnaire (?) de la room correpondante
+        cont = true;
+        while (cont){
+            Message msg = recvMessage();
+            
+            switch (msg.getCmd()){
+                case GET_USERS :
+                    sendMessage(Constant.command.LIST_USERS, room.getClientList());
+                    break;
+                case REQUIRE_CTRL :
+                    // TODO mise en file d'attente
+                    break;
+                case SUBMIT :
+                    room.broadcast(new Message(msg.getFrom(), Constant.command.UPDATE, msg.getContent()));
+                    break;
+                case DISCONNECT :
+                    cont = false;
+                    break;
+            }
+        }
+        
+        /* Lorsqu'on est ici, le client à demandé la déconnexion */
+        room.rmClient(this);
+        server.rmClient(this);
+        try {
+            in.close();
+            out.close();
+            sock.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("¤ Client " + this.pseudo + "leaved");
     }
     
     /**
@@ -100,7 +132,7 @@ class ClientManager extends Thread {
      * @param content le contenu
      */
     private void sendMessage(Constant.command cmd, String content){
-        out.print(new Message(Constant.SERVER_IP, cmd, content).toByteArray());
+        out.println(new Message(Constant.SERVER_IP, cmd, content).toByteArray());
     }
    
     /**
@@ -109,7 +141,7 @@ class ClientManager extends Thread {
      * @param cmd la commande
      */
     private void sendMessage(Constant.command cmd){
-        out.print(new Message(Constant.SERVER_IP, cmd).toByteArray());
+        out.println(new Message(Constant.SERVER_IP, cmd).toByteArray());
     }
     
     /**
@@ -118,7 +150,7 @@ class ClientManager extends Thread {
      * @param msg le Message à envoyer
      */
     public void sendMessage(Message msg){
-        out.print(msg.toByteArray());
+        out.println(msg.toByteArray());
     }
     
     /**

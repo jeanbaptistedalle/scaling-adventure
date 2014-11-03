@@ -35,6 +35,15 @@ class Room{
     }
     
     /**
+     * @fn rmClient
+     * @brief Supprime un client de la liste de la room
+     * @param cli le client à supprimer
+     */
+    public void rmClient(ClientManager cli){
+        clients.remove(cli);
+    }
+    
+    /**
      * @fn getClientList
      * @brief Retourne la liste des clients présents sur cette room sous la forme client1,client2,clientn
      * @return la chaîne de caractères qui liste les clients

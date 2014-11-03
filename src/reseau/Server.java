@@ -83,6 +83,15 @@ public class Server {
     }
     
     /**
+     * @fn rmClient
+     * @brief Supprime un client de la liste des clients loggés (déconnexion)
+     * @param cli le client déconnecté
+     */
+    public void rmClient(ClientManager cli){
+        this.clients.remove(cli);
+    }
+    
+    /**
      * @fn getRoomList
      * @brief Renvoie la liste de toutes les rooms disponibles sous la forme room1,room2,roomn
      * @return la chaîne de caractère qui liste les rooms

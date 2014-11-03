@@ -148,4 +148,13 @@ public class Message {
     public String getContent() {
         return content;
     }
+    
+    /**
+     * @fn getFrom
+     * @brief Accesseur de from, CàD l'IP de l'expéditeur
+     * @return this.from
+     */
+    public InetAddress getFrom(){
+        return(this.from);
+    }
 }
