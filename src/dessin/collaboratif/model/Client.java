@@ -132,6 +132,17 @@ public class Client {
 		}
 		return false;
 	}
+	
+
+
+	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2,
+			Boolean resize) {
+		
+		if(resize)
+			undo();
+		
+		return draw(x1, y1, x2, y2);
+	}
 
 	private void reshapeSVG(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
 		Integer maxX = (x1 < x2) ? x2 : x1;

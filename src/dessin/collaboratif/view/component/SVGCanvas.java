@@ -27,11 +27,12 @@ public class SVGCanvas extends JSVGCanvas {
 
 	public SVGCanvas() {
 		setVisible(false);
-		setSize(600, 600);
+		setSize(Integer.valueOf(GeneralVariables.DEFAULT_STROKE_WIDTH), Integer.valueOf(GeneralVariables.DEFAULT_HEIGHT));
 		setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		SvgCanvasMouseAdapter mouseAdapter = new SvgCanvasMouseAdapter();
 		addMouseListener(mouseAdapter);
 		addMouseMotionListener(mouseAdapter);
+		setDoubleBufferedRendering(true);
 		// addMouseListener(overviewBox);
 		// addMouseMotionListener(overviewBox);
 	}
