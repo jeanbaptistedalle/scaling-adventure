@@ -15,6 +15,7 @@ import org.w3c.dom.svg.SVGDocument;
 import dessin.collaboratif.controller.component.SvgCanvasMouseAdapter;
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.model.Client;
 
 public class SVGCanvas extends JSVGCanvas {
 
@@ -65,6 +66,7 @@ public class SVGCanvas extends JSVGCanvas {
 	public void click(final int x, final int y) {
 		final SVGDocument doc = getSVGDocument();
 		final NodeList list = doc.getFirstChild().getChildNodes();
+		Integer foundIndice = -1;
 		for (int i = 0; i < list.getLength(); i++) {
 			final Node n = list.item(i);
 			final DrawModelEnum model = DrawModelEnum.evaluate(n.getNodeName());
@@ -79,6 +81,7 @@ public class SVGCanvas extends JSVGCanvas {
 					if (circle.contains(new Point2D.Double((double) x, (double) y))) {
 						// Le point est contenu dans l'ellipse
 						System.out.println("Le click correspond à un cercle");
+						foundIndice = i;
 					}
 					break;
 				case LINE:
@@ -103,6 +106,7 @@ public class SVGCanvas extends JSVGCanvas {
 					if (p.contains(new Point2D.Double((double) x, (double) y))) {
 						// Le point est contenu dans la ligne
 						System.out.println("Le click correspond à une ligne");
+						foundIndice = i;
 					}
 					break;
 				case SQUARE:
@@ -116,6 +120,7 @@ public class SVGCanvas extends JSVGCanvas {
 					if (rect.contains(new Point2D.Double((double) x, (double) y))) {
 						// Le point est contenu dans le rectangle
 						System.out.println("Le click correspond à un rectangle");
+						foundIndice = i;
 					}
 					break;
 				case ELLIPSE:
@@ -128,6 +133,7 @@ public class SVGCanvas extends JSVGCanvas {
 					if (ellipse.contains(new Point2D.Double((double) x, (double) y))) {
 						// Le point est contenu dans l'ellipse
 						System.out.println("Le click correspond à une ellipse");
+						foundIndice = i;
 					}
 					break;
 				default:
@@ -135,5 +141,7 @@ public class SVGCanvas extends JSVGCanvas {
 				}
 			}
 		}
+		
+		Client.getInstance().setSelected(foundIndice);
 	}
 }

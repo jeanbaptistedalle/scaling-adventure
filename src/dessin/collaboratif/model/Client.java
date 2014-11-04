@@ -48,6 +48,8 @@ public class Client {
 	private Integer svgSizeX = Integer.valueOf( GeneralVariables.DEFAULT_WIDTH );
 	private Integer svgSizeY = Integer.valueOf( GeneralVariables.DEFAULT_HEIGHT );
 	
+	private Integer selected=-1;
+	
 	
 	private Client() {
 		try {
@@ -580,6 +582,14 @@ public class Client {
 
 	public void setSvgSizeY(Integer svgSizeY) {
 		this.svgSizeY = svgSizeY;
+	}
+
+	public Integer getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Integer selected) {
+		this.selected = selected;
 	}
 
 }
