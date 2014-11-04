@@ -44,6 +44,11 @@ public class Client {
 	
 	private String textToInsert ="";
 	private String sizeTextToInsert = "12";
+
+	private Integer svgSizeX = Integer.valueOf( GeneralVariables.DEFAULT_WIDTH );
+	private Integer svgSizeY = Integer.valueOf( GeneralVariables.DEFAULT_HEIGHT );
+	
+	private Integer selected=-1;
 	
 	
 	private Client() {
@@ -71,7 +76,11 @@ public class Client {
 	 */
 	private boolean isLegal(final Integer x1, final Integer y1,
 			final Integer x2, final Integer y2) {
-		return x1 != null && x1 >= 0 && y1 != null && y1 >= 0 && x2 != null
+		if(x1 != null && x2 != null && y1 != null && y2 != null && Math.abs(x2-x1) < 1 
+				&& Math.abs(y2-y1) < 1)
+			return false;
+		else
+			return x1 != null && x1 >= 0 && y1 != null && y1 >= 0 && x2 != null
 				&& x2 >= 0 && y2 != null && y2 >= 0;
 	}
 
@@ -87,8 +96,14 @@ public class Client {
 	 */
 	public boolean draw(final Integer x1, final Integer y1, final Integer x2,
 			final Integer y2) {
-		if (isLegal(x1, x2, y1, y2)) {
+		if (isLegal(x1, y1, x2, y2)) {
 			if (currentDraw != null) {
+				
+				// On redimensionne le svg en fonction de l'emplacement et la taille de la forme 
+				
+				reshapeSVG(x1,y1,x2,y2);
+				
+				// On dessine la forme
 				switch (currentDraw) {
 				case CIRCLE:
 					drawCircle(x1, y1, x2, y2);
@@ -118,6 +133,38 @@ public class Client {
 			}
 		}
 		return false;
+	}
+	
+
+
+	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2,
+			Boolean resize) {
+		
+		if(resize)
+			undo();
+		
+		return draw(x1, y1, x2, y2);
+	}
+
+	private void reshapeSVG(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
+		Integer maxX = (x1 < x2) ? x2 : x1;
+		Integer maxY = (y1 < y2) ? y2 : y1;
+		
+		final Document doc = getImage();
+		final Element svgRoot = doc.getDocumentElement();
+
+		maxX = (maxX < svgSizeX) ? svgSizeX : maxX;
+		maxY = (maxY < svgSizeY) ? svgSizeY : maxY;
+
+		maxX += 10;
+		maxY += 10;
+		
+		svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, ""+ maxX);
+		svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, ""+ maxY);
+
+		setSvgSizeX(maxX);
+		setSvgSizeY(maxY);
+		
 	}
 
 	private void drawText(final Integer x1, final Integer y1) {
@@ -519,6 +566,30 @@ public class Client {
 
 	public void setSizeTextToInsert(String sizeTextToInsert) {
 		this.sizeTextToInsert = sizeTextToInsert;
+	}
+
+	public Integer getSvgSizeX() {
+		return svgSizeX;
+	}
+
+	public void setSvgSizeX(Integer svgSizeX) {
+		this.svgSizeX = svgSizeX;
+	}
+
+	public Integer getSvgSizeY() {
+		return svgSizeY;
+	}
+
+	public void setSvgSizeY(Integer svgSizeY) {
+		this.svgSizeY = svgSizeY;
+	}
+
+	public Integer getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Integer selected) {
+		this.selected = selected;
 	}
 
 }

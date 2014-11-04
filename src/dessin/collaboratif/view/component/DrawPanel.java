@@ -16,6 +16,8 @@ public class DrawPanel extends JPanel {
 	public DrawPanel() {
 		super(new BorderLayout());
 		this.add(svgCanvas);
+		setIgnoreRepaint(true);
+		setDoubleBuffered(true);
 	}
 
 	public DrawPanel(final int width, final int height) {
@@ -25,7 +27,7 @@ public class DrawPanel extends JPanel {
 
 	@Override
 	public void repaint() {
-		super.repaint();
+		//super.repaint();
 		if (svgCanvas != null) {
 			svgCanvas.repaint();
 		}

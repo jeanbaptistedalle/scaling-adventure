@@ -39,6 +39,8 @@ public class MainFrame extends JComponent {
 	private JFrame frame;
 
 	private MainFrame() {
+
+		setDoubleBuffered(true);
 		frame = new JFrame();
 		frame.setTitle("Dessin colaboratif");
 		frame.setSize(600, 680);
@@ -85,9 +87,9 @@ public class MainFrame extends JComponent {
 		} else {
 			drawPanel.getSvgCanvas().setImage(null);
 		}
-		menu.getFileMenu().getClose().repaint();
-		menu.getFileMenu().getExport().repaint();
-		menu.getEditionMenu().getUndo().repaint();
+//		menu.getFileMenu().getClose().repaint();
+//		menu.getFileMenu().getExport().repaint();
+//		menu.getEditionMenu().getUndo().repaint();
 		compenentListPanel.repaint();
 		drawPanel.repaint();
 	}

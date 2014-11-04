@@ -1,5 +1,7 @@
 package dessin.collaboratif.view.component.menu;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 
 import dessin.collaboratif.misc.GeneralVariables;
@@ -28,6 +30,7 @@ public class FileMenu extends JMenu {
 
 	public FileMenu() {
 		super(GeneralVariables.FILE_MENU_TITLE);
+		this.setMnemonic(KeyEvent.getExtendedKeyCodeForChar('f'));
 		newI = new NewMenuItem();
 		this.add(newI);
 		open = new OpenMenuItem();

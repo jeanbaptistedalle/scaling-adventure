@@ -13,22 +13,43 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 	private Integer y1 = null;
 	private Integer x2 = null;
 	private Integer y2 = null;
+	private Boolean resize = false;
+	private long timeDB;
 
 	public void mousePressed(MouseEvent e) {
 		x1 = e.getX();
 		y1 = e.getY();
 		x2 = null;
 		y2 = null;
+		timeDB =  System.nanoTime();
 	}
 
 	public void mouseDragged(MouseEvent e) {
+		x2 = e.getX();
+		y2 = e.getY();
+		if (x1 != null && x2 != null && y1 != null && y2 != null) {
+			if (!resize)
+			{
+				if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
+					MainFrame.getInstance().repaintDrawPanel();
+					resize=true;
+				}
+			}
+			else if(((System.nanoTime()-timeDB)/1000000) > 25)
+			{
+				if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
+					MainFrame.getInstance().repaintDrawPanel();
+					timeDB = System.nanoTime();
+				}
+			}
+		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();
 		if (x1 != null && x2 != null && y1 != null && y2 != null) {
-			if (Client.getInstance().draw(x1, y1, x2, y2)) {
+			if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
 				MainFrame.getInstance().repaintDrawPanel();
 			}
 		}
@@ -36,11 +57,11 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 		y1 = null;
 		x2 = null;
 		y2 = null;
+		resize=false;
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
-
+	public void mouseMoved(MouseEvent e) {
 	}
 
 	@Override

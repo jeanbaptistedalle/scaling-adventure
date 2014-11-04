@@ -1,5 +1,7 @@
 package dessin.collaboratif.view.component.menu;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 
 import dessin.collaboratif.misc.GeneralVariables;
@@ -16,6 +18,7 @@ public class EditionMenu extends JMenu {
 
 	public EditionMenu() {
 		super(GeneralVariables.EDITION_MENU_TITLE);
+		this.setMnemonic(KeyEvent.getExtendedKeyCodeForChar('e'));
 		undo = new UndoMenuItem();
 		this.add(undo);
 	}

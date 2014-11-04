@@ -1,5 +1,7 @@
 package dessin.collaboratif.view.component.menu;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 
 import dessin.collaboratif.misc.GeneralVariables;
@@ -16,6 +18,7 @@ public class HelpMenu extends JMenu {
 
 	public HelpMenu() {
 		super(GeneralVariables.HELP_MENU_TITLE);
+		this.setMnemonic(KeyEvent.getExtendedKeyCodeForChar('a'));
 		help = new HelpMenuItem();
 		this.add(help);
 	}

@@ -1,5 +1,7 @@
 package dessin.collaboratif.view.component.menu;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JMenu;
 
 import dessin.collaboratif.misc.GeneralVariables;
@@ -16,6 +18,7 @@ public class CollaborationMenu extends JMenu {
 
 	public CollaborationMenu() {
 		super(GeneralVariables.COLLABORATION_MENU_TITLE);
+		this.setMnemonic(KeyEvent.getExtendedKeyCodeForChar('c'));
 		takeHand = new TakeHandMenuItem();
 		this.add(takeHand);
 	}

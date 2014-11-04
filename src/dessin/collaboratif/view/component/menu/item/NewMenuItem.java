@@ -1,8 +1,12 @@
 package dessin.collaboratif.view.component.menu.item;
 
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import dessin.collaboratif.controller.component.menu.item.NewListener;
@@ -22,6 +26,9 @@ public class NewMenuItem extends JMenuItem {
 		final ImageIcon fileIcon = new ImageIcon(
 				GeneralVariables.FILE_MENU_NEW_ICON_PATH);
 		this.setIcon(fileIcon);
+		this.setMnemonic(KeyEvent.getExtendedKeyCodeForChar('n'));
+		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+		        InputEvent.CTRL_MASK));
 
 		fileChooser = new JFileChooser();
 
