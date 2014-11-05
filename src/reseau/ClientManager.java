@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -132,7 +133,7 @@ class ClientManager extends Thread {
      * @param content le contenu
      */
     private void sendMessage(Constant.command cmd, String content){
-        out.println(new Message(Constant.SERVER_IP, cmd, content).toByteArray());
+        out.print(new Message(Constant.SERVER_IP, cmd, content).toByteArray());
     }
    
     /**
@@ -141,7 +142,7 @@ class ClientManager extends Thread {
      * @param cmd la commande
      */
     private void sendMessage(Constant.command cmd){
-        out.println(new Message(Constant.SERVER_IP, cmd).toByteArray());
+        out.print(new Message(Constant.SERVER_IP, cmd).toByteArray());
     }
     
     /**
@@ -150,7 +151,7 @@ class ClientManager extends Thread {
      * @param msg le Message à envoyer
      */
     public void sendMessage(Message msg){
-        out.println(msg.toByteArray());
+        out.print(msg.toByteArray());
     }
     
     /**
@@ -160,8 +161,8 @@ class ClientManager extends Thread {
      */
     private Message recvMessage(){
         try {
-            return(new Message(in.readLine().getBytes()));
-        } catch (IOException ex) {
+            return(new Message(in));
+        } catch (UnknownHostException ex) {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return(null);

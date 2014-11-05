@@ -1,5 +1,7 @@
 package reseau;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +84,39 @@ public class Message {
         int content_size = byteArrayToInt(b_content_size);
         char[] c_content = new char[content_size];
         System.arraycopy(b_Array, 12, c_content, 0, content_size);
+        content = String.copyValueOf(c_content);
+    }
+    
+    /**
+     * @fn Message
+     * @brief Constructeur de message d'après un flux
+     * @param in le flux
+     * @throws UnknownHostException 
+     */
+    public Message(BufferedReader in) throws UnknownHostException{
+        byte[] b_addr = new byte[4];
+        byte[] b_cmd = new byte[4];
+        byte[] b_content_size = new byte[4];
+        char buff[] = new char[12];
+
+        try {
+            in.read(buff, 0, 12);
+        } catch (IOException ex) {
+            Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.arraycopy(buff, 0, b_addr, 0, 4);
+        System.arraycopy(buff, 4, b_cmd, 0, 4);
+        System.arraycopy(buff, 8, b_content_size, 0, 4);
+        from = InetAddress.getByAddress(b_addr);
+        cmd = Constant.getCommand(byteArrayToInt(b_cmd));
+        int content_size = byteArrayToInt(b_content_size);
+        char[] c_content = new char[content_size];
+        try {
+            in.read(c_content, 0, content_size);
+        } catch (IOException ex) {
+            Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+        }
         content = String.copyValueOf(c_content);
     }
     
