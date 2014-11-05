@@ -28,6 +28,7 @@ public class SVGCanvas extends JSVGCanvas {
 
 	public SVGCanvas() {
 		setVisible(false);
+//		setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
 		setSize(Integer.valueOf(GeneralVariables.DEFAULT_STROKE_WIDTH), Integer.valueOf(GeneralVariables.DEFAULT_HEIGHT));
 		setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		SvgCanvasMouseAdapter mouseAdapter = new SvgCanvasMouseAdapter();
@@ -143,5 +144,6 @@ public class SVGCanvas extends JSVGCanvas {
 		}
 		MainFrame.getInstance().getComponentListPanel().getComponentList().setSelectedIndex(foundIndice);
 		Client.getInstance().setSelected(foundIndice);
+		System.out.println("Indice trouvé : " + foundIndice);
 	}
 }

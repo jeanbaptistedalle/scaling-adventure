@@ -129,6 +129,8 @@ public class Client {
 				 * TODO si aucune forme à dessiner n'est selectionnée, on doit
 				 * pouvoir déplacer une forme
 				 */
+				
+				
 				return false;
 			}
 		}

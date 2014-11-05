@@ -44,8 +44,8 @@ public class GeneralVariables {
 	
 	public static final String CHOOSE_COLOR_MESSAGE = "Choisissez une couleur";
 	
-	public static final String DEFAULT_WIDTH = "600";
-	public static final String DEFAULT_HEIGHT = "600";
+	public static final String DEFAULT_WIDTH = "400";
+	public static final String DEFAULT_HEIGHT = "300";
 	public static final String DEFAULT_STROKE_WIDTH = "3";
 
 	public static final String HELP_FRAME_TITLE = "Dessin colaboratif - Aide";

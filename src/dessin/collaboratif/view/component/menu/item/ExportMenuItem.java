@@ -1,8 +1,12 @@
 package dessin.collaboratif.view.component.menu.item;
 
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import dessin.collaboratif.controller.component.menu.item.ExportListener;
@@ -23,6 +27,9 @@ public class ExportMenuItem extends JMenuItem {
 		final ImageIcon exportIcon = new ImageIcon(
 				GeneralVariables.FILE_MENU_EXPORT_ICON_PATH);
 		setIcon(exportIcon);
+		this.setMnemonic(KeyEvent.getExtendedKeyCodeForChar('e'));
+		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
+		        InputEvent.CTRL_MASK));
 		if (Client.getInstance().getImage() != null) {
 			this.setEnabled(true);
 		} else {
