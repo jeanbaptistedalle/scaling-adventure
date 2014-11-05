@@ -1,5 +1,7 @@
 package dessin.collaboratif.misc;
 
+import java.awt.Dimension;
+
 
 
 public class GeneralVariables {
@@ -48,4 +50,8 @@ public class GeneralVariables {
 
 	public static final String HELP_FRAME_TITLE = "Dessin colaboratif - Aide";
 	public static final String TEXT_INPUT_FRAME_VALIDATE_BUTTON = "Valider";
+	
+	public static final Integer DEFAULT_LIST_HEIGHT = 100;
+	public static final Integer DEFAULT_LIST_WIDTH = 700;
+	public static final Dimension DEFAULT_LIST_DIMENSION = new Dimension(DEFAULT_LIST_HEIGHT, DEFAULT_LIST_WIDTH);
 }

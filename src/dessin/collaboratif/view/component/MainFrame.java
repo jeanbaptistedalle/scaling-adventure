@@ -34,7 +34,7 @@ public class MainFrame extends JComponent {
 
 	private DrawPanel drawPanel;
 
-	private ComponentListPanel compenentListPanel;
+	private ComponentListPanel componentListPanel;
 
 	private JFrame frame;
 
@@ -60,8 +60,8 @@ public class MainFrame extends JComponent {
 		drawPanel.setBackground(Color.LIGHT_GRAY);
 		frame.add(drawPanel, BorderLayout.CENTER);
 
-		compenentListPanel = new ComponentListPanel();
-		frame.add(compenentListPanel, BorderLayout.EAST);
+		componentListPanel = new ComponentListPanel();
+		frame.add(componentListPanel, BorderLayout.EAST);
 
 		/* Test plein écran */
 		final Window[] windows = JFrame.getWindows();
@@ -90,7 +90,7 @@ public class MainFrame extends JComponent {
 //		menu.getFileMenu().getClose().repaint();
 //		menu.getFileMenu().getExport().repaint();
 //		menu.getEditionMenu().getUndo().repaint();
-		compenentListPanel.repaint();
+		componentListPanel.repaint();
 		drawPanel.repaint();
 	}
 
@@ -130,12 +130,12 @@ public class MainFrame extends JComponent {
 		this.drawPanel = drawPanel;
 	}
 
-	public ComponentListPanel getCompenentListPanel() {
-		return compenentListPanel;
+	public ComponentListPanel getComponentListPanel() {
+		return componentListPanel;
 	}
 
-	public void setCompenentListPanel(ComponentListPanel compenentListPanel) {
-		this.compenentListPanel = compenentListPanel;
+	public void setComponentListPanel(ComponentListPanel componentListPanel) {
+		this.componentListPanel = componentListPanel;
 	}
 
 	public JFrame getFrame() {

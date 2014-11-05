@@ -141,7 +141,7 @@ public class SVGCanvas extends JSVGCanvas {
 				}
 			}
 		}
-		
+		MainFrame.getInstance().getComponentListPanel().getComponentList().setSelectedIndex(foundIndice);
 		Client.getInstance().setSelected(foundIndice);
 	}
 }
