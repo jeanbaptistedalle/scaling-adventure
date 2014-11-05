@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -12,6 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 
 public class ComponentListPanel extends JPanel {
@@ -21,18 +23,24 @@ public class ComponentListPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 29596208033922048L;
 
-	private JList componentList;
+	/* Only work with java 7 jdk */
+	private JList<String> componentList;
+
+	private JScrollPane scrollPane;
 
 	public ComponentListPanel() {
-		componentList = new JList();
+		scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(GeneralVariables.DEFAULT_LIST_DIMENSION);
+		componentList = new JList<String>();
+		scrollPane.setViewportView(componentList);
+		this.add(scrollPane);
 		populateList();
 		componentList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				System.out.println("change");
+				Client.getInstance().setSelected(componentList.getSelectedIndex());
 			}
 		});
-		this.add(componentList);
 	}
 
 	private void populateList() {
@@ -47,17 +55,32 @@ public class ComponentListPanel extends JPanel {
 						formList.add(nodeList.item(i).getNodeName());
 					}
 				}
-				componentList.setListData(formList.toArray());
+				String[] array = new String[formList.size()];
+				array = formList.toArray(array);
+				componentList.setListData(array);
 			} else {
-				componentList.setListData(new Object[0]);
+				componentList.setListData(new String[0]);
 			}
 		}
+	}
+
+	public JList<String> getComponentList() {
+		return componentList;
+	}
+
+	public void setComponentList(JList<String> componentList) {
+		this.componentList = componentList;
 	}
 
 	@Override
 	public void repaint() {
 		// TODO Auto-generated method stub
-		populateList();
+		if (Client.getInstance().getImage() != null) {
+			populateList();
+			this.setVisible(true);
+		} else {
+			this.setVisible(false);
+		}
 		super.repaint();
 	}
 }
