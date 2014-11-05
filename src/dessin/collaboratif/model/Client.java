@@ -20,14 +20,19 @@ import org.apache.batik.util.SVGConstants;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
+import dessin.collaboratif.misc.DirectionEnum;
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.view.component.dialog.MoveDialog;
 
 public class Client {
 
 	private static Client INSTANCE = null;
+	
+	private MoveDialog moveDial = null;
 
 	private DOMImplementation domImpl;
 	private String svgNameSpace;
@@ -49,6 +54,7 @@ public class Client {
 	private Integer svgSizeY = Integer.valueOf( GeneralVariables.DEFAULT_HEIGHT );
 	
 	private Integer selected=-1;
+	private DirectionEnum lastMove = null;
 	
 	
 	private Client() {
@@ -137,7 +143,61 @@ public class Client {
 		return false;
 	}
 	
+	public void move(String dir)
+	{
+		if(getSelected() == -1)
+			return;
+		
+		if(dir == DirectionEnum.UP.toString())
+			setLastMove(DirectionEnum.UP);
+		else if(dir == DirectionEnum.DOWN.toString())
+			setLastMove(DirectionEnum.DOWN);
+		else if(dir == DirectionEnum.LEFT.toString())
+			setLastMove(DirectionEnum.LEFT);
+		else
+			setLastMove(DirectionEnum.RIGHT);
+		
+		System.out.println(dir);
+		
+		final Document doc = getImage();
+		final Element svgRoot = doc.getDocumentElement();
+		
+		Node eltNode = svgRoot.getChildNodes().item(getSelected());
+		
+		if(eltNode == null)
+			return;
+		
+		Element elt = (Element) eltNode;
+		String attX = elt.getAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE);
+		String attY = elt.getAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE);
+		String attW = elt.getAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE);
+		String attH = elt.getAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE);
 
+		Integer valueX = Integer.valueOf(attX);
+		Integer valueY = Integer.valueOf(attY);
+		Integer valueW = Integer.valueOf(attW);
+		Integer valueH = Integer.valueOf(attH);
+		
+		Integer decalage = 5;
+		
+		if(getLastMove() == DirectionEnum.UP)
+			valueY = Integer.valueOf(attY) - decalage;
+		else if(getLastMove() == DirectionEnum.DOWN)
+			valueY = Integer.valueOf(attY) + decalage;
+		else if(getLastMove() == DirectionEnum.LEFT)
+			valueX = Integer.valueOf(attX) - decalage;
+		else
+			valueX = Integer.valueOf(attX) + decalage;
+
+		valueX = (valueX>0) ? valueX : 0;
+		valueY = (valueY>0) ? valueY : 0;
+
+		elt.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, ""+valueX);
+		elt.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, ""+valueY);
+		
+		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
+		
+	}
 
 	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2,
 			Boolean resize) {
@@ -592,6 +652,22 @@ public class Client {
 
 	public void setSelected(Integer selected) {
 		this.selected = selected;
+	}
+
+	public MoveDialog getMoveDial() {
+		return moveDial;
+	}
+
+	public void setMoveDial(MoveDialog moveDial) {
+		this.moveDial = moveDial;
+	}
+
+	public DirectionEnum getLastMove() {
+		return lastMove;
+	}
+
+	public void setLastMove(DirectionEnum lastMove) {
+		this.lastMove = lastMove;
 	}
 
 }

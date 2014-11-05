@@ -30,6 +30,7 @@ public enum DrawModelEnum {
 		list.add(ELLIPSE);
 		list.add(LINE);
 		list.add(SQUARE);
+		list.add(TEXT);
 		return list;
 	}
 

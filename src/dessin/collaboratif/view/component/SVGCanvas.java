@@ -16,6 +16,7 @@ import dessin.collaboratif.controller.component.SvgCanvasMouseAdapter;
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.dialog.MoveDialog;
 
 public class SVGCanvas extends JSVGCanvas {
 
@@ -23,6 +24,8 @@ public class SVGCanvas extends JSVGCanvas {
 	 * 
 	 */
 	private static final long serialVersionUID = 5846489199288523503L;
+	
+	private static long lastClickTime = 0;
 
 	// private OverviewBoxListener overviewBox = new OverviewBoxListener();
 
@@ -145,5 +148,15 @@ public class SVGCanvas extends JSVGCanvas {
 		
 		Client.getInstance().setSelected(foundIndice);
 		System.out.println("Indice trouvé : " + foundIndice);
+		
+		if((System.nanoTime() - lastClickTime)/1000000 < 300 && foundIndice!=-1)
+		{
+			System.out.println("Ouverture dialog");
+			Client.getInstance().setMoveDial(new MoveDialog());
+		}
+		
+		
+		
+		lastClickTime = System.nanoTime();
 	}
 }
