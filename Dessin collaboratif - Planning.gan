@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Dessin colaboratif" company="" webLink="http://" view-date="2014-10-06" view-index="0" gantt-divider-location="506" resource-divider-location="648" version="2.0" locale="fr">
+<?xml version="1.0" encoding="UTF-8"?><project name="Dessin colaboratif" company="" webLink="http://" view-date="2014-10-13" view-index="0" gantt-divider-location="506" resource-divider-location="648" version="2.0" locale="fr">
     <description/>
     <view zooming-state="default:5" id="gantt-chart">
         <field id="tpd3" name="Nom" width="49" order="0"/>
@@ -81,7 +81,7 @@
                 <depend id="34" type="2" difference="0" hardness="Strong"/>
             </task>
         </task>
-        <task id="88" name="Client" color="#8cb6ce" meeting="false" start="2014-10-11" duration="24" complete="61" expand="true">
+        <task id="88" name="Client" color="#8cb6ce" meeting="false" start="2014-10-11" duration="25" complete="67" expand="true">
             <task id="15" name="Création d'image" color="#8cb6ce" meeting="false" start="2014-10-11" duration="1" complete="100" expand="true">
                 <depend id="18" type="2" difference="0" hardness="Strong"/>
             </task>
@@ -107,16 +107,18 @@
             <task id="24" name="Selection d'un élément" color="#8cb6ce" meeting="false" start="2014-10-15" duration="5" complete="80" expand="true">
                 <depend id="27" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="25" name="Déplacement d'un élément" color="#8cb6ce" meeting="false" start="2014-10-26" duration="3" complete="40" expand="true">
+            <task id="25" name="Déplacement d'un élément" color="#8cb6ce" meeting="false" start="2014-10-26" duration="4" complete="40" expand="true">
                 <notes><![CDATA[Deplacement des formes uniquement (pas du texte) et par bouton
 Necessite l'implémentation de la selection du texte
 Amelioration à voir: click&drag]]></notes>
                 <depend id="26" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="26" name="Redimenssion d'un élément" color="#8cb6ce" meeting="false" start="2014-10-29" duration="4" complete="0" expand="true">
+            <task id="26" name="Redimenssion d'un élément" color="#8cb6ce" meeting="false" start="2014-10-30" duration="4" complete="40" expand="true">
+                <notes><![CDATA[Meme note que Deplacement
+]]></notes>
                 <depend id="28" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="28" name="Modification du texte d'une zone de texte" color="#8cb6ce" meeting="false" start="2014-11-03" duration="2" complete="0" expand="true"/>
+            <task id="28" name="Modification du texte d'une zone de texte" color="#8cb6ce" meeting="false" start="2014-11-04" duration="2" complete="0" expand="true"/>
         </task>
         <task id="89" name="Client distant" meeting="false" start="2014-10-29" duration="10" complete="0" expand="true">
             <task id="94" name="Connection avec serveur" color="#8cb6ce" meeting="false" start="2014-10-29" duration="4" complete="0" expand="true">
