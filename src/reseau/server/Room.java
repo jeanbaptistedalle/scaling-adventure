@@ -15,6 +15,8 @@ import java.util.Vector;
 class Room{
     private Vector <ClientManager> clients;
     private  final int id;
+    private WaitList wait;
+
     
     /**
      * @fn Room
@@ -23,6 +25,7 @@ class Room{
      */
     public Room(int number){
         this.id = number;
+        wait = new WaitList();
     }
     
     /**
@@ -44,6 +47,31 @@ class Room{
     }
     
     /**
+     * @fn joinWaitList
+     * @brief Ajoute un client à la file d'attente (lui donne la main si il est le premier)
+     * @param c le client à ajouter
+     */
+    public synchronized void joinWaitList(ClientManager c){
+        if (wait.join(this)){       // Si il rejoint une file d'attente vide, il a la main
+            broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, c.toString()));
+        }
+    }
+    
+    /**
+     * @fn leaveWaitList
+     * @brief Fait quitter la liste d'attente au client c, donne la main au suivant si besoin
+     * @param c le client
+     */
+    public synchronized void leaveWaitList(ClientManager c){
+        if (wait.leave(this)){  // Si le client avait la main
+            broadcast(new Message(Constant.SERVER_IP, Constant.command.LEAVE_CTRL));
+            if (!wait.isEmpty()){   // Si un nouveau client reçoit la main
+                broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, wait.getCurrent().toString()));
+            }
+        }
+    }
+    
+    /**
      * @fn getClientList
      * @brief Retourne la liste des clients présents sur cette room sous la forme client1,client2,clientn
      * @return la chaîne de caractères qui liste les clients
@@ -58,6 +86,21 @@ class Room{
         return(res);
     }
     
+        
+    /**
+     * @fn getWaitList
+     * @brief Accesseur de la liste d'attente des clients
+     * @return liste d'attente des clients
+     */
+    public WaitList <ClientManager> getWaitList(){
+        return(this.wait);
+    }
+    
+    /**
+     * @fn broadcast
+     * @brief diffusion d'un Message à tous les client de cette room
+     * @param msg le Message à difuser
+     */
     public void broadcast(Message msg){
         for (ClientManager cli : clients){
             cli.sendMessage(msg);
