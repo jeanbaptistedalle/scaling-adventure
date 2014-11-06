@@ -26,14 +26,16 @@ import org.w3c.dom.Text;
 import dessin.collaboratif.misc.DirectionEnum;
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
-import dessin.collaboratif.view.component.MainFrame;
+import dessin.collaboratif.misc.ScaleEnum;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class Client {
 
 	private static Client INSTANCE = null;
-	
+
 	private MoveDialog moveDial = null;
+	private ScaleDialog scaleDial = null;
 
 	private DOMImplementation domImpl;
 	private String svgNameSpace;
@@ -57,6 +59,7 @@ public class Client {
 	private Integer selected=-1;
 	private Integer decalage = 5;
 	private DirectionEnum lastMove = null;
+	private ScaleEnum lastScale = null;
 	
 	
 	private Client() {
@@ -164,6 +167,145 @@ public class Client {
 		saveSVG();
 		
 	}
+	
+	public void scale(String dir)
+	{
+		System.out.println(getSelected());
+		
+		if(getSelected() == -1)
+			return;
+		
+		System.out.println("Scale");
+		
+		if(dir == ScaleEnum.INCREASE.toString())
+			setLastScale(ScaleEnum.INCREASE);
+		else
+			setLastScale(ScaleEnum.DECREASE);
+		
+		System.out.println(dir);
+
+		final Document doc = getImage();
+		final Element svgRoot = doc.getDocumentElement();
+		
+		Node eltNode = svgRoot.getChildNodes().item(getSelected());
+		
+		if(eltNode == null)
+			return;
+		
+		Element elt = (Element) eltNode;
+		
+		if(elt.getNodeName() == DrawModelEnum.SQUARE.getTagName())
+			scaleRect(elt);
+		else if(elt.getNodeName() == DrawModelEnum.ELLIPSE.getTagName())
+			scaleEllipse(elt);
+		else if(elt.getNodeName() == DrawModelEnum.CIRCLE.getTagName())
+			scaleCircle(elt);
+		else if(elt.getNodeName() == DrawModelEnum.LINE.getTagName())
+			scaleLine(elt);
+		
+		saveSVG();
+	}
+
+	private void scaleRect(Element elt) {
+		String attX = elt.getAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE);
+		String attY = elt.getAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE);
+		String attW = elt.getAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE);
+		String attH = elt.getAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE);
+
+		Integer valueW = Integer.valueOf(attW);
+		Integer valueH = Integer.valueOf(attH);
+		Integer valueX = Integer.valueOf(attX);
+		Integer valueY = Integer.valueOf(attY);
+		
+		if(getLastScale() == ScaleEnum.DECREASE)
+		{
+			valueW = Integer.valueOf(attW) - decalage;
+			valueH = Integer.valueOf(attH) - decalage;
+		}
+		else
+		{
+			valueW = Integer.valueOf(attW) + decalage;
+			valueH = Integer.valueOf(attH) + decalage;
+		}
+
+		valueH = (valueH>1) ? valueH : 1;
+		valueW = (valueW>1) ? valueW : 1;
+
+//		if(valueX-valueW<=0)return;
+//		if(valueY-valueH<=0)return;
+
+		elt.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, ""+valueW);
+		elt.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, ""+valueH);
+		
+		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
+		
+	}
+	private void scaleCircle(Element elt) {
+		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
+		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
+		String attW = elt.getAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE);
+
+		Integer valueW = Integer.valueOf(attW);
+		Integer valueX = Integer.valueOf(attX);
+		Integer valueY = Integer.valueOf(attY);
+		
+		if(getLastScale() == ScaleEnum.DECREASE)
+		{
+			valueW = Integer.valueOf(attW) - decalage;
+		}
+		else
+		{
+			valueW = Integer.valueOf(attW) + decalage;
+		}
+
+		valueW = (valueW>1) ? valueW : 1;
+
+		if(valueX-valueW<=0)return;
+		if(valueY-valueW<=0)return;
+
+		elt.setAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE, ""+valueW);
+		
+		reshapeSVG(valueX, valueY, valueW + valueX, valueW + valueY);
+	}
+	private void scaleEllipse(Element elt) {
+
+		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
+		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
+		String attW = elt.getAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE);
+		String attH = elt.getAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE);
+
+		Integer valueW = Integer.valueOf(attW);
+		Integer valueH = Integer.valueOf(attH);
+		Integer valueX = Integer.valueOf(attX);
+		Integer valueY = Integer.valueOf(attY);
+		
+		if(getLastScale() == ScaleEnum.DECREASE)
+		{
+			valueW = Integer.valueOf(attW) - decalage;
+			valueH = Integer.valueOf(attH) - decalage;
+		}
+		else
+		{
+			valueW = Integer.valueOf(attW) + decalage;
+			valueH = Integer.valueOf(attH) + decalage;
+		}
+
+		valueH = (valueH>1) ? valueH : 1;
+		valueW = (valueW>1) ? valueW : 1;
+
+		if(valueX-valueW<=0) return;
+		if(valueY-valueH<=0) return;
+
+		elt.setAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE, ""+valueW);
+		elt.setAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE, ""+valueH);
+		
+		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
+		
+	}
+	private void scaleLine(Element elt) {
+		// DO NOTHING FOR A LINE
+	}
+
 	
 	public void move(String dir)
 	{
@@ -812,6 +954,22 @@ public class Client {
 
 	public void setLastMove(DirectionEnum lastMove) {
 		this.lastMove = lastMove;
+	}
+
+	public ScaleDialog getScaleDial() {
+		return scaleDial;
+	}
+
+	public void setScaleDial(ScaleDialog scaleDial) {
+		this.scaleDial = scaleDial;
+	}
+
+	public ScaleEnum getLastScale() {
+		return lastScale;
+	}
+
+	public void setLastScale(ScaleEnum lastScale) {
+		this.lastScale = lastScale;
 	}
 
 }

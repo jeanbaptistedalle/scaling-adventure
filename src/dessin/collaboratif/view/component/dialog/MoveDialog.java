@@ -27,7 +27,6 @@ public class MoveDialog extends JDialog {
 	public MoveDialog() {
 		super();
 		fill();
-		setLocation(250,250);
 	}
 
 	public MoveDialog(Frame owner) {
@@ -125,6 +124,7 @@ public class MoveDialog extends JDialog {
 		
 		pack();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setLocation(250,250);
 		setVisible(true);
 		setResizable(false);
 	}

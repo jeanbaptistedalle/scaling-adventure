@@ -17,6 +17,7 @@ import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class SVGCanvas extends JSVGCanvas {
 
@@ -24,7 +25,7 @@ public class SVGCanvas extends JSVGCanvas {
 	 * 
 	 */
 	private static final long serialVersionUID = 5846489199288523503L;
-	
+
 	private static long lastClickTime = 0;
 
 	// private OverviewBoxListener overviewBox = new OverviewBoxListener();
@@ -149,14 +150,26 @@ public class SVGCanvas extends JSVGCanvas {
 		Client.getInstance().setSelected(foundIndice);
 		System.out.println("Indice trouvé : " + foundIndice);
 		
-		if((System.nanoTime() - lastClickTime)/1000000 < 300 && foundIndice!=-1)
+		Integer nbClick=0;
+		
+
+		
+		
+		if ( (System.nanoTime()-lastClickTime) / 1000000 < 300)
+		{
+			nbClick=2;
+		}
+		
+		if(nbClick==2 && foundIndice!=-1)
 		{
 			System.out.println("Ouverture dialog");
 			Client.getInstance().setMoveDial(new MoveDialog());
+			
+			Client.getInstance().setScaleDial(new ScaleDialog());
 		}
-		
-		
 		
 		lastClickTime = System.nanoTime();
 	}
+
+	
 }
