@@ -1,5 +1,7 @@
 package dessin.collaboratif.view.component;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import org.w3c.dom.NodeList;
 
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.dialog.MoveDialog;
 
 public class ComponentListPanel extends JPanel {
 
@@ -38,8 +41,25 @@ public class ComponentListPanel extends JPanel {
 		componentList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				Client.getInstance().setSelected(componentList.getSelectedIndex());
-			}
+				if(e.getSource() == MainFrame.getInstance().getComponentListPanel())
+				{
+					System.out.println("index du component: " + componentList.getSelectedIndex());
+					Client.getInstance().setSelected(componentList.getSelectedIndex());
+					System.out.println("index du getSelected : " + Client.getInstance().getSelected());
+				}
+			} 
+		});
+		componentList.addMouseListener(new MouseAdapter() {
+		    @SuppressWarnings("unchecked")
+			public void mouseClicked(MouseEvent evt) {
+		        JList<String> list = (JList<String>) evt.getSource();
+		        if (evt.getClickCount() == 2) {
+		            int index = list.locationToIndex(evt.getPoint());
+		            Client.getInstance().setSelected(index);
+					System.out.println("Ouverture dialog");
+					Client.getInstance().setMoveDial(new MoveDialog());
+		        }
+		    }
 		});
 	}
 
