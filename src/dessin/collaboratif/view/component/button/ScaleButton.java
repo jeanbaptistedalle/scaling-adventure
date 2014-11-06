@@ -1,5 +1,7 @@
 package dessin.collaboratif.view.component.button;
 
+import java.awt.Dimension;
+
 import javax.swing.JToggleButton;
 
 import dessin.collaboratif.controller.component.ScaleDialMouseAdapter;
@@ -24,6 +26,7 @@ public class ScaleButton extends JToggleButton {
 		this.setVisible(true);
 		this.addMouseListener(new ScaleDialMouseAdapter());
 		this.addMouseMotionListener(new ScaleDialMouseAdapter());
+//		this.setPreferredSize(new Dimension (40,50));
 	}
 
 	public ScaleEnum getScale() {

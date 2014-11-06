@@ -1,5 +1,7 @@
 package dessin.collaboratif.view.component.button;
 
+import java.awt.Dimension;
+
 import javax.swing.JToggleButton;
 
 import dessin.collaboratif.controller.component.MoveDialMouseAdapter;
@@ -24,6 +26,7 @@ public class MoveButton extends JToggleButton {
 		this.setVisible(true);
 		this.addMouseListener(new MoveDialMouseAdapter());
 		this.addMouseMotionListener(new MoveDialMouseAdapter());
+//		this.setPreferredSize(new Dimension (50,50));
 	}
 
 	public DirectionEnum getDirection() {

@@ -2,10 +2,12 @@ package dessin.collaboratif.view.component.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.Window;
 
+import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
@@ -127,6 +129,8 @@ public class MoveDialog extends JDialog {
 		setLocation(250,250);
 		setVisible(true);
 		setResizable(false);
+//		this.setSize(new Dimension (250,250));
+//		((JPanel)this.getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	}
 
 	public void unpressAll() {
