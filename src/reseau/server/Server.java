@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 public class Server {
     private Vector <Room> rooms;
     private Vector <ClientManager> clients;
-    private WaitList wait;
     private ClientManager active;
     
     public static void main(String[] args) {
@@ -31,7 +30,6 @@ public class Server {
         try {
             rooms = new Vector<Room>();
             ServerSocket sock = new ServerSocket(7030);
-            wait = new WaitList(this);
             
             /**
              * On crée les rooms
@@ -75,15 +73,6 @@ public class Server {
      */
     public Vector <Room> getRooms(){
         return(this.rooms);
-    }
-    
-    /**
-     * @fn getWaitList
-     * @brief Accesseur de la liste d'attente des clients
-     * @return liste d'attente des clients
-     */
-    public WaitList <ClientManager> getWaitList(){
-        return(this.wait);
     }
     
     /**

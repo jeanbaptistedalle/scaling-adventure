@@ -15,6 +15,8 @@ import java.util.Vector;
 class Room{
     private Vector <ClientManager> clients;
     private  final int id;
+    private WaitList wait;
+
     
     /**
      * @fn Room
@@ -23,6 +25,7 @@ class Room{
      */
     public Room(int number){
         this.id = number;
+        wait = new WaitList();
     }
     
     /**
@@ -56,6 +59,16 @@ class Room{
         res += clients.get(clients.size() - 1).toString();
         
         return(res);
+    }
+    
+        
+    /**
+     * @fn getWaitList
+     * @brief Accesseur de la liste d'attente des clients
+     * @return liste d'attente des clients
+     */
+    public WaitList <ClientManager> getWaitList(){
+        return(this.wait);
     }
     
     public void broadcast(Message msg){
