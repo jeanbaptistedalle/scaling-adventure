@@ -8,6 +8,7 @@ package reseau.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.channels.Channels;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,8 @@ import java.util.logging.Logger;
 public class Server {
     private Vector <Room> rooms;
     private Vector <ClientManager> clients;
-    private WaitList wait; 
+    private WaitList wait;
+    private ClientManager active;
     
     public static void main(String[] args) {
         Server s = new Server();
@@ -29,6 +31,7 @@ public class Server {
         try {
             rooms = new Vector<Room>();
             ServerSocket sock = new ServerSocket(7030);
+            wait = new WaitList(this);
             
             /**
              * On crée les rooms
@@ -72,6 +75,15 @@ public class Server {
      */
     public Vector <Room> getRooms(){
         return(this.rooms);
+    }
+    
+    /**
+     * @fn getWaitList
+     * @brief Accesseur de la liste d'attente des clients
+     * @return liste d'attente des clients
+     */
+    public WaitList <ClientManager> getWaitList(){
+        return(this.wait);
     }
     
     /**

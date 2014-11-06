@@ -93,8 +93,10 @@ class ClientManager extends Thread {
                     sendMessage(Constant.command.LIST_USERS, room.getClientList());
                     break;
                 case REQUIRE_CTRL :
-                    // TODO mise en file d'attente
+                    server.getWaitList().join(this);
                     break;
+                case LEAVE_CTRL :
+                    server.getWaitList().leave(this);
                 case SUBMIT :
                     room.broadcast(new Message(msg.getFrom(), Constant.command.UPDATE, msg.getContent()));
                     break;
