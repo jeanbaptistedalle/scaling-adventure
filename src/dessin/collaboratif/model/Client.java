@@ -54,6 +54,7 @@ public class Client {
 	private Integer svgSizeY = Integer.valueOf( GeneralVariables.DEFAULT_HEIGHT );
 	
 	private Integer selected=-1;
+	private Integer decalage = 5;
 	private DirectionEnum lastMove = null;
 	
 	
@@ -172,6 +173,20 @@ public class Client {
 			return;
 		
 		Element elt = (Element) eltNode;
+		
+		if(elt.getNodeName() == DrawModelEnum.SQUARE.getTagName())
+			moveRect(elt);
+		else if(elt.getNodeName() == DrawModelEnum.ELLIPSE.getTagName())
+			moveEllipse(elt);
+		else if(elt.getNodeName() == DrawModelEnum.CIRCLE.getTagName())
+			moveCircle(elt);
+		else if(elt.getNodeName() == DrawModelEnum.LINE.getTagName())
+			moveLine(elt);
+		
+		saveSVG();
+	}
+
+	private void moveRect(Element elt) {
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE);
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE);
 		String attW = elt.getAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE);
@@ -181,8 +196,6 @@ public class Client {
 		Integer valueY = Integer.valueOf(attY);
 		Integer valueW = Integer.valueOf(attW);
 		Integer valueH = Integer.valueOf(attH);
-		
-		Integer decalage = 5;
 		
 		if(getLastMove() == DirectionEnum.UP)
 			valueY = Integer.valueOf(attY) - decalage;
@@ -200,7 +213,115 @@ public class Client {
 		elt.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, ""+valueY);
 		
 		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
-		saveSVG();
+		
+	}
+	
+	
+	private void moveCircle(Element elt) {
+		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
+		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
+		String attW = elt.getAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE);
+		String attH = elt.getAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE);
+
+		Integer valueX = Integer.valueOf(attX);
+		Integer valueY = Integer.valueOf(attY);
+		Integer valueW = Integer.valueOf(attW);
+		Integer valueH = Integer.valueOf(attH);
+		
+		if(getLastMove() == DirectionEnum.UP)
+			valueY = Integer.valueOf(attY) - decalage;
+		else if(getLastMove() == DirectionEnum.DOWN)
+			valueY = Integer.valueOf(attY) + decalage;
+		else if(getLastMove() == DirectionEnum.LEFT)
+			valueX = Integer.valueOf(attX) - decalage;
+		else
+			valueX = Integer.valueOf(attX) + decalage;
+
+		valueX = (valueX>valueW) ? valueX : valueW;
+		valueY = (valueY>valueH) ? valueY : valueH;
+
+		elt.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, ""+valueX);
+		elt.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, ""+valueY);
+		
+		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
+		
+	}
+	private void moveEllipse(Element elt) {
+		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
+		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
+		String attW = elt.getAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE);
+		String attH = elt.getAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE);
+
+		Integer valueX = Integer.valueOf(attX);
+		Integer valueY = Integer.valueOf(attY);
+		Integer valueW = Integer.valueOf(attW);
+		Integer valueH = Integer.valueOf(attH);
+		
+		if(getLastMove() == DirectionEnum.UP)
+			valueY = Integer.valueOf(attY) - decalage;
+		else if(getLastMove() == DirectionEnum.DOWN)
+			valueY = Integer.valueOf(attY) + decalage;
+		else if(getLastMove() == DirectionEnum.LEFT)
+			valueX = Integer.valueOf(attX) - decalage;
+		else
+			valueX = Integer.valueOf(attX) + decalage;
+
+		valueX = (valueX>valueW) ? valueX : valueW;
+		valueY = (valueY>valueH) ? valueY : valueH;
+
+		elt.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, ""+valueX);
+		elt.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, ""+valueY);
+		
+		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
+		
+	}
+	private void moveLine(Element elt) {
+		String attX1 = elt.getAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE);
+		String attY1 = elt.getAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE);
+		String attX2 = elt.getAttributeNS(null, SVGConstants.SVG_X2_ATTRIBUTE);
+		String attY2 = elt.getAttributeNS(null, SVGConstants.SVG_Y2_ATTRIBUTE);
+
+		Integer valueX1 = Integer.valueOf(attX1);
+		Integer valueY1 = Integer.valueOf(attY1);
+		Integer valueX2 = Integer.valueOf(attX2);
+		Integer valueY2 = Integer.valueOf(attY2);
+
+		Integer tailleX = valueX2-valueX1;
+		Integer tailleY = valueY2-valueY1;
+		
+		if(getLastMove() == DirectionEnum.UP)
+		{
+			valueY1 = Integer.valueOf(attY1) - decalage;
+			valueY2 = Integer.valueOf(attY2) - decalage;
+		}
+		else if(getLastMove() == DirectionEnum.DOWN)
+		{
+			valueY1 = Integer.valueOf(attY1) + decalage;
+			valueY2 = Integer.valueOf(attY2) + decalage;
+		}
+		else if(getLastMove() == DirectionEnum.LEFT)
+		{
+			valueX1 = Integer.valueOf(attX1) - decalage;
+			valueX2 = Integer.valueOf(attX2) - decalage;
+		}
+		else
+		{
+			valueX1 = Integer.valueOf(attX1) + decalage;
+			valueX2 = Integer.valueOf(attX2) + decalage;
+		}
+
+		valueX1 = (valueX1>0) ? valueX1 : 0;
+		valueY1 = (valueY1>0) ? valueY1 : 0;
+		valueX2 = (valueX1>0) ? valueX2 : tailleX;
+		valueY2 = (valueY1>0) ? valueY2 : tailleY;
+
+		elt.setAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE, ""+valueX1);
+		elt.setAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE, ""+valueY1);
+		elt.setAttributeNS(null, SVGConstants.SVG_X2_ATTRIBUTE, ""+valueX2);
+		elt.setAttributeNS(null, SVGConstants.SVG_Y2_ATTRIBUTE, ""+valueY2);
+		
+		reshapeSVG(valueX1, valueY1, valueX2, valueY2);
+		
 	}
 
 	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2,
