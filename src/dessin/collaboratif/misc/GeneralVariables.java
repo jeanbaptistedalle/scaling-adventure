@@ -35,6 +35,9 @@ public class GeneralVariables {
 	public final static String EDITION_MENU_DELETE = "Supprimer";
 	public final static String EDITION_MENU_DELETE_ICON_PATH = PROJECT_PATH+"ressources/icons/delete_icon.png";
 	
+	public final static String EDITION_MENU_MOVE = "Déplacer";
+	public final static String EDITION_MENU_MOVE_ICON_PATH = PROJECT_PATH+"ressources/icons/move_icon.png";
+	
 	public final static String COLLABORATION_MENU_TITLE = "Collaboration";
 	
 	public final static String COLLABORATION_MENU_TAKE_HAND = "Prendre la main";

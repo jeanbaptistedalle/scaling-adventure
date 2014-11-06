@@ -6,6 +6,7 @@ import javax.swing.JMenu;
 
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.view.component.menu.item.DeleteMenuItem;
+import dessin.collaboratif.view.component.menu.item.MoveMenuItem;
 import dessin.collaboratif.view.component.menu.item.UndoMenuItem;
 
 public class EditionMenu extends JMenu {
@@ -17,6 +18,7 @@ public class EditionMenu extends JMenu {
 
 	private UndoMenuItem undo;
 	private DeleteMenuItem delete;
+	private MoveMenuItem move;
 
 	public EditionMenu() {
 		super(GeneralVariables.EDITION_MENU_TITLE);
@@ -25,6 +27,8 @@ public class EditionMenu extends JMenu {
 		this.add(undo);
 		delete = new DeleteMenuItem();
 		this.add(delete);
+		move = new MoveMenuItem();
+		this.add(move);
 	}
 
 	public UndoMenuItem getUndo() {
