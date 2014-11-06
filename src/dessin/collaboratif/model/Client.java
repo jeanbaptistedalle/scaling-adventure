@@ -145,8 +145,12 @@ public class Client {
 	
 	public void move(String dir)
 	{
+		System.out.println(getSelected());
+		
 		if(getSelected() == -1)
 			return;
+		
+		System.out.println("Move");
 		
 		if(dir == DirectionEnum.UP.toString())
 			setLastMove(DirectionEnum.UP);
@@ -196,7 +200,7 @@ public class Client {
 		elt.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, ""+valueY);
 		
 		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
-		
+		saveSVG();
 	}
 
 	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2,
