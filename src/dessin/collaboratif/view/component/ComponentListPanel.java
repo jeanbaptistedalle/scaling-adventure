@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.batik.apps.rasterizer.Main;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -38,7 +39,12 @@ public class ComponentListPanel extends JPanel {
 		componentList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				Client.getInstance().setSelected(componentList.getSelectedIndex());
+				if(e.getSource() == MainFrame.getInstance().getComponentListPanel())
+				{
+					System.out.println("index du component: " + componentList.getSelectedIndex());
+					Client.getInstance().setSelected(componentList.getSelectedIndex());
+					System.out.println("index du getSelected : " + Client.getInstance().getSelected());
+				}
 			}
 		});
 	}

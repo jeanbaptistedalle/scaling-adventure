@@ -64,14 +64,14 @@ public class MainFrame extends JComponent {
 		frame.add(componentListPanel, BorderLayout.EAST);
 
 		/* Test plein écran */
-		final Window[] windows = JFrame.getWindows();
-		final GraphicsDevice[] graphicsDevices = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getScreenDevices();
-		for (final GraphicsDevice graphicsDevise : graphicsDevices) {
-			for (final Window window : windows) {
-				graphicsDevise.setFullScreenWindow(window);
-			}
-		}
+//		final Window[] windows = JFrame.getWindows();
+//		final GraphicsDevice[] graphicsDevices = GraphicsEnvironment.getLocalGraphicsEnvironment()
+//				.getScreenDevices();
+//		for (final GraphicsDevice graphicsDevise : graphicsDevices) {
+//			for (final Window window : windows) {
+//				graphicsDevise.setFullScreenWindow(window);
+//			}
+//		}
 
 		this.setVisible(true);
 		frame.setVisible(true);
