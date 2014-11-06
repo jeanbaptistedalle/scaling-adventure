@@ -5,7 +5,10 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.ext.awt.geom.Polygon2D;
+import org.apache.batik.gvt.CanvasGraphicsNode;
+import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -55,6 +58,7 @@ public class SVGCanvas extends JSVGCanvas {
 		// paintComponent(g2);
 		// }
 		// }
+		
 		super.repaint();
 	}
 
@@ -69,6 +73,7 @@ public class SVGCanvas extends JSVGCanvas {
 	}
 
 	public void click(final int x, final int y) {
+		
 		final SVGDocument doc = getSVGDocument();
 		final NodeList list = doc.getFirstChild().getChildNodes();
 		Integer foundIndice = -1;
@@ -140,6 +145,25 @@ public class SVGCanvas extends JSVGCanvas {
 						System.out.println("Le click correspond à une ellipse");
 						foundIndice = i;
 					}
+					break;
+				case TEXT:
+					
+					// Voir si cette manière ne pourrait pas servir pour toutes les formes
+					
+					GVTBuilder builder = new GVTBuilder();
+
+					GraphicsNode graphicsNode = builder.build(bridgeContext, doc);
+					CanvasGraphicsNode node = (CanvasGraphicsNode) graphicsNode.getRoot().getChildren().get(i);
+
+					Rectangle2D bounds = node.getSensitiveBounds();
+					
+					if(bounds.contains(new Point2D.Double((double)x,(double)y)))
+					{
+						// Le point est contenu dans un texte
+						System.out.println("Le click correspond à du texte");
+						foundIndice = i;
+					}
+					
 					break;
 				default:
 					break;
