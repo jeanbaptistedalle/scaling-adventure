@@ -2,6 +2,8 @@ package dessin.collaboratif.misc;
 
 import java.awt.Dimension;
 
+import javax.swing.Icon;
+
 
 
 public class GeneralVariables {
@@ -30,6 +32,9 @@ public class GeneralVariables {
 	public final static String EDITION_MENU_UNDO = "Annuler";
 	public final static String EDITION_MENU_UNDO_ICON_PATH = PROJECT_PATH+"ressources/icons/undo_icon.png";
 	
+	public final static String EDITION_MENU_DELETE = "Supprimer";
+	public final static String EDITION_MENU_DELETE_ICON_PATH = PROJECT_PATH+"ressources/icons/delete_icon.png";
+	
 	public final static String COLLABORATION_MENU_TITLE = "Collaboration";
 	
 	public final static String COLLABORATION_MENU_TAKE_HAND = "Prendre la main";
@@ -54,4 +59,5 @@ public class GeneralVariables {
 	public static final Integer DEFAULT_LIST_HEIGHT = 100;
 	public static final Integer DEFAULT_LIST_WIDTH = 700;
 	public static final Dimension DEFAULT_LIST_DIMENSION = new Dimension(DEFAULT_LIST_HEIGHT, DEFAULT_LIST_WIDTH);
+
 }

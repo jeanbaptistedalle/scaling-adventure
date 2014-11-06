@@ -26,6 +26,7 @@ import org.w3c.dom.Text;
 import dessin.collaboratif.misc.DirectionEnum;
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.view.component.MainFrame;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
 
 public class Client {
@@ -144,6 +145,26 @@ public class Client {
 		return false;
 	}
 	
+	public void delete()
+	{
+		
+		if(getSelected()==-1)
+			return;
+
+		final Document doc = getImage();
+		final Element svgRoot = doc.getDocumentElement();
+		
+		Node eltNode = svgRoot.getChildNodes().item(getSelected());
+		
+		if(eltNode == null)
+			return;
+		
+		eltNode.getParentNode().removeChild(eltNode);
+		
+		saveSVG();
+		
+	}
+	
 	public void move(String dir)
 	{
 		System.out.println(getSelected());
@@ -163,7 +184,7 @@ public class Client {
 			setLastMove(DirectionEnum.RIGHT);
 		
 		System.out.println(dir);
-		
+
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
 		
@@ -215,8 +236,6 @@ public class Client {
 		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
 		
 	}
-	
-	
 	private void moveCircle(Element elt) {
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
