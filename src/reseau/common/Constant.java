@@ -1,4 +1,4 @@
-package reseau.server;
+package reseau.common;
 
 /**
  * @class Constant
