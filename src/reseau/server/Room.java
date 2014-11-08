@@ -5,6 +5,7 @@
  */
 package reseau.server;
 
+import reseau.common.Message;
 import reseau.common.Constant;
 import com.sun.xml.internal.ws.handler.HandlerChainsModel;
 import java.util.Vector;

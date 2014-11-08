@@ -5,6 +5,7 @@
  */
 package reseau.server;
 
+import reseau.common.Message;
 import reseau.common.Constant;
 import com.sun.corba.se.pept.transport.InboundConnectionCache;
 import java.io.BufferedReader;
