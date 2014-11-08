@@ -10,12 +10,13 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import reseau.common.Message;
 
 /**
  * @class Client
  * @brief Gère la partie "réseau du client
  */
-public class Client {
+public class Client extends Thread{
     private Socket sock;
     private PrintWriter out = null;
     private BufferedReader in = null;
@@ -50,4 +51,26 @@ public class Client {
         // TODO choix de la room
     }
     
+    public void run(){
+        // TODO écoute des messages serveur, réponse en conséquent
+    }
+    
+    /**
+     * @fn sendMessage
+     * @brief Envoie un Message au serveur
+     * @param cmd la commande de ce message
+     * @param content la chaîne de caractères contenue dans ce message
+     */
+    public void sendMessage(Constant.command cmd, String content){
+        out.print(new Message(addr, cmd, content).toByteArray());
+    }
+    
+    /**
+     * @fn sendMessage
+     * @brief Envoie un Message au serveur
+     * @param cmd la commande de ce message
+     */
+    public void sendMessage(Constant.command cmd){
+        out.print(new Message(addr, cmd).toByteArray());
+    }    
 }
