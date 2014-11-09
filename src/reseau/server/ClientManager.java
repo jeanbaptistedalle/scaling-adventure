@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import reseau.common.Client;
 
 /**
  * @class ClientManager
@@ -25,14 +26,15 @@ import java.util.logging.Logger;
 class ClientManager extends Thread {
     private final Server server;
     private Room room;
-    private final Socket sock;
-    private String pseudo;
+    private Socket sock;
     private BufferedReader in;
     private PrintWriter out;
+    private Client client;
 
     public ClientManager(Socket client_sock, Server server) {
-            this.server = server;
-            this.sock = client_sock;
+        this.server = server;
+        this.sock = client_sock;
+        this.client = new Client(sock.getInetAddress());
         try{
             this.in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
             this.out = new PrintWriter(sock.getOutputStream());
@@ -57,14 +59,16 @@ class ClientManager extends Thread {
             cont = false;
             // On teste que le pseudo soit unique
             for (ClientManager cli : server.getClients()){
-                if (my_pseudo.equals(cli.pseudo)){
+                if (my_pseudo.equals(cli.getPseudo())){
                     cont = true;
                 }
             }
             sendMessage((cont)?Constant.command.DENY:Constant.command.ACCEPT);            
         }while (cont);
         
-        System.out.println("¤ Client " + this.pseudo + " joined");
+        this.client.setPseudo(my_pseudo);
+        
+        System.out.println("¤ Client " + this.getPseudo() + " joined");
         
         server.addClient(this);
         
@@ -120,7 +124,7 @@ class ClientManager extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("¤ Client " + this.pseudo + "leaved");
+        System.out.println("¤ Client " + this.getPseudo() + "leaved");
     }
     
     /**
@@ -129,7 +133,7 @@ class ClientManager extends Thread {
      * @return le pseudo du client
      */
     public String toString(){
-        return(this.pseudo);
+        return(this.client.toString());
     }
     
     /**
@@ -172,5 +176,23 @@ class ClientManager extends Thread {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return(null);
+    }
+    
+    /**
+     * @fn getPseudo
+     * @brief Accesseur de client.pseudo
+     * @return client.pseudo
+     */
+    public String getPseudo(){
+        return(this.client.getPseudo());
+    }
+    
+    /**
+     * @fn getAddr
+     * @brief Accesseur de client.addr
+     * @return client.addr
+     */
+    public InetAddress getAddr(){
+        return(this.client.getAddr());
     }
 }
