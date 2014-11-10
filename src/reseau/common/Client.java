@@ -51,7 +51,7 @@ public class Client {
     public String toString(){
         return(this.getPseudo());
     }
-    
+        
     /**
      * @fn setPseudo
      * @brief mutateur de this.pseudo

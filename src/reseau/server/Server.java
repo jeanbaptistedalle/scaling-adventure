@@ -102,7 +102,7 @@ public class Server {
     public String getRoomList(){
         String res = "";
         for (int i=0; i<rooms.size() - 1; i++){
-            res += rooms.get(i).toString() + ",";
+            res += rooms.get(i).toString() + Constant.SEPARATOR;
         }
         res += rooms.get(rooms.size() - 1).toString();
         
