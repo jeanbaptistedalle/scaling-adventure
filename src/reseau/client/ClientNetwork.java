@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import reseau.common.Client;
@@ -25,6 +26,7 @@ public class ClientNetwork extends Thread{
     private String pseudo;
     private Client me;
     private boolean have_control = false;
+    private Vector <Client> clients;
     
     /**
      * @fn ClientNetwork
@@ -33,6 +35,7 @@ public class ClientNetwork extends Thread{
      * @param port le port du serveur
      */
     public ClientNetwork(InetAddress server_ip, int port){
+        boolean cont = true;
         // connexion de la socket
         try {
             sock = new Socket(server_ip, port);
@@ -50,10 +53,21 @@ public class ClientNetwork extends Thread{
         } catch (UnknownHostException ex) {
             Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // TODO choix du pseudo
-        // TODO réception de la liste de rooms
-        // TODO choix de la room
-        // TODO choix du pseudo
+        
+        /* Choix du pseudo */
+        String my_pseudo = "";
+        do{
+            try {
+                // TODO proposirion de pseudo
+                sendMessage(Constant.command.CONNECT, my_pseudo);
+                cont = (new Message(in).getCmd() != Constant.command.ACCEPT);
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }while (cont);
+        
+        me = new Client(my_pseudo);
+        
         // TODO réception de la liste de rooms
         // TODO choix de la room
     }
@@ -64,23 +78,25 @@ public class ClientNetwork extends Thread{
             try {
                 Message msg = new Message(in);
                 switch (msg.getCmd()){
-                    case LIST_ROOMS :
-                        // TODO update des rooms
-                        break;
                     case LIST_USERS :
-                        // TODO update des users
+                        updateUsers(msg.getContent());
                         break;
                     case GIVE_CTRL :
-                        // Si msg.getContent() est celui de client, alors have_content = true
-                        // Sinon, on note qui a la main
+                        if (msg.getContent() == me.toString()){
+                            this.have_control = true;
+                        }
+                        else{
+                            this.have_control = false;
+                        }
                         break;
                     case UPDATE :
-                        // Actualise le dessin coté client, à partir de msg.getContent
+                        // TODO Actualise le dessin coté client, à partir de msg.getContent
                         break;
                     case LEAVE_CTRL :
                         if (this.have_control){
                             this.have_control = false;
                         }
+                        break;
                 }
             } catch (UnknownHostException ex) {
                 Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,5 +121,17 @@ public class ClientNetwork extends Thread{
      */
     public void sendMessage(Constant.command cmd){
         out.print(new Message(addr, cmd).toByteArray());
+    }
+    
+    /**
+     * @fn updateUsers
+     * @brief Actualise la liste des utilisateurs à partir d'une chaîne de caractères
+     * @param users la chaîne de tous les utilisateurs
+     */
+    private void updateUsers(String users){
+        Vector <Client> new_clients = new Vector<Client>();
+        for (int start=0, end = users.indexOf(Constant.SEPARATOR); end != -1; start = end + 1, end = users.indexOf(Constant.SEPARATOR, start)){
+            new_clients.add(new Client(users.substring(start, end)));
+        }
     }
 }
