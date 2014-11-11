@@ -68,8 +68,25 @@ public class ClientNetwork extends Thread{
         
         me = new Client(my_pseudo);
         
-        // TODO réception de la liste de rooms
-        // TODO choix de la room
+        /* Choix de la room */
+        try {
+            Message msg = new Message(in);
+            Vector <String> rooms = new Vector <String>();
+            String my_room = "";
+            for (int start = 0, end = msg.getContent().indexOf(Constant.SEPARATOR, 0); end != -1; start = end + 1, end = msg.getContent().indexOf(Constant.SEPARATOR, start)){
+                rooms.add(msg.getContent().substring(start, end));
+            }
+            do{
+                // TDOD Choix de la room
+                sendMessage(Constant.command.JOIN_ROOM, my_room);
+                msg = new Message(in);
+                cont = (msg.getCmd() != Constant.command.ACCEPT);
+            }while (cont);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
     }
     
     public void run(){
