@@ -98,7 +98,7 @@ class ClientManager extends Thread {
                 case GET_USERS :
                     sendMessage(Constant.command.LIST_USERS, room.getClientList());
                     break;
-                case REQUIRE_CTRL :
+                case REQUEST_CTRL :
                     room.joinWaitList(this);
                     break;
                 case LEAVE_CTRL :

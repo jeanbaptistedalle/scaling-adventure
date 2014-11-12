@@ -19,7 +19,7 @@ public class Constant {
         DISCONNECT(1),      // Déconnexion
         ACCEPT(2),          // Validation
         DENY(3),            // Refus
-        REQUIRE_CTRL(4),    // Demander de prendre la main
+        REQUEST_CTRL(4),    // Demander de prendre la main
         GIVE_CTRL(5),       // Donner la main
         LEAVE_CTRL(6),      // Laisser la main
         SUBMIT(7),          // Envoi de modifications
