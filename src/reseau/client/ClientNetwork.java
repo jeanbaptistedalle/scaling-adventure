@@ -127,7 +127,7 @@ public class ClientNetwork extends Thread{
      * @param cmd la commande de ce message
      * @param content la chaîne de caractères contenue dans ce message
      */
-    public void sendMessage(Constant.command cmd, String content){
+    private void sendMessage(Constant.command cmd, String content){
         out.print(new Message(addr, cmd, content).toByteArray());
     }
     
@@ -136,7 +136,7 @@ public class ClientNetwork extends Thread{
      * @brief Envoie un Message au serveur
      * @param cmd la commande de ce message
      */
-    public void sendMessage(Constant.command cmd){
+    private void sendMessage(Constant.command cmd){
         out.print(new Message(addr, cmd).toByteArray());
     }
     
@@ -150,5 +150,58 @@ public class ClientNetwork extends Thread{
         for (int start=0, end = users.indexOf(Constant.SEPARATOR); end != -1; start = end + 1, end = users.indexOf(Constant.SEPARATOR, start)){
             new_clients.add(new Client(users.substring(start, end)));
         }
+    }
+    
+    /**
+     * @fn requestControl
+     * @brief Demande la main pour ce client
+     */
+    public void requestControl(){
+        sendMessage(Constant.command.REQUEST_CTRL);
+    }
+    
+    /**
+     * @fn leaveControl
+     * @brief Action de rendre la main
+     */
+    public void leaveControl(){
+        sendMessage(Constant.command.LEAVE_CTRL);
+    }
+    
+    /**
+     * @fn submitPicture
+     * @brief envoie au serveur une mise à jour de l'image si le client a la main
+     * @param modif la chaîne de caractères qui représente la nouvelle image
+     */
+    public void submitPicture(String modif){
+        if(this.have_control){
+            sendMessage(Constant.command.SUBMIT, modif);
+        }
+    }
+    
+    /**
+     * @fn getUsers
+     * @brief Accesseur de la liste de clients connectés à la même Room que ce client
+     * @return this.clients
+     */
+    public Vector <Client> getUsers(){
+        return(this.clients);
+    }
+    
+    /**
+     * @fn disconnect
+     * @brief déconnection du client
+     */
+    public void disconnect(){
+        sendMessage(Constant.command.DISCONNECT);
+    }
+    
+    /**
+     * @fn haveControl
+     * @brief Indique si ce client a le controle ou non
+     * @return this.have_control
+     */
+    public boolean haveControl(){
+        return(this.have_control);
     }
 }
