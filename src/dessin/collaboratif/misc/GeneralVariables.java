@@ -68,6 +68,8 @@ public class GeneralVariables {
 	public static final Integer DEFAULT_LIST_HEIGHT = 100;
 	public static final Integer DEFAULT_LIST_WIDTH = 700;
 	public static final Dimension DEFAULT_LIST_DIMENSION = new Dimension(DEFAULT_LIST_HEIGHT, DEFAULT_LIST_WIDTH);
+	
+	public static final String HELP_CONTENT_PATH = PROJECT_PATH + "ressources/html/help.html";
 
 
 }
