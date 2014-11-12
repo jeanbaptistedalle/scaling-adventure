@@ -38,6 +38,9 @@ public class GeneralVariables {
 	public final static String EDITION_MENU_MOVE = "Déplacer";
 	public final static String EDITION_MENU_MOVE_ICON_PATH = PROJECT_PATH+"ressources/icons/scale_icon.png";
 	
+	public final static String EDITION_MENU_RENAME = "Renommer";
+	public final static String EDITION_MENU_RENAME_ICON_PATH = PROJECT_PATH+"ressources/icons/scale_icon.png";
+	
 	public final static String EDITION_MENU_SCALE = "Redimensionner";
 	public final static String EDITION_MENU_SCALE_ICON_PATH = PROJECT_PATH+"ressources/icons/scale_icon.png";
 	
@@ -65,5 +68,6 @@ public class GeneralVariables {
 	public static final Integer DEFAULT_LIST_HEIGHT = 100;
 	public static final Integer DEFAULT_LIST_WIDTH = 700;
 	public static final Dimension DEFAULT_LIST_DIMENSION = new Dimension(DEFAULT_LIST_HEIGHT, DEFAULT_LIST_WIDTH);
+
 
 }

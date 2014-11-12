@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -18,6 +19,7 @@ import org.w3c.dom.NodeList;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.RenameDialog;
 import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class ComponentListPanel extends JPanel {
@@ -54,12 +56,19 @@ public class ComponentListPanel extends JPanel {
 		    @SuppressWarnings("unchecked")
 			public void mouseClicked(MouseEvent evt) {
 		        JList<String> list = (JList<String>) evt.getSource();
-		        if (evt.getClickCount() == 2) {
+		        if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
 		            int index = list.locationToIndex(evt.getPoint());
 		            Client.getInstance().setSelected(index);
 					System.out.println("Ouverture dialog");
 					Client.getInstance().setMoveDial(new MoveDialog());
 					Client.getInstance().setScaleDial(new ScaleDialog());
+		        }
+		        else if(evt.getClickCount() == 2 && SwingUtilities.isRightMouseButton(evt))
+		        {
+		            int index = list.locationToIndex(evt.getPoint());
+		            Client.getInstance().setSelected(index);
+					System.out.println("Ouverture dialog");
+					Client.getInstance().setRenameDial(new RenameDialog());	
 		        }
 		    }
 		});
