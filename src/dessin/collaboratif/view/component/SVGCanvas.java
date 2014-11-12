@@ -1,6 +1,8 @@
 package dessin.collaboratif.view.component;
 
 import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -9,7 +11,9 @@ import org.apache.batik.bridge.GVTBuilder;
 import org.apache.batik.ext.awt.geom.Polygon2D;
 import org.apache.batik.gvt.CanvasGraphicsNode;
 import org.apache.batik.gvt.GraphicsNode;
+import org.apache.batik.gvt.TextNode;
 import org.apache.batik.swing.JSVGCanvas;
+import org.apache.batik.util.SVGConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -148,21 +152,22 @@ public class SVGCanvas extends JSVGCanvas {
 					break;
 				case TEXT:
 					
-					// Voir si cette manière ne pourrait pas servir pour toutes les formes
-					
-					GVTBuilder builder = new GVTBuilder();
-
-					GraphicsNode graphicsNode = builder.build(bridgeContext, doc);
-					CanvasGraphicsNode node = (CanvasGraphicsNode) graphicsNode.getRoot().getChildren().get(i);
-
-					Rectangle2D bounds = node.getSensitiveBounds();
-					
-					if(bounds.contains(new Point2D.Double((double)x,(double)y)))
+					try
 					{
-						// Le point est contenu dans un texte
-						System.out.println("Le click correspond à du texte");
-						foundIndice = i;
+						
+						TextNode node = (TextNode) getCanvasGraphicsNode().getChildren().get(i);
+						
+						if(node.contains(new Point2D.Double((double)x,(double)y)))
+						{
+							System.out.println("Le click correspond à du texte");
+							foundIndice = i;
+						}
 					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+					
 					
 					break;
 				default:

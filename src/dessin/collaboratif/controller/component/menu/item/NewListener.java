@@ -57,6 +57,7 @@ public class NewListener implements ActionListener {
 			rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, "20");
 			rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, "20");
 			rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "silver");
+			rectangle.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, "12");
 			rectangle.appendChild(text);
 			svgRoot.appendChild(rectangle);
 
