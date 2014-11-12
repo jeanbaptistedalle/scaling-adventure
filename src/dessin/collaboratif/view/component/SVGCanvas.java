@@ -1,19 +1,16 @@
 package dessin.collaboratif.view.component;
 
 import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import org.apache.batik.bridge.GVTBuilder;
+import javax.swing.SwingUtilities;
+
 import org.apache.batik.ext.awt.geom.Polygon2D;
-import org.apache.batik.gvt.CanvasGraphicsNode;
-import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.gvt.TextNode;
 import org.apache.batik.swing.JSVGCanvas;
-import org.apache.batik.util.SVGConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -24,6 +21,7 @@ import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.RenameDialog;
 import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class SVGCanvas extends JSVGCanvas {
@@ -76,11 +74,18 @@ public class SVGCanvas extends JSVGCanvas {
 		}
 	}
 
-	public void click(final int x, final int y) {
+	public void click(MouseEvent event) {
+		
+		final int x=event.getX(); 
+		final int y=event.getY();
+		final int button=event.getButton();
+		final int nbClick=event.getClickCount();
 		
 		final SVGDocument doc = getSVGDocument();
 		final NodeList list = doc.getFirstChild().getChildNodes();
 		Integer foundIndice = -1;
+		boolean isText = false;
+		isText=false;
 		for (int i = 0; i < list.getLength(); i++) {
 			final Node n = list.item(i);
 			final DrawModelEnum model = DrawModelEnum.evaluate(n.getNodeName());
@@ -96,6 +101,7 @@ public class SVGCanvas extends JSVGCanvas {
 						// Le point est contenu dans l'ellipse
 						System.out.println("Le click correspond à un cercle");
 						foundIndice = i;
+						isText=false;
 					}
 					break;
 				case LINE:
@@ -121,6 +127,7 @@ public class SVGCanvas extends JSVGCanvas {
 						// Le point est contenu dans la ligne
 						System.out.println("Le click correspond à une ligne");
 						foundIndice = i;
+						isText=false;
 					}
 					break;
 				case SQUARE:
@@ -135,6 +142,7 @@ public class SVGCanvas extends JSVGCanvas {
 						// Le point est contenu dans le rectangle
 						System.out.println("Le click correspond à un rectangle");
 						foundIndice = i;
+						isText=false;
 					}
 					break;
 				case ELLIPSE:
@@ -148,6 +156,7 @@ public class SVGCanvas extends JSVGCanvas {
 						// Le point est contenu dans l'ellipse
 						System.out.println("Le click correspond à une ellipse");
 						foundIndice = i;
+						isText=false;
 					}
 					break;
 				case TEXT:
@@ -161,6 +170,7 @@ public class SVGCanvas extends JSVGCanvas {
 						{
 							System.out.println("Le click correspond à du texte");
 							foundIndice = i;
+							isText=true;
 						}
 					}
 					catch(Exception e)
@@ -179,22 +189,22 @@ public class SVGCanvas extends JSVGCanvas {
 		Client.getInstance().setSelected(foundIndice);
 		System.out.println("Indice trouvé : " + foundIndice);
 		
-		Integer nbClick=0;
-		
-
-		
-		
-		if ( (System.nanoTime()-lastClickTime) / 1000000 < 300)
+		if(SwingUtilities.isLeftMouseButton(event))
 		{
-			nbClick=2;
+			if(nbClick==2 && foundIndice!=-1)
+			{
+				System.out.println("Ouverture dialog");
+				Client.getInstance().setMoveDial(new MoveDialog());	
+			}
+			else if(nbClick==3 && foundIndice!=-1)
+			{
+				System.out.println("Ouverture dialog");
+				Client.getInstance().setScaleDial(new ScaleDialog());
+			}
 		}
-		
-		if(nbClick==2 && foundIndice!=-1)
+		else if(SwingUtilities.isRightMouseButton(event) && nbClick==2 && isText)
 		{
-			System.out.println("Ouverture dialog");
-			Client.getInstance().setMoveDial(new MoveDialog());
-			
-			Client.getInstance().setScaleDial(new ScaleDialog());
+			Client.getInstance().setRenameDial(new RenameDialog());
 		}
 		
 		lastClickTime = System.nanoTime();

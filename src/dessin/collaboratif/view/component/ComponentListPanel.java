@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class ComponentListPanel extends JPanel {
 
@@ -58,6 +59,7 @@ public class ComponentListPanel extends JPanel {
 		            Client.getInstance().setSelected(index);
 					System.out.println("Ouverture dialog");
 					Client.getInstance().setMoveDial(new MoveDialog());
+					Client.getInstance().setScaleDial(new ScaleDialog());
 		        }
 		    }
 		});

@@ -21,18 +21,15 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.svg.SVGDocument;
 
 import dessin.collaboratif.misc.DirectionEnum;
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.misc.ScaleEnum;
+import dessin.collaboratif.view.component.MainFrame;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.RenameDialog;
 import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class Client {
@@ -41,6 +38,7 @@ public class Client {
 
 	private MoveDialog moveDial = null;
 	private ScaleDialog scaleDial = null;
+	private RenameDialog renameDial = null;
 
 	private DOMImplementation domImpl;
 	private String svgNameSpace;
@@ -802,6 +800,25 @@ public class Client {
 			saveSVG();
 		}
 	}
+	
+	/**
+	 * This method rename selected-nth Node if is TextNode.
+	 */
+	
+	public void rename(String s)
+	{
+		if(getSelected()==-1) return;
+		
+		final Document doc = getImage();
+		final Element svgRoot = doc.getDocumentElement();
+		final Node elt = svgRoot.getChildNodes().item(getSelected());
+		
+		if(elt.getNodeName()!=DrawModelEnum.TEXT.getTagName())
+			return;
+		
+		elt.setTextContent(s);
+		MainFrame.getInstance().repaintDrawPanel();		
+	}
 
 	/**
 	 * This method save the .svg currently selected by the client
@@ -998,6 +1015,8 @@ public class Client {
 	}
 
 	public void setMoveDial(MoveDialog moveDial) {
+		if(this.moveDial!=null)
+			this.moveDial.dispose();
 		this.moveDial = moveDial;
 	}
 
@@ -1014,6 +1033,8 @@ public class Client {
 	}
 
 	public void setScaleDial(ScaleDialog scaleDial) {
+		if(this.scaleDial!=null)
+			this.scaleDial.dispose();
 		this.scaleDial = scaleDial;
 	}
 
@@ -1023,6 +1044,16 @@ public class Client {
 
 	public void setLastScale(ScaleEnum lastScale) {
 		this.lastScale = lastScale;
+	}
+
+	public RenameDialog getRenameDial() {
+		return renameDial;
+	}
+
+	public void setRenameDial(RenameDialog renameDial) {
+		if(this.renameDial!=null)
+			this.renameDial.dispose();
+		this.renameDial = renameDial;
 	}
 
 }
