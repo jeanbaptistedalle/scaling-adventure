@@ -27,10 +27,10 @@ public class Server {
         Server s = new Server();
     }
     
-    public Server () {
+    public Server (int port) {
         try {
             rooms = new Vector<Room>();
-            ServerSocket sock = new ServerSocket(7030);
+            ServerSocket sock = new ServerSocket(port);
             
             /**
              * On crée les rooms
