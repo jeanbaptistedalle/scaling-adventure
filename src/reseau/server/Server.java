@@ -24,7 +24,7 @@ public class Server {
     private ClientManager active;
     
     public static void main(String[] args) {
-        Server s = new Server();
+        Server s = new Server(6666);
     }
     
     public Server (int port) {
