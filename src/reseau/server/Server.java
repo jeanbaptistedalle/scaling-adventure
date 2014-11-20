@@ -24,13 +24,13 @@ public class Server {
     private ClientManager active;
     
     public static void main(String[] args) {
-        Server s = new Server();
+        Server s = new Server(6666);
     }
     
-    public Server () {
+    public Server (int port) {
         try {
             rooms = new Vector<Room>();
-            ServerSocket sock = new ServerSocket(7030);
+            ServerSocket sock = new ServerSocket(port);
             
             /**
              * On crée les rooms
