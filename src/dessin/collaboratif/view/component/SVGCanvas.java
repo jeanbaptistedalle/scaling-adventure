@@ -37,8 +37,9 @@ public class SVGCanvas extends JSVGCanvas {
 
 	public SVGCanvas() {
 		setVisible(false);
-//		setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
-		setSize(Integer.valueOf(GeneralVariables.DEFAULT_STROKE_WIDTH), Integer.valueOf(GeneralVariables.DEFAULT_HEIGHT));
+		// setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
+		setSize(Integer.valueOf(GeneralVariables.DEFAULT_STROKE_WIDTH),
+				Integer.valueOf(GeneralVariables.DEFAULT_HEIGHT));
 		setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		SvgCanvasMouseAdapter mouseAdapter = new SvgCanvasMouseAdapter();
 		addMouseListener(mouseAdapter);
@@ -60,7 +61,7 @@ public class SVGCanvas extends JSVGCanvas {
 		// paintComponent(g2);
 		// }
 		// }
-		
+
 		super.repaint();
 	}
 
@@ -75,17 +76,17 @@ public class SVGCanvas extends JSVGCanvas {
 	}
 
 	public void click(MouseEvent event) {
-		
-		final int x=event.getX(); 
-		final int y=event.getY();
-		final int button=event.getButton();
-		final int nbClick=event.getClickCount();
-		
+
+		final int x = event.getX();
+		final int y = event.getY();
+		final int button = event.getButton();
+		final int nbClick = event.getClickCount();
+
 		final SVGDocument doc = getSVGDocument();
 		final NodeList list = doc.getFirstChild().getChildNodes();
 		Integer foundIndice = -1;
 		boolean isText = false;
-		isText=false;
+		isText = false;
 		for (int i = 0; i < list.getLength(); i++) {
 			final Node n = list.item(i);
 			final DrawModelEnum model = DrawModelEnum.evaluate(n.getNodeName());
@@ -101,7 +102,7 @@ public class SVGCanvas extends JSVGCanvas {
 						// Le point est contenu dans l'ellipse
 						System.out.println("Le click correspond à un cercle");
 						foundIndice = i;
-						isText=false;
+						isText = false;
 					}
 					break;
 				case LINE:
@@ -127,7 +128,7 @@ public class SVGCanvas extends JSVGCanvas {
 						// Le point est contenu dans la ligne
 						System.out.println("Le click correspond à une ligne");
 						foundIndice = i;
-						isText=false;
+						isText = false;
 					}
 					break;
 				case SQUARE:
@@ -142,7 +143,7 @@ public class SVGCanvas extends JSVGCanvas {
 						// Le point est contenu dans le rectangle
 						System.out.println("Le click correspond à un rectangle");
 						foundIndice = i;
-						isText=false;
+						isText = false;
 					}
 					break;
 				case ELLIPSE:
@@ -156,59 +157,51 @@ public class SVGCanvas extends JSVGCanvas {
 						// Le point est contenu dans l'ellipse
 						System.out.println("Le click correspond à une ellipse");
 						foundIndice = i;
-						isText=false;
+						isText = false;
 					}
 					break;
 				case TEXT:
-					
-					try
-					{
-						
+
+					try {
+
 						TextNode node = (TextNode) getCanvasGraphicsNode().getChildren().get(i);
-						
-						if(node.contains(new Point2D.Double((double)x,(double)y)))
-						{
+
+						if (node.contains(new Point2D.Double((double) x, (double) y))) {
 							System.out.println("Le click correspond à du texte");
 							foundIndice = i;
-							isText=true;
+							isText = true;
 						}
-					}
-					catch(Exception e)
-					{
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
-					
+
 					break;
 				default:
 					break;
 				}
 			}
 		}
-		MainFrame.getInstance().getComponentListPanel().getComponentList().setSelectedIndex(foundIndice);
+		if (foundIndice == -1) {
+			MainFrame.getInstance().getComponentListPanel().getComponentList().clearSelection();
+		} else {
+			MainFrame.getInstance().getComponentListPanel().getComponentList()
+					.setSelectedIndex(foundIndice);
+		}
 		Client.getInstance().setSelected(foundIndice);
+		MainFrame.getInstance().repaintDrawPanel();
 		System.out.println("Indice trouvé : " + foundIndice);
-		
-		if(SwingUtilities.isLeftMouseButton(event))
-		{
-			if(nbClick==2 && foundIndice!=-1)
-			{
+
+		if (SwingUtilities.isLeftMouseButton(event)) {
+			if (nbClick == 2 && foundIndice != -1) {
 				System.out.println("Ouverture dialog");
-				Client.getInstance().setMoveDial(new MoveDialog());	
-			}
-			else if(nbClick==3 && foundIndice!=-1)
-			{
+				Client.getInstance().setMoveDial(new MoveDialog());
+			} else if (nbClick == 3 && foundIndice != -1) {
 				System.out.println("Ouverture dialog");
 				Client.getInstance().setScaleDial(new ScaleDialog());
 			}
-		}
-		else if(SwingUtilities.isRightMouseButton(event) && nbClick==2 && isText)
-		{
+		} else if (SwingUtilities.isRightMouseButton(event) && nbClick == 2 && isText) {
 			Client.getInstance().setRenameDial(new RenameDialog());
 		}
-		
 		lastClickTime = System.nanoTime();
 	}
-
-	
 }

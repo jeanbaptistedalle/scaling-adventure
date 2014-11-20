@@ -1,6 +1,5 @@
 package dessin.collaboratif.view.component;
 
-import java.awt.Dimension;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,10 +25,9 @@ public class HelpFrame extends JFrame {
 
 	private HelpFrame() {
 		this.setTitle(GeneralVariables.HELP_FRAME_TITLE);
-		final ImageIcon helpIcon = new ImageIcon(
-				GeneralVariables.HELP_MENU_HELP_ICON_PATH);
+		final ImageIcon helpIcon = new ImageIcon(GeneralVariables.HELP_MENU_HELP_ICON_PATH);
 		this.setIconImage(helpIcon.getImage());
-//		this.getContentPane().setPreferredSize(new Dimension(300, 300));
+		// this.getContentPane().setPreferredSize(new Dimension(300, 300));
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 
@@ -38,16 +36,13 @@ public class HelpFrame extends JFrame {
 
 		helpText = new JLabel();
 		Path p = Paths.get(GeneralVariables.HELP_CONTENT_PATH);
-		try
-		{
-			String helpStr = new String( Files.readAllBytes( p ) );
+		try {
+			String helpStr = new String(Files.readAllBytes(p));
 			helpText.setText(helpStr);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			helpText.setText("Erreur dans le chargement du fichier d'aide");
 		}
-			
+
 		helpContent.add(helpText);
 
 		pack();

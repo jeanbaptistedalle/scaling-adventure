@@ -20,26 +20,26 @@ public class UndoMenuItem extends JMenuItem {
 
 	public UndoMenuItem() {
 		super(GeneralVariables.EDITION_MENU_UNDO);
-		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
-		        InputEvent.CTRL_MASK));
-		ImageIcon undoIcon = new ImageIcon(
-				GeneralVariables.EDITION_MENU_UNDO_ICON_PATH);
+		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
+		ImageIcon undoIcon = new ImageIcon(GeneralVariables.EDITION_MENU_UNDO_ICON_PATH);
 		this.setIcon(undoIcon);
-//		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null) {
+		if (Client.getInstance().getImage() != null
+				&& Client.getInstance().getImage().getDocumentElement().getFirstChild() != null) {
 			this.setEnabled(true);
-//		} else {
-//			this.setEnabled(false);
-//		}
+		} else {
+			this.setEnabled(false);
+		}
 		this.addActionListener(new UndoListener());
 	}
 
 	@Override
 	public void repaint() {
-//		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null) {
+		if (Client.getInstance().getImage() != null
+				&& Client.getInstance().getImage().getDocumentElement().getFirstChild() != null) {
 			this.setEnabled(true);
-//		} else {
-//			this.setEnabled(false);
-//		}
+		} else {
+			this.setEnabled(false);
+		}
 		super.repaint();
 	}
 }

@@ -9,6 +9,7 @@ import javax.swing.KeyStroke;
 
 import dessin.collaboratif.controller.component.menu.item.RenameListener;
 import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.model.Client;
 
 public class RenameMenuItem extends JMenuItem {
 
@@ -24,21 +25,21 @@ public class RenameMenuItem extends JMenuItem {
 		ImageIcon scaleIcon = new ImageIcon(
 				GeneralVariables.EDITION_MENU_RENAME_ICON_PATH);
 		this.setIcon(scaleIcon);
-//		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null && Client.getInstance().getSelected() != -1) {
+		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null && Client.getInstance().getSelected() != -1) {
 			this.setEnabled(true);
-//		} else {
-//			this.setEnabled(false);
-//		}
+		} else {
+			this.setEnabled(false);
+		}
 		this.addActionListener(new RenameListener());
 	}
 
 	@Override
 	public void repaint() {
-//		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null && Client.getInstance().getSelected() != -1) {
+		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null && Client.getInstance().getSelected() != -1) {
 			this.setEnabled(true);
-//		} else {
-//			this.setEnabled(false);
-//		}
+		} else {
+			this.setEnabled(false);
+		}
 		super.repaint();
 	}
 }

@@ -2,9 +2,6 @@ package dessin.collaboratif.view.component;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Window;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -42,7 +39,8 @@ public class MainFrame extends JComponent {
 
 		setDoubleBuffered(true);
 		frame = new JFrame();
-		frame.setTitle("Dessin colaboratif");
+		frame.setTitle("Dessin colaboratif - Login : " + Client.getInstance().getLogin()
+				+ ", Server : " + Client.getInstance().getServerAdress());
 		frame.setSize(600, 680);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,14 +62,15 @@ public class MainFrame extends JComponent {
 		frame.add(componentListPanel, BorderLayout.EAST);
 
 		/* Test plein écran */
-//		final Window[] windows = JFrame.getWindows();
-//		final GraphicsDevice[] graphicsDevices = GraphicsEnvironment.getLocalGraphicsEnvironment()
-//				.getScreenDevices();
-//		for (final GraphicsDevice graphicsDevise : graphicsDevices) {
-//			for (final Window window : windows) {
-//				graphicsDevise.setFullScreenWindow(window);
-//			}
-//		}
+		// final Window[] windows = JFrame.getWindows();
+		// final GraphicsDevice[] graphicsDevices =
+		// GraphicsEnvironment.getLocalGraphicsEnvironment()
+		// .getScreenDevices();
+		// for (final GraphicsDevice graphicsDevise : graphicsDevices) {
+		// for (final Window window : windows) {
+		// graphicsDevise.setFullScreenWindow(window);
+		// }
+		// }
 
 		this.setVisible(true);
 		frame.setVisible(true);
@@ -87,11 +86,22 @@ public class MainFrame extends JComponent {
 		} else {
 			drawPanel.getSvgCanvas().setImage(null);
 		}
-//		menu.getFileMenu().getClose().repaint();
-//		menu.getFileMenu().getExport().repaint();
-//		menu.getEditionMenu().getUndo().repaint();
+		repaintMenu();
 		componentListPanel.repaint();
 		drawPanel.repaint();
+	}
+	
+	/**
+	 * Repaint the component of the menu which can have stat (disabled, enabled)
+	 */
+	public void repaintMenu(){
+		menu.getFileMenu().getClose().repaint();
+		menu.getFileMenu().getExport().repaint();
+		menu.getEditionMenu().getUndo().repaint();
+		menu.getEditionMenu().getDelete().repaint();
+		menu.getEditionMenu().getMove().repaint();
+		menu.getEditionMenu().getScale().repaint();
+		menu.getEditionMenu().getRename().repaint();
 	}
 
 	/**

@@ -31,7 +31,6 @@ public class ComponentListPanel extends JPanel {
 
 	/* Only work with java 7 jdk */
 	private JList<String> componentList;
-
 	private JScrollPane scrollPane;
 
 	public ComponentListPanel() {
@@ -44,33 +43,29 @@ public class ComponentListPanel extends JPanel {
 		componentList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if(e.getSource() == MainFrame.getInstance().getComponentListPanel())
-				{
-					System.out.println("index du component: " + componentList.getSelectedIndex());
+				if (Client.getInstance().getSelected() != componentList.getSelectedIndex()) {
 					Client.getInstance().setSelected(componentList.getSelectedIndex());
-					System.out.println("index du getSelected : " + Client.getInstance().getSelected());
+					MainFrame.getInstance().repaintMenu();
 				}
-			} 
+			}
 		});
 		componentList.addMouseListener(new MouseAdapter() {
-		    @SuppressWarnings("unchecked")
+			@SuppressWarnings("unchecked")
 			public void mouseClicked(MouseEvent evt) {
-		        JList<String> list = (JList<String>) evt.getSource();
-		        if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
-		            int index = list.locationToIndex(evt.getPoint());
-		            Client.getInstance().setSelected(index);
+				JList<String> list = (JList<String>) evt.getSource();
+				if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
+					int index = list.locationToIndex(evt.getPoint());
+					Client.getInstance().setSelected(index);
 					System.out.println("Ouverture dialog");
 					Client.getInstance().setMoveDial(new MoveDialog());
 					Client.getInstance().setScaleDial(new ScaleDialog());
-		        }
-		        else if(evt.getClickCount() == 2 && SwingUtilities.isRightMouseButton(evt))
-		        {
-		            int index = list.locationToIndex(evt.getPoint());
-		            Client.getInstance().setSelected(index);
+				} else if (evt.getClickCount() == 2 && SwingUtilities.isRightMouseButton(evt)) {
+					int index = list.locationToIndex(evt.getPoint());
+					Client.getInstance().setSelected(index);
 					System.out.println("Ouverture dialog");
-					Client.getInstance().setRenameDial(new RenameDialog());	
-		        }
-		    }
+					Client.getInstance().setRenameDial(new RenameDialog());
+				}
+			}
 		});
 	}
 
@@ -92,6 +87,7 @@ public class ComponentListPanel extends JPanel {
 			} else {
 				componentList.setListData(new String[0]);
 			}
+
 		}
 	}
 
@@ -107,9 +103,14 @@ public class ComponentListPanel extends JPanel {
 	public void repaint() {
 		// TODO Auto-generated method stub
 		if (Client.getInstance().getImage() != null) {
+			int index = componentList.getSelectedIndex();
 			populateList();
+			componentList.setSelectedIndex(index);
 			this.setVisible(true);
 		} else {
+			if (componentList != null) {
+				componentList.setListData(new String[0]);
+			}
 			this.setVisible(false);
 		}
 		super.repaint();

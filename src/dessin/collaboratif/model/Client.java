@@ -36,6 +36,9 @@ public class Client {
 
 	private static Client INSTANCE = null;
 
+	private String login = null;
+	private String serverAdress = null;
+
 	private MoveDialog moveDial = null;
 	private ScaleDialog scaleDial = null;
 	private RenameDialog renameDial = null;
@@ -52,19 +55,18 @@ public class Client {
 
 	private Color selectedColor = Color.black;
 	private DrawModelEnum currentDraw = null;
-	
-	private String textToInsert ="";
+
+	private String textToInsert = "";
 	private String sizeTextToInsert = "12";
 
-	private Integer svgSizeX = Integer.valueOf( GeneralVariables.DEFAULT_WIDTH );
-	private Integer svgSizeY = Integer.valueOf( GeneralVariables.DEFAULT_HEIGHT );
-	
-	private Integer selected=-1;
+	private Integer svgSizeX = Integer.valueOf(GeneralVariables.DEFAULT_WIDTH);
+	private Integer svgSizeY = Integer.valueOf(GeneralVariables.DEFAULT_HEIGHT);
+
+	private Integer selected = -1;
 	private Integer decalage = 5;
 	private DirectionEnum lastMove = null;
 	private ScaleEnum lastScale = null;
-	
-	
+
 	private Client() {
 		try {
 			domImpl = SVGDOMImplementation.getDOMImplementation();
@@ -88,14 +90,13 @@ public class Client {
 	 * @param y2
 	 * @return
 	 */
-	private boolean isLegal(final Integer x1, final Integer y1,
-			final Integer x2, final Integer y2) {
-		if(x1 != null && x2 != null && y1 != null && y2 != null && Math.abs(x2-x1) < 1 
-				&& Math.abs(y2-y1) < 1)
+	private boolean isLegal(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
+		if (x1 != null && x2 != null && y1 != null && y2 != null && Math.abs(x2 - x1) < 1
+				&& Math.abs(y2 - y1) < 1)
 			return false;
 		else
-			return x1 != null && x1 >= 0 && y1 != null && y1 >= 0 && x2 != null
-				&& x2 >= 0 && y2 != null && y2 >= 0;
+			return x1 != null && x1 >= 0 && y1 != null && y1 >= 0 && x2 != null && x2 >= 0
+					&& y2 != null && y2 >= 0;
 	}
 
 	/**
@@ -108,15 +109,15 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	public boolean draw(final Integer x1, final Integer y1, final Integer x2,
-			final Integer y2) {
+	public boolean draw(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
 		if (isLegal(x1, y1, x2, y2)) {
 			if (currentDraw != null) {
-				
-				// On redimensionne le svg en fonction de l'emplacement et la taille de la forme 
-				
-				reshapeSVG(x1,y1,x2,y2);
-				
+
+				// On redimensionne le svg en fonction de l'emplacement et la
+				// taille de la forme
+
+				reshapeSVG(x1, y1, x2, y2);
+
 				// On dessine la forme
 				switch (currentDraw) {
 				case CIRCLE:
@@ -143,71 +144,68 @@ public class Client {
 				 * TODO si aucune forme à dessiner n'est selectionnée, on doit
 				 * pouvoir déplacer une forme
 				 */
-				
-				
+
 				return false;
 			}
 		}
 		return false;
 	}
-	
-	public void delete()
-	{
-		
-		if(getSelected()==-1)
+
+	public void delete() {
+
+		if (getSelected() == -1)
 			return;
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		
+
 		Node eltNode = svgRoot.getChildNodes().item(getSelected());
-		
-		if(eltNode == null)
+
+		if (eltNode == null)
 			return;
-		
+
 		eltNode.getParentNode().removeChild(eltNode);
-		
+
 		saveSVG();
-		
+
 	}
-	
-	public void scale(String dir)
-	{
+
+	public void scale(String dir) {
 		System.out.println(getSelected());
-		
-		if(getSelected() == -1)
+
+		if (getSelected() == -1)
 			return;
-		
+
 		System.out.println("Scale");
-		
-		if(dir == ScaleEnum.INCREASE.toString())
+
+		if (dir == ScaleEnum.INCREASE.toString())
 			setLastScale(ScaleEnum.INCREASE);
 		else
 			setLastScale(ScaleEnum.DECREASE);
-		
+
 		System.out.println(dir);
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		
+
 		Node eltNode = svgRoot.getChildNodes().item(getSelected());
-		
-		if(eltNode == null)
+
+		if (eltNode == null)
 			return;
-		
+
 		Element elt = (Element) eltNode;
-		
-		if(elt.getNodeName() == DrawModelEnum.SQUARE.getTagName())
+
+		if (elt.getNodeName() == DrawModelEnum.SQUARE.getTagName())
 			scaleRect(elt);
-		else if(elt.getNodeName() == DrawModelEnum.ELLIPSE.getTagName())
+		else if (elt.getNodeName() == DrawModelEnum.ELLIPSE.getTagName())
 			scaleEllipse(elt);
-		else if(elt.getNodeName() == DrawModelEnum.CIRCLE.getTagName())
+		else if (elt.getNodeName() == DrawModelEnum.CIRCLE.getTagName())
 			scaleCircle(elt);
-		else if(elt.getNodeName() == DrawModelEnum.LINE.getTagName())
+		else if (elt.getNodeName() == DrawModelEnum.LINE.getTagName())
 			scaleLine(elt);
-		else if(elt.getNodeName() == DrawModelEnum.TEXT.getTagName())
+		else if (elt.getNodeName() == DrawModelEnum.TEXT.getTagName())
 			scaleText(elt);
-		
+
 		saveSVG();
 	}
 
@@ -221,30 +219,28 @@ public class Client {
 		Integer valueH = Integer.valueOf(attH);
 		Integer valueX = Integer.valueOf(attX);
 		Integer valueY = Integer.valueOf(attY);
-		
-		if(getLastScale() == ScaleEnum.DECREASE)
-		{
+
+		if (getLastScale() == ScaleEnum.DECREASE) {
 			valueW = Integer.valueOf(attW) - decalage;
 			valueH = Integer.valueOf(attH) - decalage;
-		}
-		else
-		{
+		} else {
 			valueW = Integer.valueOf(attW) + decalage;
 			valueH = Integer.valueOf(attH) + decalage;
 		}
 
-		valueH = (valueH>1) ? valueH : 1;
-		valueW = (valueW>1) ? valueW : 1;
+		valueH = (valueH > 1) ? valueH : 1;
+		valueW = (valueW > 1) ? valueW : 1;
 
-//		if(valueX-valueW<=0)return;
-//		if(valueY-valueH<=0)return;
+		// if(valueX-valueW<=0)return;
+		// if(valueY-valueH<=0)return;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, ""+valueW);
-		elt.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, ""+valueH);
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, "" + valueW);
+		elt.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, "" + valueH);
+
 		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
-		
+
 	}
+
 	private void scaleCircle(Element elt) {
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
@@ -253,25 +249,25 @@ public class Client {
 		Integer valueW = Integer.valueOf(attW);
 		Integer valueX = Integer.valueOf(attX);
 		Integer valueY = Integer.valueOf(attY);
-		
-		if(getLastScale() == ScaleEnum.DECREASE)
-		{
+
+		if (getLastScale() == ScaleEnum.DECREASE) {
 			valueW = Integer.valueOf(attW) - decalage;
-		}
-		else
-		{
+		} else {
 			valueW = Integer.valueOf(attW) + decalage;
 		}
 
-		valueW = (valueW>1) ? valueW : 1;
+		valueW = (valueW > 1) ? valueW : 1;
 
-		if(valueX-valueW<=0)return;
-		if(valueY-valueW<=0)return;
+		if (valueX - valueW <= 0)
+			return;
+		if (valueY - valueW <= 0)
+			return;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE, ""+valueW);
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE, "" + valueW);
+
 		reshapeSVG(valueX, valueY, valueW + valueX, valueW + valueY);
 	}
+
 	private void scaleEllipse(Element elt) {
 
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
@@ -283,96 +279,92 @@ public class Client {
 		Integer valueH = Integer.valueOf(attH);
 		Integer valueX = Integer.valueOf(attX);
 		Integer valueY = Integer.valueOf(attY);
-		
-		if(getLastScale() == ScaleEnum.DECREASE)
-		{
+
+		if (getLastScale() == ScaleEnum.DECREASE) {
 			valueW = Integer.valueOf(attW) - decalage;
 			valueH = Integer.valueOf(attH) - decalage;
-		}
-		else
-		{
+		} else {
 			valueW = Integer.valueOf(attW) + decalage;
 			valueH = Integer.valueOf(attH) + decalage;
 		}
 
-		valueH = (valueH>1) ? valueH : 1;
-		valueW = (valueW>1) ? valueW : 1;
+		valueH = (valueH > 1) ? valueH : 1;
+		valueW = (valueW > 1) ? valueW : 1;
 
-		if(valueX-valueW<=0) return;
-		if(valueY-valueH<=0) return;
+		if (valueX - valueW <= 0)
+			return;
+		if (valueY - valueH <= 0)
+			return;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE, ""+valueW);
-		elt.setAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE, ""+valueH);
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE, "" + valueW);
+		elt.setAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE, "" + valueH);
+
 		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
-		
+
 	}
+
 	private void scaleLine(Element elt) {
 		// DO NOTHING FOR A LINE
 	}
+
 	private void scaleText(Element elt) {
 		String attFS = elt.getAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE);
 
 		Integer valueFS = Integer.valueOf(attFS);
-		
-		if(getLastScale() == ScaleEnum.DECREASE)
-		{
+
+		if (getLastScale() == ScaleEnum.DECREASE) {
 			valueFS = Integer.valueOf(attFS) - 1;
-		}
-		else
-		{
+		} else {
 			valueFS = Integer.valueOf(attFS) + 1;
 		}
 
-		valueFS = (valueFS>1) ? valueFS : 1;
-		valueFS = (valueFS>1) ? valueFS : 1;
+		valueFS = (valueFS > 1) ? valueFS : 1;
+		valueFS = (valueFS > 1) ? valueFS : 1;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, ""+valueFS);
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, "" + valueFS);
+
 	}
 
-	
-	public void move(String dir)
-	{
+	public void move(String dir) {
 		System.out.println(getSelected());
-		
-		if(getSelected() == -1)
+
+		if (getSelected() == -1)
 			return;
-		
+
 		System.out.println("Move");
-		
-		if(dir == DirectionEnum.UP.toString())
+
+		if (dir == DirectionEnum.UP.toString())
 			setLastMove(DirectionEnum.UP);
-		else if(dir == DirectionEnum.DOWN.toString())
+		else if (dir == DirectionEnum.DOWN.toString())
 			setLastMove(DirectionEnum.DOWN);
-		else if(dir == DirectionEnum.LEFT.toString())
+		else if (dir == DirectionEnum.LEFT.toString())
 			setLastMove(DirectionEnum.LEFT);
 		else
 			setLastMove(DirectionEnum.RIGHT);
-		
+
 		System.out.println(dir);
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		
+
 		Node eltNode = svgRoot.getChildNodes().item(getSelected());
-		
-		if(eltNode == null)
+
+		if (eltNode == null)
 			return;
-		
+
 		Element elt = (Element) eltNode;
-		
-		if(elt.getNodeName() == DrawModelEnum.SQUARE.getTagName())
+
+		if (elt.getNodeName() == DrawModelEnum.SQUARE.getTagName())
 			moveRect(elt);
-		else if(elt.getNodeName() == DrawModelEnum.ELLIPSE.getTagName())
+		else if (elt.getNodeName() == DrawModelEnum.ELLIPSE.getTagName())
 			moveEllipse(elt);
-		else if(elt.getNodeName() == DrawModelEnum.CIRCLE.getTagName())
+		else if (elt.getNodeName() == DrawModelEnum.CIRCLE.getTagName())
 			moveCircle(elt);
-		else if(elt.getNodeName() == DrawModelEnum.LINE.getTagName())
+		else if (elt.getNodeName() == DrawModelEnum.LINE.getTagName())
 			moveLine(elt);
-		else if(elt.getNodeName() == DrawModelEnum.TEXT.getTagName())
+		else if (elt.getNodeName() == DrawModelEnum.TEXT.getTagName())
 			moveText(elt);
-		
+
 		saveSVG();
 	}
 
@@ -386,25 +378,26 @@ public class Client {
 		Integer valueY = Integer.valueOf(attY);
 		Integer valueW = Integer.valueOf(attW);
 		Integer valueH = Integer.valueOf(attH);
-		
-		if(getLastMove() == DirectionEnum.UP)
+
+		if (getLastMove() == DirectionEnum.UP)
 			valueY = Integer.valueOf(attY) - decalage;
-		else if(getLastMove() == DirectionEnum.DOWN)
+		else if (getLastMove() == DirectionEnum.DOWN)
 			valueY = Integer.valueOf(attY) + decalage;
-		else if(getLastMove() == DirectionEnum.LEFT)
+		else if (getLastMove() == DirectionEnum.LEFT)
 			valueX = Integer.valueOf(attX) - decalage;
 		else
 			valueX = Integer.valueOf(attX) + decalage;
 
-		valueX = (valueX>0) ? valueX : 0;
-		valueY = (valueY>0) ? valueY : 0;
+		valueX = (valueX > 0) ? valueX : 0;
+		valueY = (valueY > 0) ? valueY : 0;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, ""+valueX);
-		elt.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, ""+valueY);
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, "" + valueX);
+		elt.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, "" + valueY);
+
 		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
-		
+
 	}
+
 	private void moveCircle(Element elt) {
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
@@ -415,25 +408,26 @@ public class Client {
 		Integer valueY = Integer.valueOf(attY);
 		Integer valueW = Integer.valueOf(attW);
 		Integer valueH = Integer.valueOf(attH);
-		
-		if(getLastMove() == DirectionEnum.UP)
+
+		if (getLastMove() == DirectionEnum.UP)
 			valueY = Integer.valueOf(attY) - decalage;
-		else if(getLastMove() == DirectionEnum.DOWN)
+		else if (getLastMove() == DirectionEnum.DOWN)
 			valueY = Integer.valueOf(attY) + decalage;
-		else if(getLastMove() == DirectionEnum.LEFT)
+		else if (getLastMove() == DirectionEnum.LEFT)
 			valueX = Integer.valueOf(attX) - decalage;
 		else
 			valueX = Integer.valueOf(attX) + decalage;
 
-		valueX = (valueX>valueW) ? valueX : valueW;
-		valueY = (valueY>valueH) ? valueY : valueH;
+		valueX = (valueX > valueW) ? valueX : valueW;
+		valueY = (valueY > valueH) ? valueY : valueH;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, ""+valueX);
-		elt.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, ""+valueY);
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, "" + valueX);
+		elt.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, "" + valueY);
+
 		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
-		
+
 	}
+
 	private void moveEllipse(Element elt) {
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE);
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
@@ -444,25 +438,26 @@ public class Client {
 		Integer valueY = Integer.valueOf(attY);
 		Integer valueW = Integer.valueOf(attW);
 		Integer valueH = Integer.valueOf(attH);
-		
-		if(getLastMove() == DirectionEnum.UP)
+
+		if (getLastMove() == DirectionEnum.UP)
 			valueY = Integer.valueOf(attY) - decalage;
-		else if(getLastMove() == DirectionEnum.DOWN)
+		else if (getLastMove() == DirectionEnum.DOWN)
 			valueY = Integer.valueOf(attY) + decalage;
-		else if(getLastMove() == DirectionEnum.LEFT)
+		else if (getLastMove() == DirectionEnum.LEFT)
 			valueX = Integer.valueOf(attX) - decalage;
 		else
 			valueX = Integer.valueOf(attX) + decalage;
 
-		valueX = (valueX>valueW) ? valueX : valueW;
-		valueY = (valueY>valueH) ? valueY : valueH;
+		valueX = (valueX > valueW) ? valueX : valueW;
+		valueY = (valueY > valueH) ? valueY : valueH;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, ""+valueX);
-		elt.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, ""+valueY);
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, "" + valueX);
+		elt.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, "" + valueY);
+
 		reshapeSVG(valueX, valueY, valueW + valueX, valueH + valueY);
-		
+
 	}
+
 	private void moveLine(Element elt) {
 		String attX1 = elt.getAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE);
 		String attY1 = elt.getAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE);
@@ -474,81 +469,73 @@ public class Client {
 		Integer valueX2 = Integer.valueOf(attX2);
 		Integer valueY2 = Integer.valueOf(attY2);
 
-		Integer tailleX = valueX2-valueX1;
-		Integer tailleY = valueY2-valueY1;
-		
-		if(getLastMove() == DirectionEnum.UP)
-		{
+		Integer tailleX = valueX2 - valueX1;
+		Integer tailleY = valueY2 - valueY1;
+
+		if (getLastMove() == DirectionEnum.UP) {
 			valueY1 = Integer.valueOf(attY1) - decalage;
 			valueY2 = Integer.valueOf(attY2) - decalage;
-		}
-		else if(getLastMove() == DirectionEnum.DOWN)
-		{
+		} else if (getLastMove() == DirectionEnum.DOWN) {
 			valueY1 = Integer.valueOf(attY1) + decalage;
 			valueY2 = Integer.valueOf(attY2) + decalage;
-		}
-		else if(getLastMove() == DirectionEnum.LEFT)
-		{
+		} else if (getLastMove() == DirectionEnum.LEFT) {
 			valueX1 = Integer.valueOf(attX1) - decalage;
 			valueX2 = Integer.valueOf(attX2) - decalage;
-		}
-		else
-		{
+		} else {
 			valueX1 = Integer.valueOf(attX1) + decalage;
 			valueX2 = Integer.valueOf(attX2) + decalage;
 		}
 
-		valueX1 = (valueX1>0) ? valueX1 : 0;
-		valueY1 = (valueY1>0) ? valueY1 : 0;
-		valueX2 = (valueX1>0) ? valueX2 : tailleX;
-		valueY2 = (valueY1>0) ? valueY2 : tailleY;
+		valueX1 = (valueX1 > 0) ? valueX1 : 0;
+		valueY1 = (valueY1 > 0) ? valueY1 : 0;
+		valueX2 = (valueX1 > 0) ? valueX2 : tailleX;
+		valueY2 = (valueY1 > 0) ? valueY2 : tailleY;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE, ""+valueX1);
-		elt.setAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE, ""+valueY1);
-		elt.setAttributeNS(null, SVGConstants.SVG_X2_ATTRIBUTE, ""+valueX2);
-		elt.setAttributeNS(null, SVGConstants.SVG_Y2_ATTRIBUTE, ""+valueY2);
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE, "" + valueX1);
+		elt.setAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE, "" + valueY1);
+		elt.setAttributeNS(null, SVGConstants.SVG_X2_ATTRIBUTE, "" + valueX2);
+		elt.setAttributeNS(null, SVGConstants.SVG_Y2_ATTRIBUTE, "" + valueY2);
+
 		reshapeSVG(valueX1, valueY1, valueX2, valueY2);
-		
-	}	
+
+	}
+
 	private void moveText(Element elt) {
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE);
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE);
 
 		Integer valueX = Integer.valueOf(attX);
 		Integer valueY = Integer.valueOf(attY);
-		
-		if(getLastMove() == DirectionEnum.UP)
+
+		if (getLastMove() == DirectionEnum.UP)
 			valueY = Integer.valueOf(attY) - decalage;
-		else if(getLastMove() == DirectionEnum.DOWN)
+		else if (getLastMove() == DirectionEnum.DOWN)
 			valueY = Integer.valueOf(attY) + decalage;
-		else if(getLastMove() == DirectionEnum.LEFT)
+		else if (getLastMove() == DirectionEnum.LEFT)
 			valueX = Integer.valueOf(attX) - decalage;
 		else
 			valueX = Integer.valueOf(attX) + decalage;
 
-		valueX = (valueX>0) ? valueX : 0;
-		valueY = (valueY>0) ? valueY : 0;
+		valueX = (valueX > 0) ? valueX : 0;
+		valueY = (valueY > 0) ? valueY : 0;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, ""+valueX);
-		elt.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, ""+valueY);
-		
-		
+		elt.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, "" + valueX);
+		elt.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, "" + valueY);
+
 	}
 
-	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2,
-			Boolean resize) {
-		
-		if(resize)
+	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2, Boolean resize) {
+
+		if (resize)
 			undo();
-		
+
 		return draw(x1, y1, x2, y2);
 	}
 
 	private void reshapeSVG(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
 		Integer maxX = (x1 < x2) ? x2 : x1;
 		Integer maxY = (y1 < y2) ? y2 : y1;
-		
+
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
 
@@ -557,36 +544,35 @@ public class Client {
 
 		maxX += 10;
 		maxY += 10;
-		
-		svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, ""+ maxX);
-		svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, ""+ maxY);
+
+		svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, "" + maxX);
+		svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, "" + maxY);
 
 		setSvgSizeX(maxX);
 		setSvgSizeY(maxY);
-		
+
 	}
 
 	private void drawText(final Integer x1, final Integer y1) {
-		
+
 		System.out.println(">" + textToInsert);
-		
+
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		
+
 		Text text = doc.createTextNode(textToInsert);
-		
+
 		// Create the rectangle.
-		Element rectangle = doc.createElementNS(Client.getInstance().getSvgNameSpace(),
-				"text");
+		Element rectangle = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "text");
 		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, x1.toString());
 		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, y1.toString());
 		String rgbString = colorToRGB(selectedColor);
 		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
 		rectangle.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, sizeTextToInsert);
-		rectangle.appendChild(text);		
+		rectangle.appendChild(text);
 		svgRoot.appendChild(rectangle);
 		saveSVG();
-		
+
 	}
 
 	/**
@@ -597,8 +583,7 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawSquare(final Integer x1, final Integer y1,
-			final Integer x2, final Integer y2) {
+	private void drawSquare(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
 		/*
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
@@ -624,21 +609,15 @@ public class Client {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		Element rectangle = doc.createElementNS(Client.getInstance()
-				.getSvgNameSpace(), "rect");
-		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE,
-				nx1.toString());
-		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE,
-				ny1.toString());
+		Element rectangle = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "rect");
+		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, nx1.toString());
+		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, ny1.toString());
 		Integer height = ny2 - ny1;
 		Integer width = nx2 - nx1;
-		rectangle.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE,
-				height.toString());
-		rectangle.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE,
-				width.toString());
+		rectangle.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, height.toString());
+		rectangle.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, width.toString());
 		String rgbString = colorToRGB(selectedColor);
-		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE,
-				rgbString);
+		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
 		svgRoot.appendChild(rectangle);
 		saveSVG();
 	}
@@ -651,8 +630,7 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawEllipse(final Integer x1, final Integer y1,
-			final Integer x2, final Integer y2) {
+	private void drawEllipse(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
 		/*
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
@@ -678,8 +656,7 @@ public class Client {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		Element ell = doc.createElementNS(Client.getInstance()
-				.getSvgNameSpace(), "ellipse");
+		Element ell = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "ellipse");
 
 		Integer cx, cy, rx, ry;
 
@@ -707,8 +684,7 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawCircle(final Integer x1, final Integer y1,
-			final Integer x2, final Integer y2) {
+	private void drawCircle(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
 		/*
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
@@ -734,8 +710,7 @@ public class Client {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		Element cercle = doc.createElementNS(Client.getInstance()
-				.getSvgNameSpace(), "circle");
+		Element cercle = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "circle");
 
 		Integer cx, cy;
 		Integer rayon;
@@ -751,12 +726,9 @@ public class Client {
 
 		rayon = nx2 - cx;
 
-		cercle.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE,
-				cx.toString());
-		cercle.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE,
-				cy.toString());
-		cercle.setAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE,
-				rayon.toString());
+		cercle.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, cx.toString());
+		cercle.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, cy.toString());
+		cercle.setAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE, rayon.toString());
 		String rgbString = colorToRGB(selectedColor);
 		cercle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
 		svgRoot.appendChild(cercle);
@@ -771,20 +743,19 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawLine(final Integer x1, final Integer y1, final Integer x2,
-			final Integer y2) {
+	private void drawLine(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		Element ligne = doc.createElementNS(Client.getInstance()
-				.getSvgNameSpace(), "line");
+		Element ligne = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "line");
 		ligne.setAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE, x1.toString());
 		ligne.setAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE, y1.toString());
 		ligne.setAttributeNS(null, SVGConstants.SVG_X2_ATTRIBUTE, x2.toString());
 		ligne.setAttributeNS(null, SVGConstants.SVG_Y2_ATTRIBUTE, y2.toString());
 		String rgbString = colorToRGB(selectedColor);
 		ligne.setAttributeNS(null, SVGConstants.SVG_STROKE_ATTRIBUTE, rgbString);
-		ligne.setAttributeNS(null, SVGConstants.SVG_STROKE_WIDTH_ATTRIBUTE, GeneralVariables.DEFAULT_STROKE_WIDTH);
+		ligne.setAttributeNS(null, SVGConstants.SVG_STROKE_WIDTH_ATTRIBUTE,
+				GeneralVariables.DEFAULT_STROKE_WIDTH);
 		svgRoot.appendChild(ligne);
 		saveSVG();
 	}
@@ -795,29 +766,28 @@ public class Client {
 	public void undo() {
 		final Document doc = getImage();
 		if (doc != null && doc.getFirstChild().getFirstChild() != null) {
-			doc.getFirstChild().removeChild(
-					doc.getDocumentElement().getLastChild());
+			doc.getFirstChild().removeChild(doc.getDocumentElement().getLastChild());
 			saveSVG();
 		}
 	}
-	
+
 	/**
 	 * This method rename selected-nth Node if is TextNode.
 	 */
-	
-	public void rename(String s)
-	{
-		if(getSelected()==-1) return;
-		
+
+	public void rename(String s) {
+		if (getSelected() == -1)
+			return;
+
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
 		final Node elt = svgRoot.getChildNodes().item(getSelected());
-		
-		if(elt.getNodeName()!=DrawModelEnum.TEXT.getTagName())
+
+		if (elt.getNodeName() != DrawModelEnum.TEXT.getTagName())
 			return;
-		
+
 		elt.setTextContent(s);
-		MainFrame.getInstance().repaintDrawPanel();		
+		MainFrame.getInstance().repaintDrawPanel();
 	}
 
 	/**
@@ -1015,7 +985,7 @@ public class Client {
 	}
 
 	public void setMoveDial(MoveDialog moveDial) {
-		if(this.moveDial!=null)
+		if (this.moveDial != null)
 			this.moveDial.dispose();
 		this.moveDial = moveDial;
 	}
@@ -1033,7 +1003,7 @@ public class Client {
 	}
 
 	public void setScaleDial(ScaleDialog scaleDial) {
-		if(this.scaleDial!=null)
+		if (this.scaleDial != null)
 			this.scaleDial.dispose();
 		this.scaleDial = scaleDial;
 	}
@@ -1051,9 +1021,33 @@ public class Client {
 	}
 
 	public void setRenameDial(RenameDialog renameDial) {
-		if(this.renameDial!=null)
+		if (this.renameDial != null)
 			this.renameDial.dispose();
 		this.renameDial = renameDial;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public Integer getDecalage() {
+		return decalage;
+	}
+
+	public void setDecalage(Integer decalage) {
+		this.decalage = decalage;
+	}
+
+	public String getServerAdress() {
+		return serverAdress;
+	}
+
+	public void setServerAdress(String serverAdress) {
+		this.serverAdress = serverAdress;
 	}
 
 }

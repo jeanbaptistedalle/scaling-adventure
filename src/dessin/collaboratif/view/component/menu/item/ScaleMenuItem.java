@@ -9,6 +9,7 @@ import javax.swing.KeyStroke;
 
 import dessin.collaboratif.controller.component.menu.item.ScaleListener;
 import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.model.Client;
 
 public class ScaleMenuItem extends JMenuItem {
 
@@ -19,26 +20,28 @@ public class ScaleMenuItem extends JMenuItem {
 
 	public ScaleMenuItem() {
 		super(GeneralVariables.EDITION_MENU_SCALE);
-		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-		        InputEvent.CTRL_MASK));
-		ImageIcon scaleIcon = new ImageIcon(
-				GeneralVariables.EDITION_MENU_SCALE_ICON_PATH);
+		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		ImageIcon scaleIcon = new ImageIcon(GeneralVariables.EDITION_MENU_SCALE_ICON_PATH);
 		this.setIcon(scaleIcon);
-//		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null && Client.getInstance().getSelected() != -1) {
+		if (Client.getInstance().getImage() != null
+				&& Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
+				&& Client.getInstance().getSelected() != -1) {
 			this.setEnabled(true);
-//		} else {
-//			this.setEnabled(false);
-//		}
+		} else {
+			this.setEnabled(false);
+		}
 		this.addActionListener(new ScaleListener());
 	}
 
 	@Override
 	public void repaint() {
-//		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null && Client.getInstance().getSelected() != -1) {
+		if (Client.getInstance().getImage() != null
+				&& Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
+				&& Client.getInstance().getSelected() != -1) {
 			this.setEnabled(true);
-//		} else {
-//			this.setEnabled(false);
-//		}
+		} else {
+			this.setEnabled(false);
+		}
 		super.repaint();
 	}
 }

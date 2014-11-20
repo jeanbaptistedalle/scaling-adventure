@@ -20,26 +20,28 @@ public class DeleteMenuItem extends JMenuItem {
 
 	public DeleteMenuItem() {
 		super(GeneralVariables.EDITION_MENU_DELETE);
-		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,
-		        InputEvent.CTRL_MASK));
-		ImageIcon deleteIcon = new ImageIcon(
-				GeneralVariables.EDITION_MENU_DELETE_ICON_PATH);
+		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.CTRL_MASK));
+		ImageIcon deleteIcon = new ImageIcon(GeneralVariables.EDITION_MENU_DELETE_ICON_PATH);
 		this.setIcon(deleteIcon);
-//		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null && Client.getInstance().getSelected() != -1) {
+		if (Client.getInstance().getImage() != null
+				&& Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
+				&& Client.getInstance().getSelected() != -1) {
 			this.setEnabled(true);
-//		} else {
-//			this.setEnabled(false);
-//		}
+		} else {
+			this.setEnabled(false);
+		}
 		this.addActionListener(new DeleteListener());
 	}
 
 	@Override
 	public void repaint() {
-//		if (Client.getInstance().getImage() != null && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null && Client.getInstance().getSelected() != -1) {
+		if (Client.getInstance().getImage() != null
+				&& Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
+				&& Client.getInstance().getSelected() != -1) {
 			this.setEnabled(true);
-//		} else {
-//			this.setEnabled(false);
-//		}
+		} else {
+			this.setEnabled(false);
+		}
 		super.repaint();
 	}
 }

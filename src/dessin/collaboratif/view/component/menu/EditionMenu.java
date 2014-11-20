@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 
 import dessin.collaboratif.misc.GeneralVariables;
-import dessin.collaboratif.view.component.dialog.RenameDialog;
 import dessin.collaboratif.view.component.menu.item.DeleteMenuItem;
 import dessin.collaboratif.view.component.menu.item.MoveMenuItem;
 import dessin.collaboratif.view.component.menu.item.RenameMenuItem;
@@ -54,6 +53,30 @@ public class EditionMenu extends JMenu {
 
 	public void setDelete(DeleteMenuItem delete) {
 		this.delete = delete;
+	}
+
+	public MoveMenuItem getMove() {
+		return move;
+	}
+
+	public void setMove(MoveMenuItem move) {
+		this.move = move;
+	}
+
+	public ScaleMenuItem getScale() {
+		return scale;
+	}
+
+	public void setScale(ScaleMenuItem scale) {
+		this.scale = scale;
+	}
+
+	public RenameMenuItem getRename() {
+		return rename;
+	}
+
+	public void setRename(RenameMenuItem rename) {
+		this.rename = rename;
 	}
 
 }
