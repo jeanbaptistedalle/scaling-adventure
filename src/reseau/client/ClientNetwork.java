@@ -16,9 +16,13 @@ import reseau.common.Message;
 
 /**
  * @class Client
- * @brief Gère la partie "réseau du client
+ * @brief Gère la partie "réseau" du client
  */
 public class ClientNetwork extends Thread{
+    
+    @SuppressWarnings("FieldMayBeFinal")
+    static private ClientNetwork INSTANCE = null;
+    
     private Socket sock;
     private PrintWriter out = null;
     private BufferedReader in = null;
@@ -29,64 +33,94 @@ public class ClientNetwork extends Thread{
     private Vector <Client> clients;
     
     /**
+     * @fn getInstance
+     * @brief retourne l'instance du singleton. Fait appel au constructeur s'il n'y a pas encore d'intance.
+     * @return ClientNetwork.INSTANCE
+     */
+    static public ClientNetwork getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ClientNetwork();
+        }
+        return INSTANCE;
+    }
+    
+    /**
      * @fn ClientNetwork
      * @brief Constructeur de Client
      * @param server_ip l'ip du serveur
      * @param port le port du serveur
      */
-    public ClientNetwork(InetAddress server_ip, int port){
-        boolean cont = true;
-        // connexion de la socket
-        try {
-            sock = new Socket(server_ip, port);
-        } catch (IOException ex) {
-            Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-            out = new PrintWriter(sock.getOutputStream(), true);
-        } catch (IOException ex) {
-            Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            addr = InetAddress.getLocalHost();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        /* Choix du pseudo */
-        String my_pseudo = "";
-        do{
+    private ClientNetwork(){}
+    
+    public boolean initIp (String serverIpS) {
+        if (sock == null) {
             try {
-                // TODO proposirion de pseudo
-                sendMessage(Constant.command.CONNECT, my_pseudo);
-                cont = (new Message(in).getCmd() != Constant.command.ACCEPT);
+                InetAddress serverIp;
+                serverIp = InetAddress.getByName(serverIpS);
+
+                sock = new Socket(serverIp, Constant.PORT);
+                in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                out = new PrintWriter(sock.getOutputStream(), true);
+                addr = InetAddress.getLocalHost();
+                
+                System.out.println("My address : " + addr.toString());
+                System.out.println("Socket : " + sock.toString());
+                System.out.println("in : " + in.toString());
+                System.out.println("out : " + out.toString());
+                
+                return true;
             } catch (UnknownHostException ex) {
                 Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }while (cont);
+            
+            try {
+                sock.close();
+                in.close();
+                out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        sock = null;
+        in = null;
+        out = null;
+        addr = null;
         
-        me = new Client(my_pseudo);
-        
-        /* Choix de la room */
+        return false;
+    }
+    
+    public boolean initPseudo (String pseudo) {
         try {
-            Message msg = new Message(in);
-            Vector <String> rooms = new Vector <String>();
-            String my_room = "";
-            for (int start = 0, end = msg.getContent().indexOf(Constant.SEPARATOR, 0); end != -1; start = end + 1, end = msg.getContent().indexOf(Constant.SEPARATOR, start)){
-                rooms.add(msg.getContent().substring(start, end));
-            }
-            do{
-                // TDOD Choix de la room
-                sendMessage(Constant.command.JOIN_ROOM, my_room);
-                msg = new Message(in);
-                cont = (msg.getCmd() != Constant.command.ACCEPT);
-            }while (cont);
+            sendMessage(Constant.command.CONNECT, pseudo);
+            boolean isValid = (new Message(in).getCmd() == Constant.command.ACCEPT);
+            
+            if (isValid)
+                me = new Client(pseudo);
+            
+            return isValid;
         } catch (UnknownHostException ex) {
             Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        
-
+    }
+    
+    public boolean initRoom (String roomNum) {
+        try {
+            // Message msg = new Message(in);
+            // Vector <String> rooms = new Vector <String>();
+            // String my_room = "";
+            // for (int start = 0, end = msg.getContent().indexOf(Constant.SEPARATOR, 0); end != -1; start = end + 1, end = msg.getContent().indexOf(Constant.SEPARATOR, start)){
+            //    rooms.add(msg.getContent().substring(start, end));
+            // }
+            sendMessage(Constant.command.JOIN_ROOM, roomNum);
+            Message msg = new Message(in);
+            return (msg.getCmd() == Constant.command.ACCEPT);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
     
     public void run(){
@@ -146,9 +180,9 @@ public class ClientNetwork extends Thread{
      * @param users la chaîne de tous les utilisateurs
      */
     private void updateUsers(String users){
-        Vector <Client> new_clients = new Vector<Client>();
+       clients = new Vector<Client>();
         for (int start=0, end = users.indexOf(Constant.SEPARATOR); end != -1; start = end + 1, end = users.indexOf(Constant.SEPARATOR, start)){
-            new_clients.add(new Client(users.substring(start, end)));
+            clients.add(new Client(users.substring(start, end)));
         }
     }
     

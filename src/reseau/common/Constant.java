@@ -9,6 +9,7 @@ public class Constant {
     public static final int NB_ROOM = 10;
     public static final byte SERVER_IP[] = {0, 0, 0, 0};   // L'adresse IP lorsque server est l'expéditeur
     public static final char SEPARATOR = ',';
+    public static final int PORT = 6666;
     
     /**
      * Les différents types de messages

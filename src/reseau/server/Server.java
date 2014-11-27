@@ -24,12 +24,14 @@ public class Server {
     private ClientManager active;
     
     public static void main(String[] args) {
-        Server s = new Server(6666);
+        Server s = new Server(Constant.PORT);
     }
     
+    @SuppressWarnings({"Convert2Diamond", "CallToThreadStartDuringObjectConstruction"})
     public Server (int port) {
         try {
             rooms = new Vector<Room>();
+            clients = new Vector<ClientManager>();
             ServerSocket sock = new ServerSocket(port);
             
             /**
@@ -40,7 +42,7 @@ public class Server {
                 rooms.add(room);
             }
             
-            System.out.println("¤ Server ready... Listening");
+            System.out.println("¤ Server ready... Listening @ " + sock.toString());
             
             /**
              * En attente de nouveaux clients.
