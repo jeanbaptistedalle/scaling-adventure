@@ -98,14 +98,15 @@ public class Message {
         byte[] b_addr = new byte[4];
         byte[] b_cmd = new byte[4];
         byte[] b_content_size = new byte[4];
-        char buff[] = new char[12];
+        char c_buff[] = new char[12];
 
         try {
-            in.read(buff, 0, 12);
+            in.read(c_buff, 0, 12);
         } catch (IOException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        byte[] buff = charArrayToByteArray(c_buff);
         System.arraycopy(buff, 0, b_addr, 0, 4);
         System.arraycopy(buff, 4, b_cmd, 0, 4);
         System.arraycopy(buff, 8, b_content_size, 0, 4);
@@ -165,6 +166,34 @@ public class Message {
         // on préfère multiplier qu'agir directement sur les bits
         // En effet, on ne peut pas appliquer un décalage suffisant sur les octets (overflow)
         return(input[0] * 16777216 + input[1] * 65535 + input[2] * 255 + input[3]);
+    }
+    
+    /**
+     * @fn charArrayToByteArray
+     * @brief convertit un tableau de chars en tableau de bytes
+     * @param input le tableau de chars
+     * @return le tableau de bytes correspondant
+     */
+    private byte[] charArrayToByteArray(char [] input){
+        byte res[] = new byte[input.length];
+        for (int i = 0; i < input.length; i++){
+            res[i] = (byte) input[i];
+        }
+        return(res);
+    }
+    
+    /**
+     * @fn byteArrayToCharArray
+     * @brief convertit un tableau de bytes en tableau de chars
+     * @param input le tableau de bytes
+     * @return le tableau de chars correspondant
+     */
+    private char[] byteArrayToCharArray(byte [] input){
+        char res[] = new char[input.length];
+        for (int i = 0; i < input.length; i++){
+            res[i] = (char) input[i];
+        }
+        return(res);
     }
 
     /**
