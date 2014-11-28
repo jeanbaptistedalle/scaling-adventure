@@ -26,7 +26,7 @@ public class ClientNetwork extends Thread{
     private Socket sock;
     private PrintWriter out = null;
     private BufferedReader in = null;
-    private InetAddress addr;
+    private InetAddress addr = null;
     private String pseudo;
     private Client me;
     private boolean have_control = false;
@@ -62,7 +62,7 @@ public class ClientNetwork extends Thread{
                 in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                 out = new PrintWriter(sock.getOutputStream(), true);
                 addr = InetAddress.getLocalHost();
-                
+
                 System.out.println("My address : " + addr.toString());
                 System.out.println("Socket : " + sock.toString());
                 System.out.println("in : " + in.toString());
@@ -83,10 +83,11 @@ public class ClientNetwork extends Thread{
                 Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        sock = null;
-        in = null;
-        out = null;
-        addr = null;
+        /* DEBUG */
+//        sock = null;
+//        in = null;
+//        out = null;
+//        addr = null;
         
         return false;
     }
