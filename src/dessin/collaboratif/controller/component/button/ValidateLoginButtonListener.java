@@ -27,14 +27,14 @@ public class ValidateLoginButtonListener implements ActionListener {
 			return;
 		}
 		// TODO vérifier validité adresse serveur
-		if (ClientNetwork.getInstance().initIp(serverText)) {
+		if (!ClientNetwork.getInstance().initIp(serverText)) {
                     LoginFrame.getInstance().getErrorLabel()
                         .setText(GeneralVariables.LOGIN_ERROR_INVALID_SERVER);
                     return;
 		}
 
 		// TODO vérifier unicité login
-		if (ClientNetwork.getInstance().initPseudo(loginText)) {
+		if (!ClientNetwork.getInstance().initPseudo(loginText)) {
                     LoginFrame.getInstance().getErrorLabel()
                         .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
                     return;

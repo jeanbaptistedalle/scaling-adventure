@@ -53,7 +53,7 @@ public class ClientNetwork extends Thread{
     private ClientNetwork(){}
     
     public boolean initIp (String serverIpS) {
-        if (sock == null) {
+        if (sock == null || !sock.isConnected()) {
             try {
                 InetAddress serverIp;
                 serverIp = InetAddress.getByName(serverIpS);
@@ -61,7 +61,7 @@ public class ClientNetwork extends Thread{
                 sock = new Socket(serverIp, Constant.PORT);
                 in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                 out = new PrintWriter(sock.getOutputStream(), true);
-                addr = InetAddress.getLocalHost();
+                addr = sock.getInetAddress();
 
                 System.out.println("My address : " + addr.toString());
                 System.out.println("Socket : " + sock.toString());
@@ -82,14 +82,10 @@ public class ClientNetwork extends Thread{
             } catch (IOException ex) {
                 Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            disconnect();
         }
-        /* DEBUG */
-//        sock = null;
-//        in = null;
-//        out = null;
-//        addr = null;
-        
-        return false;
+        return true;
     }
     
     public boolean initPseudo (String pseudo) {

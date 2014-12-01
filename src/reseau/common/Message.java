@@ -211,6 +211,7 @@ public class Message {
      * @return the content
      */
     public String getContent() {
+        System.out.println(" ! " + content);
         return content;
     }
     
