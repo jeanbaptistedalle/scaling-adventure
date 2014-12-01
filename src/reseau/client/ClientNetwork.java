@@ -23,7 +23,7 @@ public class ClientNetwork extends Thread{
     @SuppressWarnings("FieldMayBeFinal")
     static private ClientNetwork INSTANCE = null;
     
-    private Socket sock;
+    private Socket sock = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
     private InetAddress addr = null;
