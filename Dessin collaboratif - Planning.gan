@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Dessin colaboratif" company="" webLink="http://" view-date="2014-10-13" view-index="0" gantt-divider-location="506" resource-divider-location="648" version="2.0" locale="fr">
+<?xml version="1.0" encoding="UTF-8"?><project name="Dessin colaboratif" company="" webLink="http://" view-date="2014-10-06" view-index="0" gantt-divider-location="460" resource-divider-location="287" version="2.0" locale="fr">
     <description/>
     <view zooming-state="default:5" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="49" order="0"/>
-        <field id="tpd4" name="Date de début" width="25" order="1"/>
-        <field id="tpd5" name="Date de fin" width="25" order="2"/>
+        <field id="tpd3" name="Nom" width="60" order="0"/>
+        <field id="tpd4" name="Date de début" width="19" order="1"/>
+        <field id="tpd5" name="Date de fin" width="20" order="2"/>
     </view>
     <view id="resource-table">
         <field id="0" name="Nom" width="50" order="0"/>
-        <field id="1" name="Rôle par défaut" width="50" order="1"/>
+        <field id="1" name="Rôle par défaut" width="49" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -49,120 +49,164 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="1" name="Réunion de lancement" color="#8cb6ce" meeting="true" start="2014-10-10" duration="0" complete="0" expand="true">
-            <depend id="3" type="2" difference="0" hardness="Strong"/>
-            <depend id="5" type="2" difference="0" hardness="Strong"/>
-            <depend id="7" type="2" difference="0" hardness="Strong"/>
+        <task id="3" name="Montée en compétence" color="#000000" meeting="false" start="2014-10-10" duration="8" complete="0" expand="true">
+            <depend id="247" type="2" difference="0" hardness="Strong"/>
+            <task id="86" name="Montée en compétence (Reseau)" color="#999999" meeting="false" start="2014-10-10" duration="8" complete="0" expand="true">
+                <depend id="34" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="59" name="Montée en compétence (Batik)" color="#999999" meeting="false" start="2014-10-10" duration="8" complete="0" expand="true">
+                <depend id="247" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="51" name="Montée en compétence Swing" color="#999999" meeting="false" start="2014-10-10" duration="8" complete="0" expand="true">
+                <depend id="247" type="2" difference="0" hardness="Strong"/>
+            </task>
         </task>
-        <task id="3" name="Montée en compétence (Swing)" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="31" expand="true">
-            <task id="51" name="Montée en compétence 1" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="25" expand="true">
+        <task id="257" name="Chiffrage" color="#ffcc33" meeting="false" start="2014-10-09" duration="9" complete="0" expand="true">
+            <depend id="247" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="282" name="Réunions" color="#000000" meeting="false" start="2014-10-09" duration="81" complete="0" expand="true">
+            <task id="1" name="Réunion de lancement" color="#ff0000" meeting="true" start="2014-10-09" duration="0" complete="0" expand="true">
+                <depend id="3" type="2" difference="0" hardness="Strong"/>
+                <depend id="257" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="247" name="Point sur la formation" color="#ff0000" meeting="true" start="2014-10-18" duration="0" complete="0" expand="true">
+                <depend id="15" type="2" difference="0" hardness="Strong"/>
+                <depend id="34" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="261" name="Point d'équipe" color="#ff0000" meeting="true" start="2014-11-07" duration="0" complete="0" expand="true"/>
+            <task id="245" name="Point de mi-parcours" color="#ff0000" meeting="true" start="2014-11-18" duration="0" complete="0" expand="true"/>
+            <task id="266" name="Point d'équipe" color="#ff0000" meeting="true" start="2014-12-05" duration="0" complete="0" expand="true"/>
+            <task id="269" name="Point d'équipe" color="#ff0000" meeting="true" start="2014-12-19" duration="0" complete="0" expand="true"/>
+            <task id="272" name="Etat des lieux et bilan" color="#ff0000" meeting="true" start="2015-01-02" duration="0" complete="0" expand="true"/>
+        </task>
+        <task id="88" name="Client" color="#000000" meeting="false" start="2014-10-18" duration="55" complete="0" expand="true">
+            <task id="15" name="Création d'image" color="#ff0000" meeting="false" start="2014-10-18" duration="5" complete="0" expand="true">
+                <depend id="18" type="2" difference="0" hardness="Strong"/>
                 <depend id="20" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="52" name="Montée en compétence 2" color="#00ff00" meeting="false" start="2014-10-10" duration="1" complete="100" expand="true"/>
-        </task>
-        <task id="5" name="Montée en compétence (Batik)" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="11" expand="true">
-            <depend id="20" type="2" difference="0" hardness="Strong"/>
-            <task id="59" name="Montée en compétence 1" color="#00ff00" meeting="false" start="2014-10-10" duration="1" complete="100" expand="true">
-                <depend id="15" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="60" name="Montée en compétence 2" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="25" expand="true"/>
-            <task id="61" name="Montée en compétence 3" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="0" expand="true">
-                <depend id="34" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="65" name="Montée en compétence 4" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="0" expand="true">
-                <depend id="34" type="2" difference="0" hardness="Strong"/>
-            </task>
-        </task>
-        <task id="7" name="Montér en compétence (Remote)" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="0" expand="true">
-            <task id="86" name="Montée en compétence 1" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="0" expand="true">
-                <depend id="34" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="87" name="Montée en compétence 2" color="#00ff00" meeting="false" start="2014-10-10" duration="10" complete="0" expand="true">
-                <depend id="34" type="2" difference="0" hardness="Strong"/>
-            </task>
-        </task>
-        <task id="88" name="Client" color="#8cb6ce" meeting="false" start="2014-10-11" duration="25" complete="67" expand="true">
-            <task id="15" name="Création d'image" color="#8cb6ce" meeting="false" start="2014-10-11" duration="1" complete="100" expand="true">
-                <depend id="18" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="18" name="Ouverture d'image" color="#8cb6ce" meeting="false" start="2014-10-12" duration="1" complete="100" expand="true">
+            <task id="18" name="Ouverture d'image" color="#00ff00" meeting="false" start="2014-10-23" duration="2" complete="0" expand="true">
                 <depend id="19" type="2" difference="0" hardness="Strong"/>
-                <depend id="94" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="19" name="Choix de forme" color="#8cb6ce" meeting="false" start="2014-10-13" duration="1" complete="100" expand="true">
+            <task id="19" name="Choix de forme" color="#ffcc33" meeting="false" start="2014-10-25" duration="5" complete="0" expand="true">
                 <depend id="21" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="20" name="Ajout de forme" color="#8cb6ce" meeting="false" start="2014-10-20" duration="3" complete="50" expand="true">
                 <depend id="22" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="21" name="Annulation dernier élément" color="#8cb6ce" meeting="false" start="2014-10-14" duration="1" complete="100" expand="true">
                 <depend id="24" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="27" name="Suppression d'un élément" color="#8cb6ce" meeting="false" start="2014-10-20" duration="3" complete="100" expand="true">
+            <task id="20" name="Ajout de forme" color="#ffcc33" meeting="false" start="2014-10-23" duration="7" complete="0" expand="true">
                 <depend id="22" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="22" name="Zone de texte" color="#8cb6ce" meeting="false" start="2014-10-23" duration="3" complete="100" expand="true">
-                <depend id="25" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="24" name="Selection d'un élément" color="#8cb6ce" meeting="false" start="2014-10-15" duration="5" complete="80" expand="true">
-                <depend id="27" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="25" name="Déplacement d'un élément" color="#8cb6ce" meeting="false" start="2014-10-26" duration="4" complete="40" expand="true">
-                <notes><![CDATA[Deplacement des formes uniquement (pas du texte) et par bouton
-Necessite l'implémentation de la selection du texte
-Amelioration à voir: click&drag]]></notes>
-                <depend id="26" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="26" name="Redimenssion d'un élément" color="#8cb6ce" meeting="false" start="2014-10-30" duration="4" complete="40" expand="true">
-                <notes><![CDATA[Meme note que Deplacement
-]]></notes>
-                <depend id="28" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="28" name="Modification du texte d'une zone de texte" color="#8cb6ce" meeting="false" start="2014-11-04" duration="2" complete="0" expand="true"/>
-        </task>
-        <task id="89" name="Client distant" meeting="false" start="2014-10-29" duration="10" complete="0" expand="true">
-            <task id="94" name="Connection avec serveur" color="#8cb6ce" meeting="false" start="2014-10-29" duration="4" complete="0" expand="true">
-                <depend id="32" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="29" name="Création d'image distante" color="#8cb6ce" meeting="false" start="2014-10-29" duration="3" complete="0" expand="true">
-                <depend id="30" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="33" name="Retour en mode lecture" color="#8cb6ce" meeting="false" start="2014-11-06" duration="3" complete="0" expand="true"/>
-            <task id="32" name="Demande mode écriture" color="#8cb6ce" meeting="false" start="2014-11-03" duration="3" complete="0" expand="true">
-                <depend id="33" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="31" name="Enregistrement image distance" color="#8cb6ce" meeting="false" start="2014-11-04" duration="2" complete="0" expand="true"/>
-            <task id="30" name="Ouverture d'image distante" color="#8cb6ce" meeting="false" start="2014-11-02" duration="2" complete="0" expand="true">
-                <depend id="31" type="2" difference="0" hardness="Strong"/>
-            </task>
-        </task>
-        <task id="91" name="Serveur" color="#8cb6ce" meeting="false" start="2014-10-20" duration="23" complete="0" expand="true">
-            <task id="34" name="Mise en place du serveur" color="#8cb6ce" meeting="false" start="2014-10-20" duration="4" complete="0" expand="true">
-                <depend id="35" type="2" difference="0" hardness="Strong"/>
-            </task>
-            <task id="35" name="Communication avec un client" color="#8cb6ce" meeting="false" start="2014-10-24" duration="5" complete="0" expand="true">
-                <depend id="36" type="2" difference="0" hardness="Strong"/>
-                <depend id="38" type="2" difference="0" hardness="Strong"/>
                 <depend id="94" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="36" name="Communication multi-client" color="#8cb6ce" meeting="false" start="2014-10-29" duration="5" complete="0" expand="true">
-                <depend id="40" type="2" difference="0" hardness="Strong"/>
-                <depend id="47" type="2" difference="0" hardness="Strong"/>
+            <task id="21" name="Annulation dernier élément" color="#00ff00" meeting="false" start="2014-10-30" duration="1" complete="0" expand="true">
+                <depend id="24" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="38" name="Création mode écriture" color="#8cb6ce" meeting="false" start="2014-10-29" duration="2" complete="0" expand="true">
-                <depend id="39" type="2" difference="0" hardness="Strong"/>
+            <task id="24" name="Selection d'un élément" color="#ff0000" meeting="false" start="2014-10-31" duration="5" complete="0" expand="true">
+                <depend id="27" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="39" name="Accepter demande mode écriture" color="#8cb6ce" meeting="false" start="2014-10-31" duration="3" complete="0" expand="true">
-                <depend id="47" type="2" difference="0" hardness="Strong"/>
+            <task id="27" name="Suppression d'un élément" color="#00ff00" meeting="false" start="2014-11-06" duration="2" complete="0" expand="true">
+                <depend id="22" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="40" name="Conférer mode écriture à un client" color="#8cb6ce" meeting="false" start="2014-11-04" duration="4" complete="0" expand="true">
-                <depend id="48" type="2" difference="0" hardness="Strong"/>
+            <task id="22" name="Zone de texte" color="#ffcc33" meeting="false" start="2014-11-08" duration="3" complete="0" expand="true">
+                <depend id="25" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="47" name="Supprimer mode écriture" color="#8cb6ce" meeting="false" start="2014-11-04" duration="4" complete="0" expand="true">
-                <depend id="48" type="2" difference="0" hardness="Strong"/>
+            <task id="25" name="Déplacement d'un élément" color="#ffcc33" meeting="false" start="2014-11-12" duration="4" complete="0" expand="true">
+                <depend id="26" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="48" name="Répercuter modification image" color="#8cb6ce" meeting="false" start="2014-11-08" duration="5" complete="0" expand="true"/>
+            <task id="26" name="Redimenssion d'un élément" color="#ffcc33" meeting="false" start="2014-11-16" duration="4" complete="0" expand="true">
+                <depend id="28" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="28" name="Modification du texte d'une zone de texte" color="#00ff00" meeting="false" start="2014-11-20" duration="2" complete="0" expand="true">
+                <depend id="153" type="2" difference="0" hardness="Strong"/>
+                <depend id="283" type="2" difference="0" hardness="Strong"/>
+                <depend id="309" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="283" name="Ajout d'icone" color="#33ffcc" meeting="false" start="2014-11-22" duration="4" complete="0" expand="true">
+                <depend id="292" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="292" name="Ajout de raccourci" color="#33ffcc" meeting="false" start="2014-11-26" duration="3" complete="0" expand="true">
+                <depend id="395" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="395" name="Amélioration déplacement/agrandissement" color="#33ffcc" meeting="false" start="2014-11-29" duration="7" complete="0" expand="true">
+                <depend id="297" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="297" name="Optimisation affichage" color="#33ffcc" meeting="false" start="2014-12-06" duration="8" complete="0" expand="true">
+                <depend id="303" type="2" difference="0" hardness="Strong"/>
+            </task>
         </task>
+        <task id="91" name="Serveur" color="#000000" meeting="false" start="2014-10-18" duration="68" complete="0" expand="true">
+            <task id="34" name="Mise en place du serveur" color="#ffcc33" meeting="false" start="2014-10-18" duration="4" complete="0" expand="true">
+                <depend id="102" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="102" name="Ecriture du protocole" color="#ff0000" meeting="false" start="2014-10-22" duration="7" complete="0" expand="true">
+                <depend id="35" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="35" name="Communication avec un client" color="#ffcc33" meeting="false" start="2014-10-29" duration="5" complete="0" expand="true">
+                <depend id="36" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="36" name="Communication multi-client" color="#ff0000" meeting="false" start="2014-11-04" duration="5" complete="0" expand="true">
+                <depend id="38" type="2" difference="0" hardness="Strong"/>
+                <depend id="47" type="2" difference="0" hardness="Strong"/>
+                <depend id="94" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="38" name="Création mode écriture" color="#ffcc33" meeting="false" start="2014-11-19" duration="3" complete="0" expand="true">
+                <depend id="39" type="2" difference="0" hardness="Strong"/>
+                <depend id="40" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="39" name="Accepter demande mode écriture" color="#ffcc33" meeting="false" start="2014-11-22" duration="3" complete="0" expand="true">
+                <depend id="47" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="47" name="Supprimer mode écriture" color="#ffcc33" meeting="false" start="2014-11-25" duration="5" complete="0" expand="true">
+                <depend id="40" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="40" name="Conférer mode écriture à un client" color="#ff0000" meeting="false" start="2014-11-30" duration="5" complete="0" expand="true">
+                <depend id="48" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="48" name="Répercuter modification image" color="#ff0000" meeting="false" start="2014-12-05" duration="8" complete="0" expand="true">
+                <depend id="286" type="2" difference="0" hardness="Strong"/>
+                <depend id="303" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="286" name="Cryptage des données" color="#33ffcc" meeting="false" start="2014-12-13" duration="6" complete="0" expand="true">
+                <depend id="287" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="287" name="Optimisation sécurité" color="#33ffcc" meeting="false" start="2014-12-19" duration="8" complete="0" expand="true"/>
+        </task>
+        <task id="89" name="Client distant" meeting="false" start="2014-11-09" duration="38" complete="0" expand="true">
+            <task id="94" name="Connection avec serveur" color="#ff0000" meeting="false" start="2014-11-09" duration="7" complete="0" expand="true">
+                <depend id="29" type="2" difference="0" hardness="Strong"/>
+                <depend id="32" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="29" name="Création d'image distante" color="#ffcc33" meeting="false" start="2014-11-17" duration="3" complete="0" expand="true">
+                <depend id="30" type="2" difference="0" hardness="Strong"/>
+                <depend id="33" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="32" name="Demande mode écriture" color="#00ff00" meeting="false" start="2014-11-17" duration="2" complete="0" expand="true">
+                <depend id="33" type="2" difference="0" hardness="Strong"/>
+                <depend id="38" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="33" name="Retour en mode lecture" color="#ffcc33" meeting="false" start="2014-11-20" duration="3" complete="0" expand="true">
+                <depend id="30" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="30" name="Ouverture d'image distante" color="#ffcc33" meeting="false" start="2014-11-23" duration="3" complete="0" expand="true">
+                <depend id="31" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="31" name="Enregistrement image distance" color="#ffcc33" meeting="false" start="2014-11-26" duration="4" complete="0" expand="true">
+                <depend id="40" type="2" difference="0" hardness="Strong"/>
+                <depend id="48" type="2" difference="0" hardness="Strong"/>
+                <depend id="303" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="303" name="Ajout du chat" color="#33ffcc" meeting="false" start="2014-12-14" duration="4" complete="0" expand="true"/>
+        </task>
+        <task id="253" name="Pilotage" color="#3333ff" meeting="false" start="2014-10-09" duration="84" complete="0" expand="true"/>
+        <task id="153" name="Recette" color="#3333ff" meeting="false" start="2014-11-22" duration="13" complete="0" expand="true"/>
+        <task id="309" name="Retour sur recette" color="#ffcc33" meeting="false" start="2014-11-22" duration="35" complete="0" expand="true">
+            <depend id="363" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="152" name="Rédaction du rapport" color="#3333ff" meeting="false" start="2014-12-05" duration="27" complete="0" expand="true">
+            <depend id="363" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="363" name="Génération du livrable" color="#3333ff" meeting="false" start="2015-01-03" duration="2" complete="0" expand="true">
+            <depend id="171" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="171" name="Livraison" color="#ff0000" meeting="true" start="2015-01-05" duration="0" complete="0" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Kevin" function="SoftwareDevelopment:2" contacts="hivertkevin@gmail.com" phone=""/>
@@ -171,27 +215,96 @@ Amelioration à voir: click&drag]]></notes>
         <resource id="3" name="Jean-Baptiste" function="Default:1" contacts="jean-baptiste.dalle@laposte.net" phone=""/>
     </resources>
     <allocations>
-        <allocation task-id="1" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
-        <allocation task-id="61" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="50.0"/>
+        <allocation task-id="1" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
         <allocation task-id="86" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="50.0"/>
-        <allocation task-id="1" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
-        <allocation task-id="65" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="50.0"/>
-        <allocation task-id="87" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="50.0"/>
-        <allocation task-id="1" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="34" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="102" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="35" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="36" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="29" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="33" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="30" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="31" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="40" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="48" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="309" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="152" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="94" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="59" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="50.0"/>
+        <allocation task-id="247" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="261" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="245" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="266" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="269" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="272" resource-id="0" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="1" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="34" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="102" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="94" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="35" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="36" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="32" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="38" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="39" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="47" resource-id="1" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="40" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="48" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="309" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="152" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="86" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="50.0"/>
+        <allocation task-id="59" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="50.0"/>
+        <allocation task-id="247" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="261" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="245" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="266" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="269" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="272" resource-id="1" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="1" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
         <allocation task-id="51" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="50.0"/>
-        <allocation task-id="60" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="50.0"/>
         <allocation task-id="20" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
         <allocation task-id="22" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
         <allocation task-id="25" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
         <allocation task-id="26" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
-        <allocation task-id="1" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="52" resource-id="3" function="Default:1" responsible="true" load="50.0"/>
-        <allocation task-id="59" resource-id="3" function="Default:1" responsible="true" load="50.0"/>
+        <allocation task-id="15" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="21" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="24" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="27" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="153" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="309" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="0.0"/>
+        <allocation task-id="152" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="100.0"/>
+        <allocation task-id="28" resource-id="2" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="59" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="50.0"/>
+        <allocation task-id="247" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="261" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="245" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="266" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="269" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="272" resource-id="2" function="SoftwareDevelopment:2" responsible="false" load="0.0"/>
+        <allocation task-id="1" resource-id="3" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="59" resource-id="3" function="Default:1" responsible="true" load="40.0"/>
         <allocation task-id="18" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="19" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="15" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="21" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="24" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="24" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="257" resource-id="3" function="Default:1" responsible="true" load="20.0"/>
+        <allocation task-id="27" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="253" resource-id="3" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="309" resource-id="3" function="Default:1" responsible="false" load="0.0"/>
+        <allocation task-id="152" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="22" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="25" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="26" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="28" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="153" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="51" resource-id="3" function="Default:1" responsible="false" load="40.0"/>
+        <allocation task-id="363" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="247" resource-id="3" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="261" resource-id="3" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="245" resource-id="3" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="266" resource-id="3" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="269" resource-id="3" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="272" resource-id="3" function="Default:1" responsible="true" load="0.0"/>
     </allocations>
     <vacations/>
     <taskdisplaycolumns>
@@ -204,9 +317,9 @@ Amelioration à voir: click&drag]]></notes>
         <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd8" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
-        <displaycolumn property-id="tpd3" order="0" width="242" visible="true"/>
-        <displaycolumn property-id="tpd4" order="1" width="123" visible="true"/>
-        <displaycolumn property-id="tpd5" order="2" width="122" visible="true"/>
+        <displaycolumn property-id="tpd3" order="0" width="267" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="85" visible="true"/>
+        <displaycolumn property-id="tpd5" order="2" width="89" visible="true"/>
     </taskdisplaycolumns>
     <previous/>
     <roles roleset-name="Default"/>
