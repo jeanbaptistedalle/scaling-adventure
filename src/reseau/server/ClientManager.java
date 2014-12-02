@@ -54,8 +54,11 @@ class ClientManager extends Thread {
          */
         
         /* Le client choisit son pseudo */
+        
         do{
+            System.out.println("...");
             my_pseudo = recvMessage().getContent();
+            System.out.println("...");
             cont = false;
             // On teste que le pseudo soit unique
             for (ClientManager cli : server.getClients()){
@@ -63,7 +66,7 @@ class ClientManager extends Thread {
                     cont = true;
                 }
             }
-            sendMessage((cont)?Constant.command.DENY:Constant.command.ACCEPT);            
+            sendMessage((cont) ? Constant.command.DENY : Constant.command.ACCEPT);
         }while (cont);
         
         this.client.setPseudo(my_pseudo);
@@ -73,6 +76,7 @@ class ClientManager extends Thread {
         server.addClient(this);
         
         /* Puis il choisit sa Room */
+        /*
         sendMessage(Constant.command.LIST_ROOMS, server.getRoomList());
         
         do{
@@ -86,6 +90,8 @@ class ClientManager extends Thread {
             }
             sendMessage((cont)?Constant.command.DENY:Constant.command.ACCEPT);            
         }while (cont);
+        */
+        my_room = "0";
         
         this.room = server.getRoomById(my_room);
         this.room.addClient(this);
@@ -142,6 +148,7 @@ class ClientManager extends Thread {
      * @param cmd la commande
      * @param content le contenu
      */
+    @SuppressWarnings("ImplicitArrayToString")
     private void sendMessage(Constant.command cmd, String content){
         out.print(new Message(Constant.SERVER_IP, cmd, content).toByteArray());
     }
@@ -151,6 +158,7 @@ class ClientManager extends Thread {
      * @brief Crée un Message et l'envoie au client
      * @param cmd la commande
      */
+    @SuppressWarnings("ImplicitArrayToString")
     private void sendMessage(Constant.command cmd){
         out.print(new Message(Constant.SERVER_IP, cmd).toByteArray());
     }

@@ -8,6 +8,8 @@ import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.LoginFrame;
 import dessin.collaboratif.view.component.MainFrame;
 
+import reseau.client.ClientNetwork;
+
 public class ValidateLoginButtonListener implements ActionListener {
 
 	@Override
@@ -25,18 +27,19 @@ public class ValidateLoginButtonListener implements ActionListener {
 			return;
 		}
 		// TODO vérifier validité adresse serveur
-		// if () {
-		// LoginFrame.getInstance().getErrorLabel()
-		// .setText(GeneralVariables.LOGIN_ERROR_INVALID_SERVER);
-		// return;
-		// }
+		if (!ClientNetwork.getInstance().initIp(serverText)) {
+                    LoginFrame.getInstance().getErrorLabel()
+                        .setText(GeneralVariables.LOGIN_ERROR_INVALID_SERVER);
+                    return;
+		}
 
 		// TODO vérifier unicité login
-		// if () {
-		// LoginFrame.getInstance().getErrorLabel()
-		// .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
-		// return;
-		// }
+		if (!ClientNetwork.getInstance().initPseudo(loginText)) {
+                    LoginFrame.getInstance().getErrorLabel()
+                        .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
+                    return;
+		}
+                
 		Client.getInstance().setLogin(loginText);
 		Client.getInstance().setServerAdress(serverText);
 		LoginFrame.getInstance().setVisible(false);
