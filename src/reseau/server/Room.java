@@ -86,8 +86,8 @@ class Room{
         for (int i=0; i<clients.size()-1; i++){
             res += clients.get(i).toString() + Constant.SEPARATOR;
         }
-        res += clients.get(clients.size() - 1).toString();
-        
+        if (!clients.isEmpty())
+            res += clients.get(clients.size() - 1).toString();
         return(res);
     }
     

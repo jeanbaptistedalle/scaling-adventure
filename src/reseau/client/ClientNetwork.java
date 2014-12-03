@@ -69,20 +69,12 @@ public class ClientNetwork extends Thread{
                 
                 return true;
             } catch (UnknownHostException ex) {
-                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
             } catch (IOException ex) {
-                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
             }
-            
-            try {
-                sock.close();
-                in.close();
-                out.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            disconnect();
         }
         return true;
     }

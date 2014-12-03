@@ -109,7 +109,7 @@ public class Message {
         
         try {
             in.read(buff, 0, 12);
-            System.out.print("Read : " + Arrays.toString(buff));
+            System.out.print("¤ Read : " + Arrays.toString(buff));
         } catch (IOException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }

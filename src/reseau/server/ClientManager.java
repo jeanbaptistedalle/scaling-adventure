@@ -43,8 +43,8 @@ class ClientManager extends Thread {
     
     @SuppressWarnings("override")
     public void run () {
-        boolean cont;
-        String my_pseudo;
+        boolean cont = false;
+        String my_pseudo = null;
         int my_room;
         /**
          * Quand un nouveau client arrive on lui demande un pseudo.
@@ -55,15 +55,36 @@ class ClientManager extends Thread {
         /* Le client choisit son pseudo */
         
         do{
-            my_pseudo = recvMessage().getContent();
-            cont = false;
-            // On teste que le pseudo soit unique
-            for (ClientManager cli : server.getClients()){
-                if (my_pseudo.equals(cli.getPseudo())){
-                    cont = true;
-                }
+            Message msg = recvMessage();
+            
+            switch (msg.getCmd()){
+                case DISCONNECT:
+                    server.rmClient(this);
+                    try {
+                        in.close();
+                        out.close();
+                        sock.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println("¤ Client leaved befrore connection.");
+                return;
+                case CONNECT:
+                    my_pseudo = msg.getContent();
+                    cont = false;
+                    // On teste que le pseudo soit unique
+                    for (ClientManager cli : server.getClients()){
+                        if (cli.getPseudo() != null){
+                            if (my_pseudo.equals(cli.getPseudo())) {
+                                cont = true;
+                            }
+                        }
+                    }
+                    sendMessage((cont) ? Constant.command.DENY : Constant.command.ACCEPT);
+                break;
+                default:
+                break;
             }
-            sendMessage((cont) ? Constant.command.DENY : Constant.command.ACCEPT);
         } while(cont);
         
         this.client.setPseudo(my_pseudo);
@@ -73,8 +94,7 @@ class ClientManager extends Thread {
         server.addClient(this);
         
         /* Puis il choisit sa Room */
-        /*
-        sendMessage(Constant.command.LIST_ROOMS, server.getRoomList());
+        /* sendMessage(Constant.command.LIST_ROOMS, server.getRoomList());
         
         do{
             my_room = recvMessage().getContent();
@@ -86,8 +106,7 @@ class ClientManager extends Thread {
                 }
             }
             sendMessage((cont)?Constant.command.DENY:Constant.command.ACCEPT);            
-        }while (cont);
-        */
+        }while (cont); */
         my_room = 0;
         this.room = server.getRoomById(my_room);
         this.room.addClient(this);
@@ -99,26 +118,30 @@ class ClientManager extends Thread {
             switch (msg.getCmd()){
                 case GET_USERS :
                     sendMessage(Constant.command.LIST_USERS, room.getClientList());
-                    break;
+                break;
                 case REQUEST_CTRL :
                     room.joinWaitList(this);
-                    break;
+                break;
                 case LEAVE_CTRL :
                     room.leaveWaitList(this);
+                break;
                 case SUBMIT :
                     if (room.getWaitList().isCurrent(this)){
                         room.broadcast(new Message(msg.getFrom(), Constant.command.UPDATE, msg.getContent()));
                     }
-                    break;
+                break;
                 case DISCONNECT :
                     cont = false;
-                    break;
+                    room.rmClient(this);
+                    server.rmClient(this);
+                    room.broadcast(new Message(msg.getFrom(), Constant.command.LIST_USERS, room.getClientList()));
+                break;
+                default:
+                break;
             }
         }
         
         /* Lorsqu'on est ici, le client à demandé la déconnexion */
-        room.rmClient(this);
-        server.rmClient(this);
         try {
             in.close();
             out.close();
@@ -126,7 +149,7 @@ class ClientManager extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("¤ Client " + this.getPseudo() + "leaved");
+        System.out.println("¤ Client " + this.getPseudo() + " leaved");
     }
     
     /**

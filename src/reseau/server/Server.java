@@ -52,7 +52,6 @@ public class Server {
                 System.out.println("¤ New client tried to connect");
                 ClientManager client = new ClientManager(client_sock, this);
                 client.start();
-                clients.add(client);
             }
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
