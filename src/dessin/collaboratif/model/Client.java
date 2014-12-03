@@ -28,9 +28,6 @@ import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.misc.ScaleEnum;
 import dessin.collaboratif.view.component.MainFrame;
-import dessin.collaboratif.view.component.dialog.MoveDialog;
-import dessin.collaboratif.view.component.dialog.RenameDialog;
-import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class Client {
 
@@ -38,10 +35,6 @@ public class Client {
 
 	private String login = null;
 	private String serverAdress = null;
-
-	private MoveDialog moveDial = null;
-	private ScaleDialog scaleDial = null;
-	private RenameDialog renameDial = null;
 
 	private DOMImplementation domImpl;
 	private String svgNameSpace;
@@ -90,13 +83,14 @@ public class Client {
 	 * @param y2
 	 * @return
 	 */
-	private boolean isLegal(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
-		if (x1 != null && x2 != null && y1 != null && y2 != null && Math.abs(x2 - x1) < 1
-				&& Math.abs(y2 - y1) < 1)
+	private boolean isLegal(final Integer x1, final Integer y1,
+			final Integer x2, final Integer y2) {
+		if (x1 != null && x2 != null && y1 != null && y2 != null
+				&& Math.abs(x2 - x1) < 1 && Math.abs(y2 - y1) < 1)
 			return false;
 		else
-			return x1 != null && x1 >= 0 && y1 != null && y1 >= 0 && x2 != null && x2 >= 0
-					&& y2 != null && y2 >= 0;
+			return x1 != null && x1 >= 0 && y1 != null && y1 >= 0 && x2 != null
+					&& x2 >= 0 && y2 != null && y2 >= 0;
 	}
 
 	/**
@@ -109,7 +103,8 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	public boolean draw(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
+	public boolean draw(final Integer x1, final Integer y1, final Integer x2,
+			final Integer y2) {
 		if (isLegal(x1, y1, x2, y2)) {
 			if (currentDraw != null) {
 
@@ -212,8 +207,10 @@ public class Client {
 	private void scaleRect(Element elt) {
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE);
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE);
-		String attW = elt.getAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE);
-		String attH = elt.getAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE);
+		String attW = elt
+				.getAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE);
+		String attH = elt.getAttributeNS(null,
+				SVGConstants.SVG_HEIGHT_ATTRIBUTE);
 
 		Integer valueW = Integer.valueOf(attW);
 		Integer valueH = Integer.valueOf(attH);
@@ -308,7 +305,8 @@ public class Client {
 	}
 
 	private void scaleText(Element elt) {
-		String attFS = elt.getAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE);
+		String attFS = elt.getAttributeNS(null,
+				SVGConstants.SVG_FONT_SIZE_ATTRIBUTE);
 
 		Integer valueFS = Integer.valueOf(attFS);
 
@@ -321,7 +319,8 @@ public class Client {
 		valueFS = (valueFS > 1) ? valueFS : 1;
 		valueFS = (valueFS > 1) ? valueFS : 1;
 
-		elt.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, "" + valueFS);
+		elt.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, ""
+				+ valueFS);
 
 	}
 
@@ -371,8 +370,10 @@ public class Client {
 	private void moveRect(Element elt) {
 		String attX = elt.getAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE);
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE);
-		String attW = elt.getAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE);
-		String attH = elt.getAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE);
+		String attW = elt
+				.getAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE);
+		String attH = elt.getAttributeNS(null,
+				SVGConstants.SVG_HEIGHT_ATTRIBUTE);
 
 		Integer valueX = Integer.valueOf(attX);
 		Integer valueY = Integer.valueOf(attY);
@@ -524,7 +525,8 @@ public class Client {
 
 	}
 
-	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2, Boolean resize) {
+	public boolean draw(Integer x1, Integer y1, Integer x2, Integer y2,
+			Boolean resize) {
 
 		if (resize)
 			undo();
@@ -532,7 +534,8 @@ public class Client {
 		return draw(x1, y1, x2, y2);
 	}
 
-	private void reshapeSVG(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
+	private void reshapeSVG(final Integer x1, final Integer y1,
+			final Integer x2, final Integer y2) {
 		Integer maxX = (x1 < x2) ? x2 : x1;
 		Integer maxY = (y1 < y2) ? y2 : y1;
 
@@ -545,8 +548,10 @@ public class Client {
 		maxX += 10;
 		maxY += 10;
 
-		svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, "" + maxX);
-		svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, "" + maxY);
+		svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, ""
+				+ maxX);
+		svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, ""
+				+ maxY);
 
 		setSvgSizeX(maxX);
 		setSvgSizeY(maxY);
@@ -563,12 +568,17 @@ public class Client {
 		Text text = doc.createTextNode(textToInsert);
 
 		// Create the rectangle.
-		Element rectangle = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "text");
-		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, x1.toString());
-		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, y1.toString());
+		Element rectangle = doc.createElementNS(Client.getInstance()
+				.getSvgNameSpace(), "text");
+		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE,
+				x1.toString());
+		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE,
+				y1.toString());
 		String rgbString = colorToRGB(selectedColor);
-		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
-		rectangle.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, sizeTextToInsert);
+		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE,
+				rgbString);
+		rectangle.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE,
+				sizeTextToInsert);
 		rectangle.appendChild(text);
 		svgRoot.appendChild(rectangle);
 		saveSVG();
@@ -583,7 +593,8 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawSquare(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
+	private void drawSquare(final Integer x1, final Integer y1,
+			final Integer x2, final Integer y2) {
 		/*
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
@@ -609,15 +620,21 @@ public class Client {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		Element rectangle = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "rect");
-		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, nx1.toString());
-		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, ny1.toString());
+		Element rectangle = doc.createElementNS(Client.getInstance()
+				.getSvgNameSpace(), "rect");
+		rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE,
+				nx1.toString());
+		rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE,
+				ny1.toString());
 		Integer height = ny2 - ny1;
 		Integer width = nx2 - nx1;
-		rectangle.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, height.toString());
-		rectangle.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, width.toString());
+		rectangle.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE,
+				height.toString());
+		rectangle.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE,
+				width.toString());
 		String rgbString = colorToRGB(selectedColor);
-		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
+		rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE,
+				rgbString);
 		svgRoot.appendChild(rectangle);
 		saveSVG();
 	}
@@ -630,7 +647,8 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawEllipse(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
+	private void drawEllipse(final Integer x1, final Integer y1,
+			final Integer x2, final Integer y2) {
 		/*
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
@@ -656,7 +674,8 @@ public class Client {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		Element ell = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "ellipse");
+		Element ell = doc.createElementNS(Client.getInstance()
+				.getSvgNameSpace(), "ellipse");
 
 		Integer cx, cy, rx, ry;
 
@@ -684,7 +703,8 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawCircle(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
+	private void drawCircle(final Integer x1, final Integer y1,
+			final Integer x2, final Integer y2) {
 		/*
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
@@ -710,7 +730,8 @@ public class Client {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		Element cercle = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "circle");
+		Element cercle = doc.createElementNS(Client.getInstance()
+				.getSvgNameSpace(), "circle");
 
 		Integer cx, cy;
 		Integer rayon;
@@ -726,9 +747,12 @@ public class Client {
 
 		rayon = nx2 - cx;
 
-		cercle.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE, cx.toString());
-		cercle.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE, cy.toString());
-		cercle.setAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE, rayon.toString());
+		cercle.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE,
+				cx.toString());
+		cercle.setAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE,
+				cy.toString());
+		cercle.setAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE,
+				rayon.toString());
 		String rgbString = colorToRGB(selectedColor);
 		cercle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, rgbString);
 		svgRoot.appendChild(cercle);
@@ -743,11 +767,13 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawLine(final Integer x1, final Integer y1, final Integer x2, final Integer y2) {
+	private void drawLine(final Integer x1, final Integer y1, final Integer x2,
+			final Integer y2) {
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
-		Element ligne = doc.createElementNS(Client.getInstance().getSvgNameSpace(), "line");
+		Element ligne = doc.createElementNS(Client.getInstance()
+				.getSvgNameSpace(), "line");
 		ligne.setAttributeNS(null, SVGConstants.SVG_X1_ATTRIBUTE, x1.toString());
 		ligne.setAttributeNS(null, SVGConstants.SVG_Y1_ATTRIBUTE, y1.toString());
 		ligne.setAttributeNS(null, SVGConstants.SVG_X2_ATTRIBUTE, x2.toString());
@@ -766,7 +792,8 @@ public class Client {
 	public void undo() {
 		final Document doc = getImage();
 		if (doc != null && doc.getFirstChild().getFirstChild() != null) {
-			doc.getFirstChild().removeChild(doc.getDocumentElement().getLastChild());
+			doc.getFirstChild().removeChild(
+					doc.getDocumentElement().getLastChild());
 			saveSVG();
 		}
 	}
@@ -980,16 +1007,6 @@ public class Client {
 		this.selected = selected;
 	}
 
-	public MoveDialog getMoveDial() {
-		return moveDial;
-	}
-
-	public void setMoveDial(MoveDialog moveDial) {
-		if (this.moveDial != null)
-			this.moveDial.dispose();
-		this.moveDial = moveDial;
-	}
-
 	public DirectionEnum getLastMove() {
 		return lastMove;
 	}
@@ -998,32 +1015,12 @@ public class Client {
 		this.lastMove = lastMove;
 	}
 
-	public ScaleDialog getScaleDial() {
-		return scaleDial;
-	}
-
-	public void setScaleDial(ScaleDialog scaleDial) {
-		if (this.scaleDial != null)
-			this.scaleDial.dispose();
-		this.scaleDial = scaleDial;
-	}
-
 	public ScaleEnum getLastScale() {
 		return lastScale;
 	}
 
 	public void setLastScale(ScaleEnum lastScale) {
 		this.lastScale = lastScale;
-	}
-
-	public RenameDialog getRenameDial() {
-		return renameDial;
-	}
-
-	public void setRenameDial(RenameDialog renameDial) {
-		if (this.renameDial != null)
-			this.renameDial.dispose();
-		this.renameDial = renameDial;
 	}
 
 	public String getLogin() {
@@ -1048,6 +1045,16 @@ public class Client {
 
 	public void setServerAdress(String serverAdress) {
 		this.serverAdress = serverAdress;
+	}
+
+	public Node getNode(int i) {
+		if(i>=0)
+			return getImage().getDocumentElement().getChildNodes().item(i);
+		else return null;
+	}
+
+	public Node getCurrentNode() {
+		return getNode(getSelected());
 	}
 
 }

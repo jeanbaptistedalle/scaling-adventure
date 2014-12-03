@@ -21,7 +21,7 @@ public class MoveListener implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent arg0) {
 		if(Client.getInstance().getImage() != null){
-			Client.getInstance().setMoveDial(new MoveDialog());
+			MoveDialog.getInstance().setVisible(true);
 		}
 	}
 }

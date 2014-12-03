@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
+import dessin.collaboratif.view.component.dialog.MoveDialog;
 
 /**
  * Listener du bouton Move
@@ -23,7 +24,7 @@ public class MoveButtonListener implements ActionListener {
 	public void actionPerformed(final ActionEvent e) {
 		String act = e.getActionCommand();
 		Client.getInstance().move(act);
-		Client.getInstance().getMoveDial().unpressAll();
+		MoveDialog.getInstance().unpressAll();
 		MainFrame.getInstance().repaintDrawPanel();
 	}
 

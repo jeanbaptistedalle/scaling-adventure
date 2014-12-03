@@ -1,18 +1,14 @@
 package dessin.collaboratif.view.component.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
-import java.awt.Window;
 
-import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import dessin.collaboratif.misc.DirectionEnum;
+import dessin.collaboratif.misc.ScaleEnum;
 import dessin.collaboratif.view.component.button.MoveButton;
+import dessin.collaboratif.view.component.button.ScaleButton;
 
 public class MoveDialog extends JDialog {
 
@@ -27,6 +23,8 @@ public class MoveDialog extends JDialog {
 	private MoveButton downButton;
 	private MoveButton leftButton;
 	private MoveButton rightButton;
+	private ScaleButton largerButton;
+	private ScaleButton smallerButton;
 
 	private MoveDialog() {
 		super();
@@ -44,6 +42,9 @@ public class MoveDialog extends JDialog {
 
 
 	private void fill() {
+		
+		JPanel p = new JPanel(new BorderLayout());
+		
 		upButton = new MoveButton(DirectionEnum.UP);
 		downButton = new MoveButton(DirectionEnum.DOWN);
 		leftButton = new MoveButton(DirectionEnum.LEFT);
@@ -56,13 +57,25 @@ public class MoveDialog extends JDialog {
 		pan.add(leftButton, BorderLayout.WEST);
 		pan.add(rightButton, BorderLayout.EAST);
 		
-		add(pan);
+		p.add(pan, BorderLayout.NORTH);
+		
+		largerButton = new ScaleButton(ScaleEnum.INCREASE);
+		smallerButton = new ScaleButton(ScaleEnum.DECREASE);
+
+		JPanel pan2 = new JPanel(new BorderLayout());
+		
+		pan2.add(largerButton, BorderLayout.EAST);
+		pan2.add(smallerButton, BorderLayout.WEST);
+		
+		p.add(pan2, BorderLayout.SOUTH);
+		
+		add(p, BorderLayout.CENTER);
 		
 		pack();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocation(250,250);
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 //		this.setSize(new Dimension (250,250));
 //		((JPanel)this.getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	}
@@ -72,11 +85,15 @@ public class MoveDialog extends JDialog {
 		downButton.getModel().setPressed(false);
 		leftButton.getModel().setPressed(false);
 		rightButton.getModel().setPressed(false);
+		largerButton.getModel().setPressed(false);
+		smallerButton.getModel().setPressed(false);
 		
 		upButton.setSelected(false);
 		downButton.setSelected(false);
 		leftButton.setSelected(false);
 		rightButton.setSelected(false);
+		largerButton.setSelected(false);
+		smallerButton.setSelected(false);
 	}
 
 }

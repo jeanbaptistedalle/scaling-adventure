@@ -8,7 +8,6 @@ import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.view.component.menu.item.DeleteMenuItem;
 import dessin.collaboratif.view.component.menu.item.MoveMenuItem;
 import dessin.collaboratif.view.component.menu.item.RenameMenuItem;
-import dessin.collaboratif.view.component.menu.item.ScaleMenuItem;
 import dessin.collaboratif.view.component.menu.item.UndoMenuItem;
 
 public class EditionMenu extends JMenu {
@@ -21,7 +20,6 @@ public class EditionMenu extends JMenu {
 	private UndoMenuItem undo;
 	private DeleteMenuItem delete;
 	private MoveMenuItem move;
-	private ScaleMenuItem scale;
 	private RenameMenuItem rename;
 
 	public EditionMenu() {
@@ -33,8 +31,6 @@ public class EditionMenu extends JMenu {
 		this.add(delete);
 		move = new MoveMenuItem();
 		this.add(move);
-		scale = new ScaleMenuItem();
-		this.add(scale);
 		rename = new RenameMenuItem();
 		this.add(rename);
 	}
@@ -61,14 +57,6 @@ public class EditionMenu extends JMenu {
 
 	public void setMove(MoveMenuItem move) {
 		this.move = move;
-	}
-
-	public ScaleMenuItem getScale() {
-		return scale;
-	}
-
-	public void setScale(ScaleMenuItem scale) {
-		this.scale = scale;
 	}
 
 	public RenameMenuItem getRename() {

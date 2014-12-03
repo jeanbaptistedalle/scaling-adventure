@@ -22,7 +22,7 @@ public class RenameListener implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent arg0) {
 		if(Client.getInstance().getImage() != null){
-			Client.getInstance().setRenameDial(new RenameDialog());
+			RenameDialog.getInstance().setVisible(true);
 		}
 	}
 }

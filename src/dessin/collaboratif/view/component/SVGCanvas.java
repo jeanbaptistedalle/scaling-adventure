@@ -22,7 +22,6 @@ import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
 import dessin.collaboratif.view.component.dialog.RenameDialog;
-import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class SVGCanvas extends JSVGCanvas {
 
@@ -79,7 +78,6 @@ public class SVGCanvas extends JSVGCanvas {
 
 		final int x = event.getX();
 		final int y = event.getY();
-		final int button = event.getButton();
 		final int nbClick = event.getClickCount();
 
 		final SVGDocument doc = getSVGDocument();
@@ -194,12 +192,10 @@ public class SVGCanvas extends JSVGCanvas {
 		if (SwingUtilities.isLeftMouseButton(event)) {
 			if (nbClick == 2 && foundIndice != -1) {
 				System.out.println("Ouverture dialog");
-				Client.getInstance().setMoveDial(MoveDialog.getInstance());
-				System.out.println("Ouverture dialog");
-				Client.getInstance().setScaleDial(new ScaleDialog());
+				MoveDialog.getInstance().setVisible(true);
 			}
 		} else if (SwingUtilities.isRightMouseButton(event) && nbClick == 1 && isText) {
-			Client.getInstance().setRenameDial(new RenameDialog());
+			RenameDialog.getInstance().setVisible(true);
 		}
 		lastClickTime = System.nanoTime();
 	}

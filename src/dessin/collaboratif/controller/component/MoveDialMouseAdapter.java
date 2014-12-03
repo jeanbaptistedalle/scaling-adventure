@@ -4,9 +4,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JToggleButton;
+
+import dessin.collaboratif.misc.ScaleEnum;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
-import dessin.collaboratif.view.component.button.MoveButton;
 
 /**
  * Adapteur 
@@ -18,7 +20,8 @@ public class MoveDialMouseAdapter implements MouseListener,	MouseMotionListener
 
 	public void mousePressed(MouseEvent e) {
 		mouseDown = true;
-		dir = ((MoveButton) e.getSource()).getActionCommand();
+		dir = ((JToggleButton) e.getSource()).getActionCommand();
+		System.out.println("##"+dir);
 		try {
 			Thread.sleep(100);
 			initThread();
@@ -45,7 +48,11 @@ public class MoveDialMouseAdapter implements MouseListener,	MouseMotionListener
 	        new Thread() {
 	            public void run() {
 	                do {
-	                    Client.getInstance().move(dir);
+	                    if(!dir.equals(ScaleEnum.INCREASE.toString()) && !dir.equals(ScaleEnum.DECREASE.toString()))
+	                		Client.getInstance().move(dir);
+	                    else
+	                		Client.getInstance().scale(dir);
+	                    	
 	                    System.out.println("Pressed");
 	            		MainFrame.getInstance().repaintDrawPanel();
 	                    try {

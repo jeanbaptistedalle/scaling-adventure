@@ -100,7 +100,6 @@ public class MainFrame extends JComponent {
 		menu.getEditionMenu().getUndo().repaint();
 		menu.getEditionMenu().getDelete().repaint();
 		menu.getEditionMenu().getMove().repaint();
-		menu.getEditionMenu().getScale().repaint();
 		menu.getEditionMenu().getRename().repaint();
 	}
 

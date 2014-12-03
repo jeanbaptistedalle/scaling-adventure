@@ -17,19 +17,20 @@ import dessin.collaboratif.view.component.MainFrame;
  */
 public class ColorPickerButtonListener implements ActionListener {
 
-
-
 	/**
 	 * Méthode lancée à la détection d'un clic sur le bouton
 	 * 
-	 * @param arg0 
+	 * @param arg0
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent arg0) {
 		Color chosenColor = JColorChooser.showDialog(MainFrame.getInstance(),
-	               GeneralVariables.CHOOSE_COLOR_MESSAGE, Color.white);
-		Client.getInstance().setSelectedColor(chosenColor);
-		MainFrame.getInstance().getToolPanel().getColorPickerButton().setBackground(chosenColor);
+				GeneralVariables.CHOOSE_COLOR_MESSAGE, Color.white);
+		if (chosenColor != null) {
+			Client.getInstance().setSelectedColor(chosenColor);
+			MainFrame.getInstance().getToolPanel().getColorPickerButton()
+					.setBackground(chosenColor);
+		}
 	}
 
 }

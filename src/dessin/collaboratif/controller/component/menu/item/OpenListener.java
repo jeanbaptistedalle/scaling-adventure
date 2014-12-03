@@ -38,7 +38,12 @@ public class OpenListener implements ActionListener {
 			final Client client = Client.getInstance();
 			
 			//Récupère le fichier choisi
-			final File file = fileChooser.getSelectedFile();
+			final File file = null;
+			
+			
+			while(!file.exists())
+				fileChooser.getSelectedFile();
+			
 			try {
 				//Parse le svg
 				String parser = XMLResourceDescriptor.getXMLParserClassName();
