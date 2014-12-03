@@ -120,6 +120,10 @@ public class ClientNetwork extends Thread{
         }
     }
     
+    /**
+     * @fn run
+     */
+    @Override
     public void run(){
         // TODO écoute des messages serveur, réponse en conséquent
         while(true){
@@ -130,7 +134,7 @@ public class ClientNetwork extends Thread{
                         updateUsers(msg.getContent());
                         break;
                     case GIVE_CTRL :
-                        if (msg.getContent() == me.toString()){
+                        if (msg.getContent().equals(me.toString())){
                             this.have_control = true;
                         }
                         else{
@@ -202,7 +206,7 @@ public class ClientNetwork extends Thread{
      * @brief Actualise la liste des utilisateurs à partir d'une chaîne de caractères
      * @param users la chaîne de tous les utilisateurs
      */
-    @SuppressWarnings("UseOfObsoleteCollectionType")
+    @SuppressWarnings({"UseOfObsoleteCollectionType", "Convert2Diamond"})
     private void updateUsers(String users){
        clients = new Vector<Client>();
         for (int start=0, end = users.indexOf(Constant.SEPARATOR); end != -1; start = end + 1, end = users.indexOf(Constant.SEPARATOR, start)){

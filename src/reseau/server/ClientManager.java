@@ -41,10 +41,11 @@ class ClientManager extends Thread {
         }
     }
     
+    @SuppressWarnings("override")
     public void run () {
         boolean cont;
         String my_pseudo;
-        String my_room;
+        int my_room;
         /**
          * Quand un nouveau client arrive on lui demande un pseudo.
          * Lorsqu'il est connecté avec un pseudo il doit choisir une room pour dessiner.
@@ -87,8 +88,7 @@ class ClientManager extends Thread {
             sendMessage((cont)?Constant.command.DENY:Constant.command.ACCEPT);            
         }while (cont);
         */
-        my_room = "0";
-        
+        my_room = 0;
         this.room = server.getRoomById(my_room);
         this.room.addClient(this);
         
@@ -134,6 +134,7 @@ class ClientManager extends Thread {
      * @brief Renvoie la chaîne de caractère correspondant au client (en l'occurence le pseudo)
      * @return le pseudo du client
      */
+    @Override
     public String toString(){
         return(this.client.toString());
     }
