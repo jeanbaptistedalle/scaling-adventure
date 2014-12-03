@@ -18,6 +18,7 @@ public class LineShape extends Shape {
 
 
 
+        @SuppressWarnings("OverridableMethodCallInConstructor")
 	public LineShape() {
 		super();
 		setEndPosition(new Dimension(10,10));

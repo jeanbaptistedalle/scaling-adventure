@@ -26,6 +26,7 @@ import dessin.collaboratif.view.component.MainFrame;
  */
 public class NewListener implements ActionListener {
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private JFileChooser fileChooser;
 
 	public NewListener(final JFileChooser fileChooser) {
@@ -38,6 +39,7 @@ public class NewListener implements ActionListener {
 	 * 
 	 * @param action 
 	 */
+        @Override
 	public void actionPerformed(final ActionEvent action) {
 		// Allow user to choose a name for the new file
 		final Client client = Client.getInstance();

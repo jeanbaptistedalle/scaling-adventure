@@ -14,6 +14,7 @@ public class CircleShape extends Shape {
 		this.rayon = rayon;
 	}
 
+        @SuppressWarnings("OverridableMethodCallInConstructor")
 	public CircleShape() {
 		super();
 		super.setType(DrawModelEnum.CIRCLE);

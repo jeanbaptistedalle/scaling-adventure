@@ -28,6 +28,10 @@ import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.misc.ScaleEnum;
 import dessin.collaboratif.view.component.MainFrame;
+import java.io.IOException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import org.apache.batik.transcoder.TranscoderException;
 
 public class Client {
 
@@ -68,7 +72,7 @@ public class Client {
 			docBuilder = docFactory.newDocumentBuilder();
 			transformerFactory = TransformerFactory.newInstance();
 			transformer = transformerFactory.newTransformer();
-		} catch (final Exception e) {
+		} catch (final ParserConfigurationException | TransformerConfigurationException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -173,7 +177,7 @@ public class Client {
 
 		System.out.println("Scale");
 
-		if (dir == ScaleEnum.INCREASE.toString())
+		if (dir == null ? ScaleEnum.INCREASE.toString() == null : dir.equals(ScaleEnum.INCREASE.toString()))
 			setLastScale(ScaleEnum.INCREASE);
 		else
 			setLastScale(ScaleEnum.DECREASE);
@@ -190,15 +194,15 @@ public class Client {
 
 		Element elt = (Element) eltNode;
 
-		if (elt.getNodeName() == DrawModelEnum.SQUARE.getTagName())
+		if (elt.getNodeName() == null ? DrawModelEnum.SQUARE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.SQUARE.getTagName()))
 			scaleRect(elt);
-		else if (elt.getNodeName() == DrawModelEnum.ELLIPSE.getTagName())
+		else if (elt.getNodeName() == null ? DrawModelEnum.ELLIPSE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.ELLIPSE.getTagName()))
 			scaleEllipse(elt);
-		else if (elt.getNodeName() == DrawModelEnum.CIRCLE.getTagName())
+		else if (elt.getNodeName() == null ? DrawModelEnum.CIRCLE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.CIRCLE.getTagName()))
 			scaleCircle(elt);
-		else if (elt.getNodeName() == DrawModelEnum.LINE.getTagName())
+		else if (elt.getNodeName() == null ? DrawModelEnum.LINE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.LINE.getTagName()))
 			scaleLine(elt);
-		else if (elt.getNodeName() == DrawModelEnum.TEXT.getTagName())
+		else if (elt.getNodeName() == null ? DrawModelEnum.TEXT.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.TEXT.getTagName()))
 			scaleText(elt);
 
 		saveSVG();
@@ -212,7 +216,9 @@ public class Client {
 		String attH = elt.getAttributeNS(null,
 				SVGConstants.SVG_HEIGHT_ATTRIBUTE);
 
+                @SuppressWarnings("UnusedAssignment")
 		Integer valueW = Integer.valueOf(attW);
+                @SuppressWarnings("UnusedAssignment")
 		Integer valueH = Integer.valueOf(attH);
 		Integer valueX = Integer.valueOf(attX);
 		Integer valueY = Integer.valueOf(attY);
@@ -243,6 +249,7 @@ public class Client {
 		String attY = elt.getAttributeNS(null, SVGConstants.SVG_CY_ATTRIBUTE);
 		String attW = elt.getAttributeNS(null, SVGConstants.SVG_R_ATTRIBUTE);
 
+                @SuppressWarnings("UnusedAssignment")
 		Integer valueW = Integer.valueOf(attW);
 		Integer valueX = Integer.valueOf(attX);
 		Integer valueY = Integer.valueOf(attY);
@@ -272,7 +279,9 @@ public class Client {
 		String attW = elt.getAttributeNS(null, SVGConstants.SVG_RX_ATTRIBUTE);
 		String attH = elt.getAttributeNS(null, SVGConstants.SVG_RY_ATTRIBUTE);
 
+                @SuppressWarnings("UnusedAssignment")
 		Integer valueW = Integer.valueOf(attW);
+                @SuppressWarnings("UnusedAssignment")
 		Integer valueH = Integer.valueOf(attH);
 		Integer valueX = Integer.valueOf(attX);
 		Integer valueY = Integer.valueOf(attY);
@@ -332,11 +341,11 @@ public class Client {
 
 		System.out.println("Move");
 
-		if (dir == DirectionEnum.UP.toString())
+		if (dir.equals(DirectionEnum.UP.toString()))
 			setLastMove(DirectionEnum.UP);
-		else if (dir == DirectionEnum.DOWN.toString())
+		else if (dir.equals(DirectionEnum.DOWN.toString()))
 			setLastMove(DirectionEnum.DOWN);
-		else if (dir == DirectionEnum.LEFT.toString())
+		else if (dir.equals(DirectionEnum.LEFT.toString()))
 			setLastMove(DirectionEnum.LEFT);
 		else
 			setLastMove(DirectionEnum.RIGHT);
@@ -353,15 +362,15 @@ public class Client {
 
 		Element elt = (Element) eltNode;
 
-		if (elt.getNodeName() == DrawModelEnum.SQUARE.getTagName())
+		if (elt.getNodeName() == null ? DrawModelEnum.SQUARE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.SQUARE.getTagName()))
 			moveRect(elt);
-		else if (elt.getNodeName() == DrawModelEnum.ELLIPSE.getTagName())
+		else if (elt.getNodeName() == null ? DrawModelEnum.ELLIPSE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.ELLIPSE.getTagName()))
 			moveEllipse(elt);
-		else if (elt.getNodeName() == DrawModelEnum.CIRCLE.getTagName())
+		else if (elt.getNodeName() == null ? DrawModelEnum.CIRCLE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.CIRCLE.getTagName()))
 			moveCircle(elt);
-		else if (elt.getNodeName() == DrawModelEnum.LINE.getTagName())
+		else if (elt.getNodeName() == null ? DrawModelEnum.LINE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.LINE.getTagName()))
 			moveLine(elt);
-		else if (elt.getNodeName() == DrawModelEnum.TEXT.getTagName())
+		else if (elt.getNodeName() == null ? DrawModelEnum.TEXT.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.TEXT.getTagName()))
 			moveText(elt);
 
 		saveSVG();
@@ -800,6 +809,7 @@ public class Client {
 
 	/**
 	 * This method rename selected-nth Node if is TextNode.
+         * @param s
 	 */
 
 	public void rename(String s) {
@@ -810,7 +820,7 @@ public class Client {
 		final Element svgRoot = doc.getDocumentElement();
 		final Node elt = svgRoot.getChildNodes().item(getSelected());
 
-		if (elt.getNodeName() != DrawModelEnum.TEXT.getTagName())
+		if (!elt.getNodeName().equals(DrawModelEnum.TEXT.getTagName()))
 			return;
 
 		elt.setTextContent(s);
@@ -834,6 +844,7 @@ public class Client {
 		}
 	}
 
+        @SuppressWarnings({"ConvertToTryWithResources", "UnnecessaryBoxing"})
 	public void exportToJPG(final File outputFile) {
 		try {
 			// Create a JPEGTranscoder and set its quality hint.
@@ -849,7 +860,7 @@ public class Client {
 			t.transcode(input, output);
 			ostream.flush();
 			ostream.close();
-		} catch (final Exception e) {
+		} catch (final TranscoderException | IOException e) {
 			throw new RuntimeException(e);
 		}
 	}

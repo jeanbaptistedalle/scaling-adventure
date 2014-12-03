@@ -19,14 +19,17 @@ public class TextInsertField extends JTextField {
 		this.setToolTipText("Texte à insérer");
 		Document doc = getDocument();
 		doc.addDocumentListener(new DocumentListener() {
+                        @Override
 			public void changedUpdate(DocumentEvent e) {
 				modification();
 			}
 
+                        @Override
 			public void removeUpdate(DocumentEvent e) {
 				modification();
 			}
 
+                        @Override
 			public void insertUpdate(DocumentEvent e) {
 				modification();
 			}

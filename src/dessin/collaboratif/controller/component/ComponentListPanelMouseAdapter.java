@@ -14,6 +14,7 @@ import dessin.collaboratif.view.component.dialog.RenameDialog;
 public class ComponentListPanelMouseAdapter implements MouseListener {
 
 	@SuppressWarnings("unchecked")
+        @Override
 	public void mouseClicked(MouseEvent evt) {
 		JList<String> list = (JList<String>) evt.getSource();
 		if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {

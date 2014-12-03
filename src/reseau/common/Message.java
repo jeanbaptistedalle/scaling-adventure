@@ -130,7 +130,7 @@ public class Message {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.content = Arrays.toString(content).toString();
+        this.content = Arrays.toString(content);
         System.out.println(this.content);
     }
     

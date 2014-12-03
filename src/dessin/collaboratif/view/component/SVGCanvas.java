@@ -74,6 +74,7 @@ public class SVGCanvas extends JSVGCanvas {
 		}
 	}
 
+        @SuppressWarnings("CallToPrintStackTrace")
 	public void click(MouseEvent event) {
 
 		final int x = event.getX();

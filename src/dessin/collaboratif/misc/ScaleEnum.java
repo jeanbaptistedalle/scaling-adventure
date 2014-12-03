@@ -7,6 +7,7 @@ public enum ScaleEnum {
 
 	DECREASE("-");
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private String tagName;
 	
 	private ScaleEnum(final String name){

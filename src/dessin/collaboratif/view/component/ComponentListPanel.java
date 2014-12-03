@@ -25,8 +25,10 @@ public class ComponentListPanel extends JPanel {
 
 	/* Only work with java 7 jdk */
 	private JList<String> componentList;
+        @SuppressWarnings("FieldMayBeFinal")
 	private JScrollPane scrollPane;
 
+        @SuppressWarnings("Convert2Diamond")
 	public ComponentListPanel() {
 		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(GeneralVariables.DEFAULT_LIST_DIMENSION);
@@ -38,10 +40,12 @@ public class ComponentListPanel extends JPanel {
 		componentList.addMouseListener(new ComponentListPanelMouseAdapter());
 	}
 
+        @SuppressWarnings("null")
 	private void populateList() {
 		if (componentList != null) {
 			final Document doc = Client.getInstance().getImage();
 			if (doc != null) {
+                                @SuppressWarnings("Convert2Diamond")
 				final List<String> formList = new ArrayList<String>();
 				if (doc != null) {
 					final Node root = doc.getFirstChild();
