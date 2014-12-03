@@ -27,7 +27,7 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 	public void mouseDragged(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();
-		if (x1 != null && x2 != null && y1 != null && y2 != null) {
+		if (x1 != null && x2 != null && x2 >= 0 && y1 != null && y2 != null && y2 >= 0) {
 			if (!resize)
 			{
 				if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {

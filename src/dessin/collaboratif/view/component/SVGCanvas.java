@@ -79,6 +79,8 @@ public class SVGCanvas extends JSVGCanvas {
 		final int x = event.getX();
 		final int y = event.getY();
 		final int nbClick = event.getClickCount();
+		
+		if(x<0 || y <0) return;
 
 		final SVGDocument doc = getSVGDocument();
 		final NodeList list = doc.getFirstChild().getChildNodes();
