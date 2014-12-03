@@ -7,11 +7,9 @@ package reseau.server;
 
 import reseau.common.Message;
 import reseau.common.Constant;
-import com.sun.corba.se.pept.transport.InboundConnectionCache;
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -27,8 +25,8 @@ class ClientManager extends Thread {
     private final Server server;
     private Room room;
     private Socket sock;
-    private BufferedReader in;
-    private PrintWriter out;
+    private DataInputStream in;
+    private DataOutputStream out;
     private Client client;
 
     public ClientManager(Socket client_sock, Server server) {
@@ -36,8 +34,8 @@ class ClientManager extends Thread {
         this.sock = client_sock;
         this.client = new Client(sock.getInetAddress());
         try{
-            this.in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-            this.out = new PrintWriter(sock.getOutputStream());
+            this.in = new DataInputStream(sock.getInputStream());
+            this.out = new DataOutputStream(sock.getOutputStream());
         } catch (IOException ex) {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,9 +54,7 @@ class ClientManager extends Thread {
         /* Le client choisit son pseudo */
         
         do{
-            System.out.println("...");
             my_pseudo = recvMessage().getContent();
-            System.out.println("...");
             cont = false;
             // On teste que le pseudo soit unique
             for (ClientManager cli : server.getClients()){
@@ -67,7 +63,7 @@ class ClientManager extends Thread {
                 }
             }
             sendMessage((cont) ? Constant.command.DENY : Constant.command.ACCEPT);
-        }while (cont);
+        } while(cont);
         
         this.client.setPseudo(my_pseudo);
         
@@ -150,7 +146,11 @@ class ClientManager extends Thread {
      */
     @SuppressWarnings("ImplicitArrayToString")
     private void sendMessage(Constant.command cmd, String content){
-        out.print(new Message(Constant.SERVER_IP, cmd, content).toByteArray());
+        try {
+            out.write(new Message(Constant.SERVER_IP, cmd, content).toByteArray());
+        } catch (IOException ex) {
+            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
    
     /**
@@ -160,7 +160,11 @@ class ClientManager extends Thread {
      */
     @SuppressWarnings("ImplicitArrayToString")
     private void sendMessage(Constant.command cmd){
-        out.print(new Message(Constant.SERVER_IP, cmd).toByteArray());
+        try {
+            out.write(new Message(Constant.SERVER_IP, cmd).toByteArray());
+        } catch (IOException ex) {
+            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -169,7 +173,11 @@ class ClientManager extends Thread {
      * @param msg le Message à envoyer
      */
     public void sendMessage(Message msg){
-        out.print(msg.toByteArray());
+        try {
+            out.write(msg.toByteArray());
+        } catch (IOException ex) {
+            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**

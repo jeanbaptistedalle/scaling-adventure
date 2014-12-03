@@ -2,8 +2,13 @@ package reseau.common;
 
 import reseau.common.Constant;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.*;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -94,32 +99,43 @@ public class Message {
      * @param in le flux
      * @throws UnknownHostException 
      */
-    public Message(BufferedReader in) throws UnknownHostException{
+    public Message(DataInputStream in) throws UnknownHostException{
         byte[] b_addr = new byte[4];
         byte[] b_cmd = new byte[4];
         byte[] b_content_size = new byte[4];
-        char c_buff[] = new char[12];
-
+        byte buff[] = new byte[12];
+        
         try {
-            in.read(c_buff, 0, 12);
+            in.read(buff, 0, 12);
         } catch (IOException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        byte[] buff = charArrayToByteArray(c_buff);
+        System.out.print("Read : " + Arrays.toString(buff) + " | ");
+        for(int i = 0; i < buff.length; i++)
+            System.out.print(buff[i] + ".");
+        System.out.println("");
+        
         System.arraycopy(buff, 0, b_addr, 0, 4);
         System.arraycopy(buff, 4, b_cmd, 0, 4);
         System.arraycopy(buff, 8, b_content_size, 0, 4);
         from = InetAddress.getByAddress(b_addr);
         cmd = Constant.getCommand(byteArrayToInt(b_cmd));
         int content_size = byteArrayToInt(b_content_size);
-        char[] c_content = new char[content_size];
+        
+        System.out.println("Coucou3 : " + b_content_size);
+        
+        byte[] content = new byte[content_size];
+        
+        System.out.println("Coucou4");
+        
         try {
-            in.read(c_content, 0, content_size);
+            in.read(content, 0, content_size);
         } catch (IOException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
-        content = String.copyValueOf(c_content);
+        this.content = content.toString();
+        System.out.println(this.content);
     }
     
     /**
@@ -130,8 +146,8 @@ public class Message {
     public byte[] toByteArray(){
         byte[] result = new byte[getContent().length() + 12];
         byte[] b_addr = from.getAddress();                              // (octets 0-3)     : l'adresse de l'expéditeur
-        byte[] b_cmd = intToByteArray(getCmd().getValue());                  // (octets 4-7)     : le type de commande
-        byte[] b_content = getContent().getBytes();                          // (octets 12-fin)  : le contenu
+        byte[] b_cmd = intToByteArray(getCmd().getValue());             // (octets 4-7)     : le type de commande
+        byte[] b_content = getContent().getBytes();                     // (octets 12-fin)  : le contenu
         byte[] b_content_size = intToByteArray(b_content.length);       // (octets 8-11)    : la taille du contenu
         System.arraycopy(b_addr, 0, result, 0, 4);
         System.arraycopy(b_cmd, 0, result, 4, 4);
@@ -175,11 +191,17 @@ public class Message {
      * @return le tableau de bytes correspondant
      */
     private byte[] charArrayToByteArray(char [] input){
-        byte res[] = new byte[input.length];
-        for (int i = 0; i < input.length; i++){
-            res[i] = (byte) input[i];
-        }
-        return(res);
+//        
+//        byte res[] = new byte[input.length];
+//        for (int i = 0; i < input.length; i++){
+//            res[i] = (byte) input[i];
+//        }
+//        return(res);
+        CharBuffer charBuffer = CharBuffer.wrap(input);
+        ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
+        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
+                byteBuffer.position(), byteBuffer.limit());
+        return bytes;
     }
     
     /**
@@ -211,7 +233,6 @@ public class Message {
      * @return the content
      */
     public String getContent() {
-        System.out.println(" ! " + content);
         return content;
     }
     
