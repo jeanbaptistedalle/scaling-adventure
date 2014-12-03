@@ -85,4 +85,6 @@ public class GeneralVariables {
 	public static final String LOGIN_ERROR_MISSING_SERVER = "Vous devez saisir une adresse de serveur";
 	public static final String LOGIN_ERROR_INVALID_SERVER = "Vous devez saisir une adresse de serveur valide";
 
+	public static final Object FILE_NOT_EXISTS = "Le fichier sélectionné n'existe pas...";
+
 }

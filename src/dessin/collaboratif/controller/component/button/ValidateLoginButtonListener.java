@@ -47,10 +47,15 @@ public class ValidateLoginButtonListener implements ActionListener {
 		}
 
 		// TODO vérifier unicité login
-		if (!ClientNetwork.getInstance().initPseudo(loginText)) {
-                    LoginFrame.getInstance().getErrorLabel()
-                        .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
-                    return;
+		try {
+			if (!ClientNetwork.getInstance().initPseudo(loginText)) {
+			            LoginFrame.getInstance().getErrorLabel()
+			                .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
+			            return;
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
                 
 		Client.getInstance().setLogin(loginText);
