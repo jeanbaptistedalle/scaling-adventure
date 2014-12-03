@@ -7,11 +7,24 @@ import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.LoginFrame;
 import dessin.collaboratif.view.component.MainFrame;
-
+import dessin.collaboratif.view.component.TextInputFrame;
 import reseau.client.ClientNetwork;
 
+/**
+ * Listener du bouton Validate
+ * 
+ * Cette classe permet de valider la saisie des données de LoginFrame
+ * 
+ * @see LoginFrame
+ */
 public class ValidateLoginButtonListener implements ActionListener {
 
+
+	/**
+	 * Méthode lancée à la détection d'un clic sur le bouton
+	 * 
+	 * @param arg0 
+	 */
 	@Override
 	public void actionPerformed(final ActionEvent arg0) {
 		final String loginText = LoginFrame.getInstance().getLoginField().getText();

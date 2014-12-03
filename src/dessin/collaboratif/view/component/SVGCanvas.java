@@ -194,12 +194,11 @@ public class SVGCanvas extends JSVGCanvas {
 		if (SwingUtilities.isLeftMouseButton(event)) {
 			if (nbClick == 2 && foundIndice != -1) {
 				System.out.println("Ouverture dialog");
-				Client.getInstance().setMoveDial(new MoveDialog());
-			} else if (nbClick == 3 && foundIndice != -1) {
+				Client.getInstance().setMoveDial(MoveDialog.getInstance());
 				System.out.println("Ouverture dialog");
 				Client.getInstance().setScaleDial(new ScaleDialog());
 			}
-		} else if (SwingUtilities.isRightMouseButton(event) && nbClick == 2 && isText) {
+		} else if (SwingUtilities.isRightMouseButton(event) && nbClick == 1 && isText) {
 			Client.getInstance().setRenameDial(new RenameDialog());
 		}
 		lastClickTime = System.nanoTime();

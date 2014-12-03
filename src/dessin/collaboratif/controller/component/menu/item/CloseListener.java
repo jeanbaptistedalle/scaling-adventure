@@ -6,7 +6,20 @@ import java.awt.event.ActionListener;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
 
+/**
+ * Listener de l'item de fermeture du tableau
+ * 
+ * Affecte null à certaines valeurs avant le tableau
+ */
+
 public class CloseListener implements ActionListener{
+
+
+	/**
+	 * Méthode lancée à la détection d'un clic sur le bouton
+	 * 
+	 * @param e 
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		if(Client.getInstance().getImage() != null){
 			Client.getInstance().setImage(null);

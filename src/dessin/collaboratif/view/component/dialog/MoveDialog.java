@@ -21,93 +21,27 @@ public class MoveDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1151343403574524760L;
 	
+	public static MoveDialog INSTANCE = null;
+	
 	private MoveButton upButton;
 	private MoveButton downButton;
 	private MoveButton leftButton;
 	private MoveButton rightButton;
 
-	public MoveDialog() {
+	private MoveDialog() {
 		super();
 		fill();
 	}
-
-	public MoveDialog(Frame owner) {
-		super(owner);
-		fill();
+	
+	public static MoveDialog getInstance()
+	{
+		if(INSTANCE == null)
+		{
+			INSTANCE = new MoveDialog();
+		}
+		return INSTANCE;
 	}
 
-	public MoveDialog(Dialog owner) {
-		super(owner);
-		fill();
-	}
-
-	public MoveDialog(Window owner) {
-		super(owner);
-		fill();
-	}
-
-	public MoveDialog(Frame owner, boolean modal) {
-		super(owner, modal);
-		fill();
-	}
-
-	public MoveDialog(Frame owner, String title) {
-		super(owner, title);
-		fill();
-	}
-
-	public MoveDialog(Dialog owner, boolean modal) {
-		super(owner, modal);
-		fill();
-	}
-
-	public MoveDialog(Dialog owner, String title) {
-		super(owner, title);
-		fill();
-	}
-
-	public MoveDialog(Window owner, ModalityType modalityType) {
-		super(owner, modalityType);
-		fill();
-	}
-
-	public MoveDialog(Window owner, String title) {
-		super(owner, title);
-		fill();
-	}
-
-	public MoveDialog(Frame arg0, String arg1, boolean arg2) {
-		super(arg0, arg1, arg2);
-		fill();
-	}
-
-	public MoveDialog(Dialog owner, String title, boolean modal) {
-		super(owner, title, modal);
-		fill();
-	}
-
-	public MoveDialog(Window owner, String title, ModalityType modalityType) {
-		super(owner, title, modalityType);
-		fill();
-	}
-
-	public MoveDialog(Frame arg0, String arg1, boolean arg2,
-			GraphicsConfiguration arg3) {
-		super(arg0, arg1, arg2, arg3);
-		fill();
-	}
-
-	public MoveDialog(Dialog owner, String title, boolean modal,
-			GraphicsConfiguration gc) {
-		super(owner, title, modal, gc);
-		fill();
-	}
-
-	public MoveDialog(Window owner, String title, ModalityType modalityType,
-			GraphicsConfiguration gc) {
-		super(owner, title, modalityType, gc);
-		fill();
-	}
 
 	private void fill() {
 		upButton = new MoveButton(DirectionEnum.UP);

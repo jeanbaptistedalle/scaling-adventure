@@ -10,6 +10,11 @@ import org.apache.commons.io.FilenameUtils;
 
 import dessin.collaboratif.model.Client;
 
+/**
+ * Listener de l'item d'export
+ * 
+ * Enregistre l'image sous format JPEG sur le client 
+ */
 public class ExportListener implements ActionListener {
 
 	private JFileChooser fileChooser;
@@ -18,6 +23,12 @@ public class ExportListener implements ActionListener {
 		this.fileChooser = fileChooser;
 	}
 
+
+	/**
+	 * Méthode lancée à la détection d'un clic sur le bouton
+	 * 
+	 * @param e 
+	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 
@@ -27,7 +38,7 @@ public class ExportListener implements ActionListener {
 
 			if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase(
 					"jpg") && !FilenameUtils.getExtension(file.getName()).equalsIgnoreCase(
-							"jepg")) {
+							"jpeg")) {
 				file = new File(file.getParentFile(),
 						FilenameUtils.getBaseName(file.getName()) + ".jpeg");
 			}

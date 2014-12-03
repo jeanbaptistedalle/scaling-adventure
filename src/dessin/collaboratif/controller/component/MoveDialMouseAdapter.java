@@ -8,6 +8,9 @@ import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
 import dessin.collaboratif.view.component.button.MoveButton;
 
+/**
+ * Adapteur 
+ */
 public class MoveDialMouseAdapter implements MouseListener,	MouseMotionListener 
 {
 	private boolean mouseDown = false;

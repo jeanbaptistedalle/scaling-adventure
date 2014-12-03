@@ -16,6 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
@@ -59,7 +60,8 @@ public class ComponentListPanel extends JPanel {
 					System.out.println("Ouverture dialog");
 					Client.getInstance().setMoveDial(new MoveDialog());
 					Client.getInstance().setScaleDial(new ScaleDialog());
-				} else if (evt.getClickCount() == 2 && SwingUtilities.isRightMouseButton(evt)) {
+				} else if (evt.getClickCount() == 2 && SwingUtilities.isRightMouseButton(evt) && 
+						list.getModel().getElementAt(list.locationToIndex(evt.getPoint())).startsWith(DrawModelEnum.TEXT.getTagName()) ) {
 					int index = list.locationToIndex(evt.getPoint());
 					Client.getInstance().setSelected(index);
 					System.out.println("Ouverture dialog");
