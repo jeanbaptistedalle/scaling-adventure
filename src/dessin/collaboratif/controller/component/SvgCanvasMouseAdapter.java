@@ -7,6 +7,12 @@ import java.awt.event.MouseMotionListener;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
 
+/**
+ * Adapter du tableau
+ * 
+ * Permet la selection/le dessin d'elements en cliquant sur leur image sur le
+ * tableau de dessin
+ */
 public class SvgCanvasMouseAdapter implements MouseListener,
 		MouseMotionListener {
 	private Integer x1 = null;
@@ -16,29 +22,37 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 	private Boolean resize = false;
 	private long timeDB;
 
-        @Override
+	/**
+	 * Récupère la position du curseur au début du clic
+	 * 
+	 * @param e
+	 */
+	@Override
 	public void mousePressed(MouseEvent e) {
 		x1 = e.getX();
 		y1 = e.getY();
 		x2 = null;
 		y2 = null;
-		timeDB =  System.nanoTime();
+		timeDB = System.nanoTime();
 	}
 
-        @Override
+	/**
+	 * A chaque mouvement de la souris, on redessine la derniere forme dessinée
+	 * 
+	 * @param e
+	 */
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();
-		if (x1 != null && x2 != null && x2 >= 0 && y1 != null && y2 != null && y2 >= 0) {
-			if (!resize)
-			{
+		if (x1 != null && x2 != null && x2 >= 0 && y1 != null && y2 != null
+				&& y2 >= 0) {
+			if (!resize) {
 				if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
 					MainFrame.getInstance().repaintDrawPanel();
-					resize=true;
+					resize = true;
 				}
-			}
-			else if(((System.nanoTime()-timeDB)/1000000) > 25)
-			{
+			} else if (((System.nanoTime() - timeDB) / 1000000) > 25) {
 				if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
 					MainFrame.getInstance().repaintDrawPanel();
 					timeDB = System.nanoTime();
@@ -47,7 +61,12 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 		}
 	}
 
-        @Override
+	/**
+	 * Lorsqu'on lache la souris, on finalise le dessin de la forme
+	 * 
+	 * @param e
+	 */
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();
@@ -60,7 +79,7 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 		y1 = null;
 		x2 = null;
 		y2 = null;
-		resize=false;
+		resize = false;
 	}
 
 	@Override
