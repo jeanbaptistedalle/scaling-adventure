@@ -1,6 +1,8 @@
 package dessin.collaboratif.misc;
 
-
+/**
+ * ENum des valeurs possibles d'un redimensionnement
+ */
 public enum ScaleEnum {
 	
 	INCREASE("+"),
