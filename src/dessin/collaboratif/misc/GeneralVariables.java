@@ -88,7 +88,14 @@ public class GeneralVariables {
 	public static final String LOGIN_ERROR_MISSING_SERVER = "Vous devez saisir une adresse de serveur";
 	public static final String LOGIN_ERROR_INVALID_SERVER = "Vous devez saisir une adresse de serveur valide";
 
-	public static final String ICONS_PATH = PROJECT_PATH + "ressources/icons";
+	public static final String ICONS_PATH = PROJECT_PATH + "ressources/icons/";
+
+	public static final String SQUARE_ICON_PATH = ICONS_PATH + "square_icon.png";
+	public static final String CIRCLE_ICON_PATH = ICONS_PATH + "circle_icon.png";
+	public static final String ELLIPSE_ICON_PATH = ICONS_PATH + "ellipse_icon.png";
+	public static final String TEXT_ICON_PATH = ICONS_PATH + "text_icon.png";
+	public static final String LINE_ICON_PATH = ICONS_PATH + "line_icon.png";
+	public static final String CURSOR_ICON_PATH = ICONS_PATH + "cursor_icon.png";
 
 	public static final String FILE_NOT_EXISTS = "Le fichier sélectionné n'existe pas...";
 
