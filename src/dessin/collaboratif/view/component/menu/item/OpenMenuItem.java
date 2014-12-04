@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -19,6 +20,7 @@ public class OpenMenuItem extends JMenuItem {
 	 */
 	private static final long serialVersionUID = -840379100240751601L;
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private JFileChooser fileChooser;
 
 	public OpenMenuItem() {
@@ -29,7 +31,19 @@ public class OpenMenuItem extends JMenuItem {
 		this.setMnemonic(KeyEvent.getExtendedKeyCodeForChar('o'));
 		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 		        InputEvent.CTRL_MASK));
-		fileChooser = new JFileChooser();
+		fileChooser = new JFileChooser(){
+			@Override
+			public void approveSelection() {
+				
+				if(!getSelectedFile().exists())
+				{
+					JOptionPane.showMessageDialog(null, GeneralVariables.FILE_NOT_EXISTS);
+					return;
+				}
+				
+				super.approveSelection();
+			}
+		};
 
 		fileChooser.setAcceptAllFileFilterUsed(false);
 

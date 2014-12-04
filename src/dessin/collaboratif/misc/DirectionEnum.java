@@ -10,6 +10,7 @@ public enum DirectionEnum {
 
 	RIGHT("right");
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private String tagName;
 	
 	private DirectionEnum(final String name){

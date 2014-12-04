@@ -22,7 +22,6 @@ import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
 import dessin.collaboratif.view.component.dialog.RenameDialog;
-import dessin.collaboratif.view.component.dialog.ScaleDialog;
 
 public class SVGCanvas extends JSVGCanvas {
 
@@ -75,12 +74,14 @@ public class SVGCanvas extends JSVGCanvas {
 		}
 	}
 
+        @SuppressWarnings("CallToPrintStackTrace")
 	public void click(MouseEvent event) {
 
 		final int x = event.getX();
 		final int y = event.getY();
-		final int button = event.getButton();
 		final int nbClick = event.getClickCount();
+		
+		if(x<0 || y <0) return;
 
 		final SVGDocument doc = getSVGDocument();
 		final NodeList list = doc.getFirstChild().getChildNodes();
@@ -194,13 +195,10 @@ public class SVGCanvas extends JSVGCanvas {
 		if (SwingUtilities.isLeftMouseButton(event)) {
 			if (nbClick == 2 && foundIndice != -1) {
 				System.out.println("Ouverture dialog");
-				Client.getInstance().setMoveDial(new MoveDialog());
-			} else if (nbClick == 3 && foundIndice != -1) {
-				System.out.println("Ouverture dialog");
-				Client.getInstance().setScaleDial(new ScaleDialog());
+				MoveDialog.getInstance().setVisible(true);
 			}
-		} else if (SwingUtilities.isRightMouseButton(event) && nbClick == 2 && isText) {
-			Client.getInstance().setRenameDial(new RenameDialog());
+		} else if (SwingUtilities.isRightMouseButton(event) && nbClick == 1 && isText) {
+			RenameDialog.getInstance().setVisible(true);
 		}
 		lastClickTime = System.nanoTime();
 	}

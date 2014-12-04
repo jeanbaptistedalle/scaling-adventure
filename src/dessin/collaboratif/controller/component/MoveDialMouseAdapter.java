@@ -4,29 +4,40 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JToggleButton;
+
+import dessin.collaboratif.misc.ScaleEnum;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
-import dessin.collaboratif.view.component.button.MoveButton;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * Adapteur 
+ */
 public class MoveDialMouseAdapter implements MouseListener,	MouseMotionListener 
 {
 	private boolean mouseDown = false;
 	private String dir = null;
 
+        @Override
 	public void mousePressed(MouseEvent e) {
 		mouseDown = true;
-		dir = ((MoveButton) e.getSource()).getActionCommand();
-		try {
-			Thread.sleep(100);
-			initThread();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+		dir = ((JToggleButton) e.getSource()).getActionCommand();
+		System.out.println("##"+dir);
+                try {
+                    Thread.sleep(100);
+                    initThread();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MoveDialMouseAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                }
 	}
 
+        @Override
 	public void mouseDragged(MouseEvent e) {
 	}
 
+        @Override
 	public void mouseReleased(MouseEvent e) {
 		mouseDown = false;
 	}
@@ -40,16 +51,22 @@ public class MoveDialMouseAdapter implements MouseListener,	MouseMotionListener
 	private void initThread() {
 	    if (checkAndMark()) {
 	        new Thread() {
+                    @Override
+                    @SuppressWarnings("SleepWhileInLoop")
 	            public void run() {
 	                do {
-	                    Client.getInstance().move(dir);
+	                    if(!dir.equals(ScaleEnum.INCREASE.toString()) && !dir.equals(ScaleEnum.DECREASE.toString()))
+	                		Client.getInstance().move(dir);
+	                    else
+	                		Client.getInstance().scale(dir);
+	                    	
 	                    System.out.println("Pressed");
-	            		MainFrame.getInstance().repaintDrawPanel();
-	                    try {
-							sleep(100);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+                            MainFrame.getInstance().repaintDrawPanel();
+                            try {
+                                sleep(100);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(MoveDialMouseAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 	                } while (mouseDown);
 	                isRunning = false;
 	            }

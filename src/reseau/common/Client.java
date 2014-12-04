@@ -48,6 +48,7 @@ public class Client {
      * @brief Exportation du client en chaîne de caractères
      * @return this.client.pseudo
      */
+    @SuppressWarnings("override")
     public String toString(){
         return(this.getPseudo());
     }

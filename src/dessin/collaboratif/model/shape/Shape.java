@@ -35,6 +35,7 @@ public abstract class Shape {
 		this.color = color;
 	}
 
+        @SuppressWarnings("OverridableMethodCallInConstructor")
 	public Shape() {
 		setColor(Color.BLACK);
 		setPosition(new Dimension(0, 0));

@@ -7,7 +7,6 @@ package reseau.server;
 
 import reseau.common.Message;
 import reseau.common.Constant;
-import com.sun.xml.internal.ws.handler.HandlerChainsModel;
 import java.util.Vector;
 
 /**
@@ -15,8 +14,10 @@ import java.util.Vector;
  * @brief Correspond à un groupe de clients travaillant sur le même dessin
  */
 class Room{
+    @SuppressWarnings("FieldMayBeFinal")
     private Vector <ClientManager> clients;
     private  final int id;
+    @SuppressWarnings("FieldMayBeFinal")
     private WaitList wait;
 
     
@@ -25,9 +26,11 @@ class Room{
      * @srief Constructeur de Room
      * @param number 
      */
+    @SuppressWarnings("Convert2Diamond")
     public Room(int number){
         this.id = number;
         wait = new WaitList();
+        clients = new Vector<ClientManager>();
     }
     
     /**
@@ -83,8 +86,8 @@ class Room{
         for (int i=0; i<clients.size()-1; i++){
             res += clients.get(i).toString() + Constant.SEPARATOR;
         }
-        res += clients.get(clients.size() - 1).toString();
-        
+        if (!clients.isEmpty())
+            res += clients.get(clients.size() - 1).toString();
         return(res);
     }
     
@@ -114,6 +117,7 @@ class Room{
      * @brief renvoie la chaîne de caractère décrivant cette room (ici son ID)
      * @return la chaîne de caractères correspondante
      */
+    @Override
     public String toString(){
         return(Integer.toString(this.id));
     }

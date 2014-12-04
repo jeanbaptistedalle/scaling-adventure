@@ -16,6 +16,7 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 	private Boolean resize = false;
 	private long timeDB;
 
+        @Override
 	public void mousePressed(MouseEvent e) {
 		x1 = e.getX();
 		y1 = e.getY();
@@ -24,10 +25,11 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 		timeDB =  System.nanoTime();
 	}
 
+        @Override
 	public void mouseDragged(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();
-		if (x1 != null && x2 != null && y1 != null && y2 != null) {
+		if (x1 != null && x2 != null && x2 >= 0 && y1 != null && y2 != null && y2 >= 0) {
 			if (!resize)
 			{
 				if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
@@ -45,6 +47,7 @@ public class SvgCanvasMouseAdapter implements MouseListener,
 		}
 	}
 
+        @Override
 	public void mouseReleased(MouseEvent e) {
 		x2 = e.getX();
 		y2 = e.getY();

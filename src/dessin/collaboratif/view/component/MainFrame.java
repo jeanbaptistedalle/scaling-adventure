@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.menu.Menu;
 
+import reseau.client.ClientNetwork;
+
 /**
  * 
  * The MainFrame of the application. it's implement the Singleton design pattern
@@ -35,6 +37,7 @@ public class MainFrame extends JComponent {
 
 	private JFrame frame;
 
+        @SuppressWarnings("LeakingThisInConstructor")
 	private MainFrame() {
 
 		setDoubleBuffered(true);
@@ -43,8 +46,16 @@ public class MainFrame extends JComponent {
 				+ ", Server : " + Client.getInstance().getServerAdress());
 		frame.setSize(600, 680);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
+                //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        ClientNetwork.getInstance().disconnect();
+                        System.exit(0);
+                    }
+                });
+                
 		menu = new Menu();
 		frame.setJMenuBar(menu);
 		menu.setVisible(true);
@@ -100,7 +111,6 @@ public class MainFrame extends JComponent {
 		menu.getEditionMenu().getUndo().repaint();
 		menu.getEditionMenu().getDelete().repaint();
 		menu.getEditionMenu().getMove().repaint();
-		menu.getEditionMenu().getScale().repaint();
 		menu.getEditionMenu().getRename().repaint();
 	}
 

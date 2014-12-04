@@ -1,10 +1,9 @@
 package reseau.client;
 
 import reseau.common.Constant;
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -24,8 +23,8 @@ public class ClientNetwork extends Thread{
     static private ClientNetwork INSTANCE = null;
     
     private Socket sock = null;
-    private PrintWriter out = null;
-    private BufferedReader in = null;
+    private DataOutputStream out = null;
+    private DataInputStream in = null;
     private InetAddress addr = null;
     private String pseudo;
     private Client me;
@@ -59,8 +58,8 @@ public class ClientNetwork extends Thread{
                 serverIp = InetAddress.getByName(serverIpS);
 
                 sock = new Socket(serverIp, Constant.PORT);
-                in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                out = new PrintWriter(sock.getOutputStream(), true);
+                in = new DataInputStream(sock.getInputStream());
+                out = new DataOutputStream(sock.getOutputStream());
                 addr = sock.getInetAddress();
 
                 System.out.println("My address : " + addr.toString());
@@ -70,28 +69,21 @@ public class ClientNetwork extends Thread{
                 
                 return true;
             } catch (UnknownHostException ex) {
-                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
             } catch (IOException ex) {
-                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
             }
-            
-            try {
-                sock.close();
-                in.close();
-                out.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            disconnect();
         }
         return true;
     }
     
-    public boolean initPseudo (String pseudo) {
+    public boolean initPseudo (String pseudo) throws InterruptedException {
         try {
             sendMessage(Constant.command.CONNECT, pseudo);
-            boolean isValid = (new Message(in).getCmd() == Constant.command.ACCEPT);
+            Constant.command c = new Message(in).getCmd();
+            boolean isValid = (c == Constant.command.ACCEPT);
             
             if (isValid)
                 me = new Client(pseudo);
@@ -120,6 +112,10 @@ public class ClientNetwork extends Thread{
         }
     }
     
+    /**
+     * @fn run
+     */
+    @Override
     public void run(){
         // TODO écoute des messages serveur, réponse en conséquent
         while(true){
@@ -130,7 +126,7 @@ public class ClientNetwork extends Thread{
                         updateUsers(msg.getContent());
                         break;
                     case GIVE_CTRL :
-                        if (msg.getContent() == me.toString()){
+                        if (msg.getContent().equals(me.toString())){
                             this.have_control = true;
                         }
                         else{
@@ -159,8 +155,29 @@ public class ClientNetwork extends Thread{
      * @param content la chaîne de caractères contenue dans ce message
      */
     private void sendMessage(Constant.command cmd, String content){
-        out.print(new Message(addr, cmd, content).toByteArray());
+        try {
+            byte message[] = new Message(addr, cmd, content).toByteArray();
+            
+            System.out.print("Mesage to send : ");
+            for(int i = 0; i < message.length; i++)
+                System.out.print(message[i] + ".");
+            System.out.println();
+            
+            out.write(message);
+            out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
+    private char[] byteArrayToCharArray(byte [] input){
+        char res[] = new char[input.length];
+        for (int i = 0; i < input.length; i++){
+            res[i] = (char) input[i];
+        }
+        return(res);
+    }
+
     
     /**
      * @fn sendMessage
@@ -168,7 +185,12 @@ public class ClientNetwork extends Thread{
      * @param cmd la commande de ce message
      */
     private void sendMessage(Constant.command cmd){
-        out.print(new Message(addr, cmd).toByteArray());
+        try {
+            out.write(new Message(addr, cmd).toByteArray());
+            out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -176,6 +198,7 @@ public class ClientNetwork extends Thread{
      * @brief Actualise la liste des utilisateurs à partir d'une chaîne de caractères
      * @param users la chaîne de tous les utilisateurs
      */
+    @SuppressWarnings({"UseOfObsoleteCollectionType", "Convert2Diamond"})
     private void updateUsers(String users){
        clients = new Vector<Client>();
         for (int start=0, end = users.indexOf(Constant.SEPARATOR); end != -1; start = end + 1, end = users.indexOf(Constant.SEPARATOR, start)){

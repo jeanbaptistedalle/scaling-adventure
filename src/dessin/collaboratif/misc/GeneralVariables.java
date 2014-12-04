@@ -38,7 +38,7 @@ public class GeneralVariables {
 	public final static String EDITION_MENU_DELETE_ICON_PATH = PROJECT_PATH
 			+ "ressources/icons/delete_icon.png";
 
-	public final static String EDITION_MENU_MOVE = "Déplacer";
+	public final static String EDITION_MENU_MOVE = "Déplacer/Redimensionner";
 	public final static String EDITION_MENU_MOVE_ICON_PATH = PROJECT_PATH
 			+ "ressources/icons/scale_icon.png";
 
@@ -84,5 +84,7 @@ public class GeneralVariables {
 	public static final String LOGIN_ERROR_INVALID_LOGIN = "Le login saisi existe déjà, veuillez en saisir un autre";
 	public static final String LOGIN_ERROR_MISSING_SERVER = "Vous devez saisir une adresse de serveur";
 	public static final String LOGIN_ERROR_INVALID_SERVER = "Vous devez saisir une adresse de serveur valide";
+
+	public static final Object FILE_NOT_EXISTS = "Le fichier sélectionné n'existe pas...";
 
 }

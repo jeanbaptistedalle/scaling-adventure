@@ -14,6 +14,7 @@ public enum DrawModelEnum {
 	
 	TEXT("text");
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private String tagName;
 
 	private DrawModelEnum(final String tagName) {
@@ -25,6 +26,7 @@ public enum DrawModelEnum {
 	}
 
 	public static List<DrawModelEnum> getAll() {
+                @SuppressWarnings("Convert2Diamond")
 		List<DrawModelEnum> list = new ArrayList<DrawModelEnum>();
 		list.add(CIRCLE);
 		list.add(ELLIPSE);
