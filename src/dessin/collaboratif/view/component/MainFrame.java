@@ -6,10 +6,9 @@ import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import dessin.collaboratif.controller.component.FrameListener;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.menu.Menu;
-
-import reseau.client.ClientNetwork;
 
 /**
  * 
@@ -37,7 +36,7 @@ public class MainFrame extends JComponent {
 
 	private JFrame frame;
 
-        @SuppressWarnings("LeakingThisInConstructor")
+	@SuppressWarnings("LeakingThisInConstructor")
 	private MainFrame() {
 
 		setDoubleBuffered(true);
@@ -46,16 +45,10 @@ public class MainFrame extends JComponent {
 				+ ", Server : " + Client.getInstance().getServerAdress());
 		frame.setSize(600, 680);
 		frame.setLocationRelativeTo(null);
-		
-                //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                        ClientNetwork.getInstance().disconnect();
-                        System.exit(0);
-                    }
-                });
-                
+
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new FrameListener());
+
 		menu = new Menu();
 		frame.setJMenuBar(menu);
 		menu.setVisible(true);
@@ -101,11 +94,11 @@ public class MainFrame extends JComponent {
 		componentListPanel.repaint();
 		drawPanel.repaint();
 	}
-	
+
 	/**
 	 * Repaint the component of the menu which can have stat (disabled, enabled)
 	 */
-	public void repaintMenu(){
+	public void repaintMenu() {
 		menu.getFileMenu().getClose().repaint();
 		menu.getFileMenu().getExport().repaint();
 		menu.getEditionMenu().getUndo().repaint();
