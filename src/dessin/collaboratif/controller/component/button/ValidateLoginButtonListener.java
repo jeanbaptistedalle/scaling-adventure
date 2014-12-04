@@ -40,7 +40,7 @@ public class ValidateLoginButtonListener implements ActionListener {
 					.setText(GeneralVariables.LOGIN_ERROR_MISSING_SERVER);
 			return;
 		}
-		// TODO vérifier validité adresse serveur
+                
 		if (!ClientNetwork.getInstance().initIp(serverText)) {
                     LoginFrame.getInstance().getErrorLabel()
                         .setText(GeneralVariables.LOGIN_ERROR_INVALID_SERVER);
@@ -48,7 +48,6 @@ public class ValidateLoginButtonListener implements ActionListener {
 		}
 
                 try {
-                    // TODO vérifier unicité login
                     if (!ClientNetwork.getInstance().initPseudo(loginText)) {
                         LoginFrame.getInstance().getErrorLabel()
                                 .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
@@ -58,6 +57,7 @@ public class ValidateLoginButtonListener implements ActionListener {
                     Logger.getLogger(ValidateLoginButtonListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
+                ClientNetwork.getInstance().start();
 		Client.getInstance().setLogin(loginText);
 		Client.getInstance().setServerAdress(serverText);
 		LoginFrame.getInstance().setVisible(false);

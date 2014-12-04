@@ -8,7 +8,6 @@ package reseau.server;
 import reseau.common.Message;
 import reseau.common.Constant;
 import java.util.Vector;
-
 /**
  * @class Room
  * @brief Correspond à un groupe de clients travaillant sur le même dessin
@@ -19,6 +18,9 @@ class Room{
     private  final int id;
     @SuppressWarnings("FieldMayBeFinal")
     private WaitList wait;
+    
+    /* Document SVG sous forme d'une chaine de caractere. */
+    private String image;
 
     
     /**
@@ -31,6 +33,11 @@ class Room{
         this.id = number;
         wait = new WaitList();
         clients = new Vector<ClientManager>();
+        
+        image = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\" contentScriptType=\"text/ecmascript\" width=\"470\" zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"416\" preserveAspectRatio=\"xMidYMid meet\" version=\"1.0\">\n" +
+                "<text x=\"20\" fill=\"silver\" y=\"20\" font-size=\"12\">Scaling Adventure by JB/K/A/R</text>\n" +
+                "</svg>";
     }
     
     /**
@@ -125,4 +132,13 @@ class Room{
     public boolean equals(int i){
         return(this.id == i);
     }
+    
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+    public String getImage() {
+        return this.image;
+    }
+    
 }

@@ -110,6 +110,10 @@ class ClientManager extends Thread {
         my_room = 0;
         this.room = server.getRoomById(my_room);
         this.room.addClient(this);
+        sendMessage(Constant.command.UPDATE, room.getImage());
+        
+        /* Si premier client de la room alors rien. (Le client doit faire nouveau) */
+        /* Sinon on envoit le SVG stocké sur le serveur. */
         
         cont = true;
         while (cont){
@@ -127,6 +131,8 @@ class ClientManager extends Thread {
                 break;
                 case SUBMIT :
                     if (room.getWaitList().isCurrent(this)){
+                        /* Mettre l'image dans la room */
+                        room.setImage(msg.getContent());
                         room.broadcast(new Message(msg.getFrom(), Constant.command.UPDATE, msg.getContent()));
                     }
                 break;
@@ -137,6 +143,10 @@ class ClientManager extends Thread {
                     room.broadcast(new Message(msg.getFrom(), Constant.command.LIST_USERS, room.getClientList()));
                 break;
                 default:
+                    cont = false;
+                    room.rmClient(this);
+                    server.rmClient(this);
+                    room.broadcast(new Message(msg.getFrom(), Constant.command.LIST_USERS, room.getClientList()));
                 break;
             }
         }
