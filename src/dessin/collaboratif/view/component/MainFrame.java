@@ -100,6 +100,9 @@ public class MainFrame extends JComponent {
 		repaintMenu();
 		componentListPanel.repaint();
 		drawPanel.repaint();
+                
+                /* Envoi du SVG au serveur */
+                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 	}
 	
 	/**

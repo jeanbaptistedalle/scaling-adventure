@@ -1,5 +1,6 @@
 package reseau.client;
 
+import dessin.collaboratif.view.component.MainFrame;
 import reseau.common.Constant;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -124,7 +125,7 @@ public class ClientNetwork extends Thread{
                 switch (msg.getCmd()){
                     case LIST_USERS :
                         updateUsers(msg.getContent());
-                        break;
+                    break;
                     case GIVE_CTRL :
                         if (msg.getContent().equals(me.toString())){
                             this.have_control = true;
@@ -132,15 +133,17 @@ public class ClientNetwork extends Thread{
                         else{
                             this.have_control = false;
                         }
-                        break;
+                    break;
                     case UPDATE :
-                        // TODO Actualise le dessin coté client, à partir de msg.getContent
-                        break;
+                        /* Update du SVG. */
+                        
+                        MainFrame.getInstance().repaintDrawPanel();
+                    break;
                     case LEAVE_CTRL :
                         if (this.have_control){
                             this.have_control = false;
                         }
-                        break;
+                    break;
                 }
             } catch (UnknownHostException ex) {
                 Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
@@ -186,8 +189,10 @@ public class ClientNetwork extends Thread{
      */
     private void sendMessage(Constant.command cmd){
         try {
-            out.write(new Message(addr, cmd).toByteArray());
-            out.flush();
+            if (sock != null && !sock.isClosed()) {
+                out.write(new Message(addr, cmd).toByteArray());
+                out.flush();
+            }
         } catch (IOException ex) {
             Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
         }
