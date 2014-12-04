@@ -23,6 +23,7 @@ import dessin.collaboratif.view.component.MainFrame;
  */
 public class OpenListener implements ActionListener {
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private JFileChooser fileChooser;
 
 	public OpenListener(final JFileChooser fileChooser) {
@@ -34,6 +35,7 @@ public class OpenListener implements ActionListener {
 	 * 
 	 * @param e
 	 */
+        @Override
 	public void actionPerformed(final ActionEvent e){
 		int returnVal = fileChooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {

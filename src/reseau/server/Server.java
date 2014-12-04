@@ -52,7 +52,6 @@ public class Server {
                 System.out.println("¤ New client tried to connect");
                 ClientManager client = new ClientManager(client_sock, this);
                 client.start();
-                clients.add(client);
             }
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,7 +63,7 @@ public class Server {
      * @brief accesseur du vector des clients
      * @return vector clients
      */
-    public Vector <ClientManager> getClients(){
+    public Vector<ClientManager> getClients(){
         return(this.clients);
     }
     
@@ -73,7 +72,7 @@ public class Server {
      * @brief accesseur de la liste des Room
      * @return vector rooms
      */
-    public Vector <Room> getRooms(){
+    public Vector<Room> getRooms(){
         return(this.rooms);
     }
     
@@ -116,11 +115,9 @@ public class Server {
      * @param id l'ID de la Room demandée
      * @return la Room concernée, null si elle n'existe pas
      */
-    public Room getRoomById(String id){
-        // L'ID ne sera pas nécessairement l'indice de la rooms dans rooms, on fait donc une recherche plus générale
-        int n_id = Integer.parseInt(id);
+    public Room getRoomById(int id){
         for (Room r : rooms){
-            if (r.equals(n_id)){
+            if (r.equals(id)){
                 return(r);
             }
         }

@@ -15,6 +15,7 @@ public class ScaleButton extends JToggleButton {
 
 	private ScaleEnum scale;
 	
+        @SuppressWarnings("OverridableMethodCallInConstructor")
 	public ScaleButton(ScaleEnum dir) {
 		super(dir.toString());
 		this.setFocusable(false);

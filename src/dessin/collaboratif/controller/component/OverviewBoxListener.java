@@ -22,6 +22,7 @@ public class OverviewBoxListener implements MouseMotionListener, MouseListener {
 		super();
 	}
 
+        @Override
 	public void mouseDragged(MouseEvent e) {
 		if (x == null || y == null) {
 			x = e.getX();

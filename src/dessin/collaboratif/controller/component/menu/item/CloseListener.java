@@ -17,9 +17,9 @@ public class CloseListener implements ActionListener{
 
 	/**
 	 * Méthode lancée à la détection d'un clic sur le bouton
-	 * 
-	 * @param e 
+         * @param arg0 
 	 */
+        @Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(Client.getInstance().getImage() != null){
 			Client.getInstance().setImage(null);

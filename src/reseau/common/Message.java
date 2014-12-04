@@ -1,7 +1,5 @@
 package reseau.common;
 
-import reseau.common.Constant;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.*;
@@ -76,21 +74,25 @@ public class Message {
      * @brief constructeur de Message d'après un tableau d'octets
      * @param b_Array le tableau d'octets
      */
-    public Message(byte[] b_Array) throws UnknownHostException{
-        byte[] b_addr = new byte[4];
-        byte[] b_cmd = new byte[4];
-        byte[] b_content_size = new byte[4];
-        
-        System.arraycopy(b_Array, 0, b_addr, 0, 4);
-        System.arraycopy(b_Array, 4, b_cmd, 0, 4);
-        System.arraycopy(b_Array, 8, b_content_size, 0, 4);
-        
-        from = InetAddress.getByAddress(b_addr);
-        cmd = Constant.getCommand(byteArrayToInt(b_cmd));
-        int content_size = byteArrayToInt(b_content_size);
-        char[] c_content = new char[content_size];
-        System.arraycopy(b_Array, 12, c_content, 0, content_size);
-        content = String.copyValueOf(c_content);
+    public Message(byte[] b_Array){
+        try {
+            byte[] b_addr = new byte[4];
+            byte[] b_cmd = new byte[4];
+            byte[] b_content_size = new byte[4];
+            
+            System.arraycopy(b_Array, 0, b_addr, 0, 4);
+            System.arraycopy(b_Array, 4, b_cmd, 0, 4);
+            System.arraycopy(b_Array, 8, b_content_size, 0, 4);
+            
+            from = InetAddress.getByAddress(b_addr);
+            cmd = Constant.getCommand(byteArrayToInt(b_cmd));
+            int content_size = byteArrayToInt(b_content_size);
+            char[] c_content = new char[content_size];
+            System.arraycopy(b_Array, 12, c_content, 0, content_size);
+            content = String.copyValueOf(c_content);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -107,14 +109,10 @@ public class Message {
         
         try {
             in.read(buff, 0, 12);
+            System.out.print("¤ Read : " + Arrays.toString(buff));
         } catch (IOException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        System.out.print("Read : " + Arrays.toString(buff) + " | ");
-        for(int i = 0; i < buff.length; i++)
-            System.out.print(buff[i] + ".");
-        System.out.println("");
         
         System.arraycopy(buff, 0, b_addr, 0, 4);
         System.arraycopy(buff, 4, b_cmd, 0, 4);
@@ -123,18 +121,16 @@ public class Message {
         cmd = Constant.getCommand(byteArrayToInt(b_cmd));
         int content_size = byteArrayToInt(b_content_size);
         
-        System.out.println("Coucou3 : " + b_content_size);
-        
+        @SuppressWarnings("LocalVariableHidesMemberVariable")
         byte[] content = new byte[content_size];
-        
-        System.out.println("Coucou4");
         
         try {
             in.read(content, 0, content_size);
         } catch (IOException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.content = content.toString();
+        
+        this.content = Arrays.toString(content);
         System.out.println(this.content);
     }
     

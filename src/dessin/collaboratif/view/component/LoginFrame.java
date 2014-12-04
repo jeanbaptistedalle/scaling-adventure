@@ -12,6 +12,7 @@ import dessin.collaboratif.controller.component.button.ValidateLoginButtonListen
 import dessin.collaboratif.view.component.button.ValidateLoginButton;
 import dessin.collaboratif.view.component.field.LoginField;
 import dessin.collaboratif.view.component.field.ServerField;
+import reseau.client.ClientNetwork;
 
 public class LoginFrame extends JFrame {
 
@@ -55,7 +56,14 @@ public class LoginFrame extends JFrame {
 
 		this.setSize(new Dimension(350, 200));
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        ClientNetwork.getInstance().disconnect();
+                        System.exit(0);
+                    }
+                });
 		this.setVisible(true);
 	}
 

@@ -7,7 +7,8 @@ import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.LoginFrame;
 import dessin.collaboratif.view.component.MainFrame;
-import dessin.collaboratif.view.component.TextInputFrame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import reseau.client.ClientNetwork;
 
 /**
@@ -46,17 +47,16 @@ public class ValidateLoginButtonListener implements ActionListener {
                     return;
 		}
 
-		// TODO vérifier unicité login
-		try {
-			if (!ClientNetwork.getInstance().initPseudo(loginText)) {
-			            LoginFrame.getInstance().getErrorLabel()
-			                .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
-			            return;
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+                try {
+                    // TODO vérifier unicité login
+                    if (!ClientNetwork.getInstance().initPseudo(loginText)) {
+                        LoginFrame.getInstance().getErrorLabel()
+                                .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
+                        return;
+                    }
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ValidateLoginButtonListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
 		Client.getInstance().setLogin(loginText);
 		Client.getInstance().setServerAdress(serverText);

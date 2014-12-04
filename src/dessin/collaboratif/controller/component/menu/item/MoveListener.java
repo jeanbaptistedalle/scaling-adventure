@@ -19,6 +19,7 @@ public class MoveListener implements ActionListener{
 	 * 
 	 * @param arg0 
 	 */
+        @Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(Client.getInstance().getImage() != null){
 			MoveDialog.getInstance().setVisible(true);

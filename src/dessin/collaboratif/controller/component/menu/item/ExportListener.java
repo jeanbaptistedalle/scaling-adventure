@@ -17,6 +17,7 @@ import dessin.collaboratif.model.Client;
  */
 public class ExportListener implements ActionListener {
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private JFileChooser fileChooser;
 
 	public ExportListener(final JFileChooser fileChooser) {

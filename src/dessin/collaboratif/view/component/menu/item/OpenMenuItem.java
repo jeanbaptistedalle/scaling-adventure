@@ -20,6 +20,7 @@ public class OpenMenuItem extends JMenuItem {
 	 */
 	private static final long serialVersionUID = -840379100240751601L;
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private JFileChooser fileChooser;
 
 	public OpenMenuItem() {

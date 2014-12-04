@@ -20,6 +20,7 @@ public class ExportMenuItem extends JMenuItem {
 	 */
 	private static final long serialVersionUID = 8034532338930762358L;
 
+        @SuppressWarnings("FieldMayBeFinal")
 	private JFileChooser fileChooser;
 
 	public ExportMenuItem() {

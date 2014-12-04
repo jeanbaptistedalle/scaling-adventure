@@ -16,6 +16,7 @@ public class QuitListener implements ActionListener {
 	 * 
 	 * @param arg0 
 	 */
+        @Override
 	public void actionPerformed(ActionEvent arg0) {
 		System.exit(0);
 	}
