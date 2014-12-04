@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import dessin.collaboratif.controller.component.FrameListener;
 import dessin.collaboratif.controller.component.button.ValidateLoginButtonListener;
+import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.view.component.button.ValidateLoginButton;
 import dessin.collaboratif.view.component.field.LoginField;
 import dessin.collaboratif.view.component.field.ServerField;
@@ -31,16 +32,18 @@ public class LoginFrame extends JFrame {
 	private JLabel errorLabel;
 
 	private LoginFrame() {
+		this.setTitle(GeneralVariables.LOGIN_FRAME_TITLE);
+		
 		loginPanel = new JPanel();
 		this.add(loginPanel, BorderLayout.CENTER);
 
-		loginLabel = new JLabel("Login : ");
+		loginLabel = new JLabel(GeneralVariables.LOGIN_FRAME_LOGIN_LABEL);
 		loginPanel.add(loginLabel);
 
 		loginField = new LoginField();
 		loginPanel.add(loginField);
 
-		serverTextLabel = new JLabel("Adresse du serveur : ");
+		serverTextLabel = new JLabel(GeneralVariables.LOGIN_FRAME_SERVER_ADRESS_LABEL);
 		loginPanel.add(serverTextLabel);
 
 		serverField = new ServerField();
@@ -60,7 +63,7 @@ public class LoginFrame extends JFrame {
 		this.setVisible(true);
 	}
 
-	public static LoginFrame getInstance() {
+	public static synchronized LoginFrame getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new LoginFrame();
 		}

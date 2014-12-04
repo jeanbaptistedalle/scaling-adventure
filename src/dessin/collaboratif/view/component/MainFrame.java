@@ -6,6 +6,7 @@ import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import reseau.client.ClientNetwork;
 import dessin.collaboratif.controller.component.FrameListener;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.menu.Menu;
@@ -65,17 +66,6 @@ public class MainFrame extends JComponent {
 		componentListPanel = new ComponentListPanel();
 		frame.add(componentListPanel, BorderLayout.EAST);
 
-		/* Test plein écran */
-		// final Window[] windows = JFrame.getWindows();
-		// final GraphicsDevice[] graphicsDevices =
-		// GraphicsEnvironment.getLocalGraphicsEnvironment()
-		// .getScreenDevices();
-		// for (final GraphicsDevice graphicsDevise : graphicsDevices) {
-		// for (final Window window : windows) {
-		// graphicsDevise.setFullScreenWindow(window);
-		// }
-		// }
-
 		this.setVisible(true);
 		frame.setVisible(true);
 	}
@@ -85,6 +75,8 @@ public class MainFrame extends JComponent {
 	 * undo menu items)
 	 */
 	public void repaintDrawPanel() {
+		frame.setTitle("Dessin colaboratif - Login : " + Client.getInstance().getLogin()
+				+ ", Server : " + Client.getInstance().getServerAdress());
 		if (Client.getInstance().getImage() != null) {
 			drawPanel.getSvgCanvas().setImage(Client.getInstance().getImage());
 		} else {
@@ -93,9 +85,9 @@ public class MainFrame extends JComponent {
 		repaintMenu();
 		componentListPanel.repaint();
 		drawPanel.repaint();
-                
-                /* Envoi du SVG au serveur */
-                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
+
+		/* Envoi du SVG au serveur */
+		ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 	}
 
 	/**
@@ -115,7 +107,7 @@ public class MainFrame extends JComponent {
 	 * 
 	 * @return
 	 */
-	public static MainFrame getInstance() {
+	public static synchronized MainFrame getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new MainFrame();
 		}

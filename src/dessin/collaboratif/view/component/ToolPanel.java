@@ -119,7 +119,7 @@ public class ToolPanel extends JPanel {
 
 	public boolean isPress(final DrawModelEnum drawModelEnum) {
 		switch (drawModelEnum) {
-		case SQUARE:
+		case RECTANGLE:
 			if (squareButton.getModel().isPressed()) {
 				return true;
 			}

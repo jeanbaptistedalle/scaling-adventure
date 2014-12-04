@@ -20,11 +20,10 @@ import reseau.client.ClientNetwork;
  */
 public class ValidateLoginButtonListener implements ActionListener {
 
-
 	/**
 	 * Méthode lancée à la détection d'un clic sur le bouton
 	 * 
-	 * @param arg0 
+	 * @param arg0
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent arg0) {
@@ -40,24 +39,25 @@ public class ValidateLoginButtonListener implements ActionListener {
 					.setText(GeneralVariables.LOGIN_ERROR_MISSING_SERVER);
 			return;
 		}
-                
+
 		if (!ClientNetwork.getInstance().initIp(serverText)) {
-                    LoginFrame.getInstance().getErrorLabel()
-                        .setText(GeneralVariables.LOGIN_ERROR_INVALID_SERVER);
-                    return;
+			LoginFrame.getInstance().getErrorLabel()
+					.setText(GeneralVariables.LOGIN_ERROR_INVALID_SERVER);
+			return;
 		}
 
-                try {
-                    if (!ClientNetwork.getInstance().initPseudo(loginText)) {
-                        LoginFrame.getInstance().getErrorLabel()
-                                .setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
-                        return;
-                    }
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ValidateLoginButtonListener.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                ClientNetwork.getInstance().start();
+		try {
+			if (!ClientNetwork.getInstance().initPseudo(loginText)) {
+				LoginFrame.getInstance().getErrorLabel()
+						.setText(GeneralVariables.LOGIN_ERROR_INVALID_LOGIN);
+				return;
+			}
+		} catch (InterruptedException ex) {
+			Logger.getLogger(ValidateLoginButtonListener.class.getName()).log(Level.SEVERE, null,
+					ex);
+		}
+
+		ClientNetwork.getInstance().start();
 		Client.getInstance().setLogin(loginText);
 		Client.getInstance().setServerAdress(serverText);
 		LoginFrame.getInstance().setVisible(false);

@@ -68,7 +68,7 @@ public abstract class Shape {
 			baliseName = "circ";
 			break;
 
-		case SQUARE:
+		case RECTANGLE:
 			baliseName = "rect";
 			break;
 

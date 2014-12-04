@@ -128,7 +128,7 @@ public class Client {
 				case LINE:
 					drawLine(x1, y1, x2, y2);
 					break;
-				case SQUARE:
+				case RECTANGLE:
 					drawSquare(x1, y1, x2, y2);
 					break;
 				case ELLIPSE:
@@ -197,7 +197,7 @@ public class Client {
 
 		Element elt = (Element) eltNode;
 
-		if (elt.getNodeName() == null ? DrawModelEnum.SQUARE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.SQUARE.getTagName()))
+		if (elt.getNodeName() == null ? DrawModelEnum.RECTANGLE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.RECTANGLE.getTagName()))
 			scaleRect(elt);
 		else if (elt.getNodeName() == null ? DrawModelEnum.ELLIPSE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.ELLIPSE.getTagName()))
 			scaleEllipse(elt);
@@ -365,7 +365,7 @@ public class Client {
 
 		Element elt = (Element) eltNode;
 
-		if (elt.getNodeName() == null ? DrawModelEnum.SQUARE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.SQUARE.getTagName()))
+		if (elt.getNodeName() == null ? DrawModelEnum.RECTANGLE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.RECTANGLE.getTagName()))
 			moveRect(elt);
 		else if (elt.getNodeName() == null ? DrawModelEnum.ELLIPSE.getTagName() == null : elt.getNodeName().equals(DrawModelEnum.ELLIPSE.getTagName()))
 			moveEllipse(elt);
@@ -894,7 +894,7 @@ public class Client {
 	 * 
 	 * @return
 	 */
-	public static Client getInstance() {
+	public static synchronized Client getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Client();
 		}

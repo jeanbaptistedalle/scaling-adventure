@@ -9,7 +9,7 @@ import java.util.List;
 public enum DrawModelEnum {
 	CIRCLE("circle"),
 
-	SQUARE("rect"),
+	RECTANGLE("rect"),
 
 	LINE("line"),
 
@@ -37,7 +37,7 @@ public enum DrawModelEnum {
 		list.add(CIRCLE);
 		list.add(ELLIPSE);
 		list.add(LINE);
-		list.add(SQUARE);
+		list.add(RECTANGLE);
 		list.add(TEXT);
 		return list;
 	}
