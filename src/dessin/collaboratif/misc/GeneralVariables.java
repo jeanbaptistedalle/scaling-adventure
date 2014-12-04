@@ -1,7 +1,9 @@
 package dessin.collaboratif.misc;
 
 import java.awt.Dimension;
-
+/**
+ * Variables globales
+ */
 public class GeneralVariables {
 
 	public final static String PROJECT_PATH = System.getProperty("user.dir") + "/";
@@ -84,6 +86,8 @@ public class GeneralVariables {
 	public static final String LOGIN_ERROR_INVALID_LOGIN = "Le login saisi existe déjà, veuillez en saisir un autre";
 	public static final String LOGIN_ERROR_MISSING_SERVER = "Vous devez saisir une adresse de serveur";
 	public static final String LOGIN_ERROR_INVALID_SERVER = "Vous devez saisir une adresse de serveur valide";
+	
+	public static final String ICONS_PATH = PROJECT_PATH + "ressources/icons";
 
 	public static final Object FILE_NOT_EXISTS = "Le fichier sélectionné n'existe pas...";
 

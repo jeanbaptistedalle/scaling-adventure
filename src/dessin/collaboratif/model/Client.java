@@ -33,6 +33,7 @@ import dessin.collaboratif.view.component.MainFrame;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import org.apache.batik.transcoder.TranscoderException;
 
 public class Client {
@@ -1075,15 +1076,15 @@ public class Client {
 	    	Document doc = getImage();
 	        StringWriter sw = new StringWriter();
 	        TransformerFactory tf = TransformerFactory.newInstance();
-	        Transformer transformer = tf.newTransformer();
-	        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-	        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+	        Transformer trnsfrmr = tf.newTransformer();
+	        trnsfrmr.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+	        trnsfrmr.setOutputProperty(OutputKeys.METHOD, "xml");
+	        trnsfrmr.setOutputProperty(OutputKeys.INDENT, "yes");
+	        trnsfrmr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
-	        transformer.transform(new DOMSource(doc), new StreamResult(sw));
+	        trnsfrmr.transform(new DOMSource(doc), new StreamResult(sw));
 	        return sw.toString();
-	    } catch (Exception ex) {
+	    } catch (IllegalArgumentException | TransformerException ex) {
 	        throw new RuntimeException("Error converting to String", ex);
 	    }
 	}

@@ -1,6 +1,8 @@
 package dessin.collaboratif.misc;
 
-
+/**
+ * Enum des directions possibles d'un déplacement
+ */
 public enum DirectionEnum {
 	UP("up"),
 
