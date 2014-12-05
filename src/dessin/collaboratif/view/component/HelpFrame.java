@@ -49,7 +49,7 @@ public class HelpFrame extends JFrame {
 		validate();
 	}
 
-	public static HelpFrame getInstance() {
+	public static synchronized HelpFrame getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new HelpFrame();
 		}

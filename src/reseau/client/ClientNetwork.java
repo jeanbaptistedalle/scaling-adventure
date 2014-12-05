@@ -42,7 +42,7 @@ public class ClientNetwork extends Thread{
      * @brief retourne l'instance du singleton. Fait appel au constructeur s'il n'y a pas encore d'intance.
      * @return ClientNetwork.INSTANCE
      */
-    static public ClientNetwork getInstance() {
+    static public synchronized ClientNetwork getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ClientNetwork();
         }

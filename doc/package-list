@@ -1,0 +1,17 @@
+dessin.collaboratif.controller.component
+dessin.collaboratif.controller.component.button
+dessin.collaboratif.controller.component.field
+dessin.collaboratif.controller.component.menu.item
+dessin.collaboratif.launcher
+dessin.collaboratif.misc
+dessin.collaboratif.model
+dessin.collaboratif.model.shape
+dessin.collaboratif.view.component
+dessin.collaboratif.view.component.button
+dessin.collaboratif.view.component.dialog
+dessin.collaboratif.view.component.field
+dessin.collaboratif.view.component.menu
+dessin.collaboratif.view.component.menu.item
+reseau.client
+reseau.common
+reseau.server

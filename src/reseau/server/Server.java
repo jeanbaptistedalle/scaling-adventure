@@ -24,10 +24,6 @@ public class Server {
     private Vector<ClientManager> clients;
     private ClientManager active;
 
-    public static void main(String[] args) {
-        Server s = new Server(Constant.PORT);
-    }
-
     @SuppressWarnings({"Convert2Diamond", "CallToThreadStartDuringObjectConstruction"})
     public Server(int port) {
         try {

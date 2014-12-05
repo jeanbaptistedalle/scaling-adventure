@@ -2,6 +2,9 @@ package dessin.collaboratif.misc;
 
 import java.awt.Dimension;
 
+/**
+ * Variables globales
+ */
 public class GeneralVariables {
 
 	public final static String PROJECT_PATH = System.getProperty("user.dir") + "/";
@@ -85,6 +88,21 @@ public class GeneralVariables {
 	public static final String LOGIN_ERROR_MISSING_SERVER = "Vous devez saisir une adresse de serveur";
 	public static final String LOGIN_ERROR_INVALID_SERVER = "Vous devez saisir une adresse de serveur valide";
 
-	public static final Object FILE_NOT_EXISTS = "Le fichier sélectionné n'existe pas...";
+	public static final String ICONS_PATH = PROJECT_PATH + "ressources/icons/";
+
+	public static final String SQUARE_ICON_PATH = ICONS_PATH + "square_icon.png";
+	public static final String CIRCLE_ICON_PATH = ICONS_PATH + "circle_icon.png";
+	public static final String ELLIPSE_ICON_PATH = ICONS_PATH + "ellipse_icon.png";
+	public static final String TEXT_ICON_PATH = ICONS_PATH + "text_icon.png";
+	public static final String LINE_ICON_PATH = ICONS_PATH + "line_icon.png";
+	public static final String CURSOR_ICON_PATH = ICONS_PATH + "cursor_icon.png";
+
+	public static final String FILE_NOT_EXISTS = "Le fichier sélectionné n'existe pas...";
+
+	
+	public static final String LOGIN_FRAME_TITLE = "Dessin collaboratif - Launcher";
+	public static final String LOGIN_FRAME_LOGIN_BUTTON_TEXT = "Valider";
+	public static final String LOGIN_FRAME_LOGIN_LABEL = "Login : ";
+	public static final String LOGIN_FRAME_SERVER_ADRESS_LABEL = "Adresse du serveur : ";
 
 }

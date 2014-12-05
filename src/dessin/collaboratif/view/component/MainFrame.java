@@ -6,10 +6,10 @@ import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import reseau.client.ClientNetwork;
+import dessin.collaboratif.controller.component.FrameListener;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.menu.Menu;
-
-import reseau.client.ClientNetwork;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class MainFrame extends JComponent {
 
 	private JFrame frame;
 
-        @SuppressWarnings("LeakingThisInConstructor")
+	@SuppressWarnings("LeakingThisInConstructor")
 	private MainFrame() {
 
 		setDoubleBuffered(true);
@@ -46,16 +46,10 @@ public class MainFrame extends JComponent {
 				+ ", Server : " + Client.getInstance().getServerAdress());
 		frame.setSize(600, 680);
 		frame.setLocationRelativeTo(null);
-		
-                //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                        ClientNetwork.getInstance().disconnect();
-                        System.exit(0);
-                    }
-                });
-                
+
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new FrameListener());
+
 		menu = new Menu();
 		frame.setJMenuBar(menu);
 		menu.setVisible(true);
@@ -72,17 +66,6 @@ public class MainFrame extends JComponent {
 		componentListPanel = new ComponentListPanel();
 		frame.add(componentListPanel, BorderLayout.EAST);
 
-		/* Test plein écran */
-		// final Window[] windows = JFrame.getWindows();
-		// final GraphicsDevice[] graphicsDevices =
-		// GraphicsEnvironment.getLocalGraphicsEnvironment()
-		// .getScreenDevices();
-		// for (final GraphicsDevice graphicsDevise : graphicsDevices) {
-		// for (final Window window : windows) {
-		// graphicsDevise.setFullScreenWindow(window);
-		// }
-		// }
-
 		this.setVisible(true);
 		frame.setVisible(true);
 	}
@@ -92,6 +75,8 @@ public class MainFrame extends JComponent {
 	 * undo menu items)
 	 */
 	public void repaintDrawPanel() {
+		frame.setTitle("Dessin colaboratif - Login : " + Client.getInstance().getLogin()
+				+ ", Server : " + Client.getInstance().getServerAdress());
 		if (Client.getInstance().getImage() != null) {
 			drawPanel.getSvgCanvas().setImage(Client.getInstance().getImage());
 		} else {
@@ -100,12 +85,15 @@ public class MainFrame extends JComponent {
 		repaintMenu();
 		componentListPanel.repaint();
 		drawPanel.repaint();
+                
+		/* Envoi du SVG au serveur */
+		ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 	}
-	
+
 	/**
 	 * Repaint the component of the menu which can have stat (disabled, enabled)
 	 */
-	public void repaintMenu(){
+	public void repaintMenu() {
 		menu.getFileMenu().getClose().repaint();
 		menu.getFileMenu().getExport().repaint();
 		menu.getEditionMenu().getUndo().repaint();
@@ -119,7 +107,7 @@ public class MainFrame extends JComponent {
 	 * 
 	 * @return
 	 */
-	public static MainFrame getInstance() {
+	public static synchronized MainFrame getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new MainFrame();
 		}

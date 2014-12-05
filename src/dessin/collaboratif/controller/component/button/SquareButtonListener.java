@@ -23,8 +23,8 @@ public class SquareButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		Client.getInstance().setCurrentDraw(DrawModelEnum.SQUARE);
-		MainFrame.getInstance().getToolPanel().press(DrawModelEnum.SQUARE);
+		Client.getInstance().setCurrentDraw(DrawModelEnum.RECTANGLE);
+		MainFrame.getInstance().getToolPanel().press(DrawModelEnum.RECTANGLE);
 
 	}
 
