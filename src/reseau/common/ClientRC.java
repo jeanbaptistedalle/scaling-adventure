@@ -9,7 +9,7 @@ import java.net.InetAddress;
 /* Cette classe n'est pas indispensable pour l'instant, mais elle pourra être
 utile si on ajoute des éléments descriptifs de chaque client (statut, ...)
 */
-public class Client {
+public class ClientRC {
     private final InetAddress addr;
     private String pseudo;
     
@@ -19,7 +19,7 @@ public class Client {
      * @param a_addr adresse du client
      * @param a_pseudo pseudo du client
      */
-    public Client(InetAddress a_addr, String a_pseudo){
+    public ClientRC(InetAddress a_addr, String a_pseudo){
         this.addr = a_addr;
         this.pseudo = a_pseudo;
     }
@@ -29,7 +29,7 @@ public class Client {
      * @brief Constructeur de Client
      * @param a_addr l'adresse du Client
      */
-    public Client(InetAddress a_addr){
+    public ClientRC(InetAddress a_addr){
         this.addr = a_addr;
     }
     
@@ -38,7 +38,7 @@ public class Client {
      * @brief Constructeur de Client sans adresse
      * @param a_pseudo le pseudo du client
      */
-    public Client(String a_pseudo){
+    public ClientRC(String a_pseudo){
         this.addr = null;
         this.pseudo = a_pseudo;
     }

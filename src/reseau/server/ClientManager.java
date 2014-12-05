@@ -15,7 +15,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import reseau.common.Client;
+import reseau.common.ClientRC;
 
 /**
  * @class ClientManager
@@ -27,12 +27,12 @@ class ClientManager extends Thread {
     private Socket sock;
     private DataInputStream in;
     private DataOutputStream out;
-    private Client client;
+    private ClientRC client;
 
     public ClientManager(Socket client_sock, Server server) {
         this.server = server;
         this.sock = client_sock;
-        this.client = new Client(sock.getInetAddress());
+        this.client = new ClientRC(sock.getInetAddress());
         try{
             this.in = new DataInputStream(sock.getInputStream());
             this.out = new DataOutputStream(sock.getOutputStream());
@@ -110,11 +110,16 @@ class ClientManager extends Thread {
         my_room = 0;
         this.room = server.getRoomById(my_room);
         this.room.addClient(this);
-        sendMessage(Constant.command.UPDATE, room.getImage());
+        
         
         /* Si premier client de la room alors rien. (Le client doit faire nouveau) */
         /* Sinon on envoit le SVG stocké sur le serveur. */
-        
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.sendMessage(Constant.command.UPDATE, this.room.getImage());
         cont = true;
         while (cont){
             Message msg = recvMessage();

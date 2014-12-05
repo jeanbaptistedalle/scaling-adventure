@@ -2,6 +2,7 @@ package reseau.common;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -109,7 +110,7 @@ public class Message {
         
         try {
             in.read(buff, 0, 12);
-            System.out.print("¤ Read : " + Arrays.toString(buff));
+            System.out.print("¤ Read : " + Arrays.toString(buff) + " . ");
         } catch (IOException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -130,8 +131,12 @@ public class Message {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.content = Arrays.toString(content);
-        System.out.println(this.content);
+        try {
+            this.content = new String(content, "UTF-8");
+            System.out.println(this.content);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -207,11 +212,13 @@ public class Message {
      * @return le tableau de chars correspondant
      */
     private char[] byteArrayToCharArray(byte [] input){
-        char res[] = new char[input.length];
-        for (int i = 0; i < input.length; i++){
-            res[i] = (char) input[i];
+        String s = "";
+        try {
+            s = new String(input, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return(res);
+        return s.toCharArray();
     }
 
     /**

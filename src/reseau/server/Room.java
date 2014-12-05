@@ -18,28 +18,28 @@ class Room{
     private  final int id;
     @SuppressWarnings("FieldMayBeFinal")
     private WaitList wait;
-    
+
     /* Document SVG sous forme d'une chaine de caractere. */
     private String image;
 
-    
+
     /**
      * @fn Room
      * @srief Constructeur de Room
-     * @param number 
+     * @param number
      */
     @SuppressWarnings("Convert2Diamond")
     public Room(int number){
         this.id = number;
         wait = new WaitList();
         clients = new Vector<ClientManager>();
-        
+
         image = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\" contentScriptType=\"text/ecmascript\" width=\"470\" zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"416\" preserveAspectRatio=\"xMidYMid meet\" version=\"1.0\">\n" +
                 "<text x=\"20\" fill=\"silver\" y=\"20\" font-size=\"12\">Scaling Adventure by JB/K/A/R</text>\n" +
-                "</svg>";
+                "</svg>" + "\n";
     }
-    
+
     /**
      * @fn addClient
      * @brief Ajoute un client dans la liste de la room
@@ -48,7 +48,7 @@ class Room{
     public void addClient(ClientManager cli){
         clients.add(cli);
     }
-    
+
     /**
      * @fn rmClient
      * @brief Supprime un client de la liste de la room
@@ -57,7 +57,7 @@ class Room{
     public void rmClient(ClientManager cli){
         clients.remove(cli);
     }
-    
+
     /**
      * @fn joinWaitList
      * @brief Ajoute un client à la file d'attente (lui donne la main si il est le premier)
@@ -68,7 +68,7 @@ class Room{
             broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, c.toString()));
         }
     }
-    
+
     /**
      * @fn leaveWaitList
      * @brief Fait quitter la liste d'attente au client c, donne la main au suivant si besoin
@@ -82,7 +82,7 @@ class Room{
             }
         }
     }
-    
+
     /**
      * @fn getClientList
      * @brief Retourne la liste des clients présents sur cette room sous la forme client1,client2,clientn
@@ -97,8 +97,8 @@ class Room{
             res += clients.get(clients.size() - 1).toString();
         return(res);
     }
-    
-        
+
+
     /**
      * @fn getWaitList
      * @brief Accesseur de la liste d'attente des clients
@@ -107,7 +107,7 @@ class Room{
     public WaitList <ClientManager> getWaitList(){
         return(this.wait);
     }
-    
+
     /**
      * @fn broadcast
      * @brief diffusion d'un Message à tous les client de cette room
@@ -118,7 +118,7 @@ class Room{
             cli.sendMessage(msg);
         }
     }
-    
+
     /**
      * @fn toString
      * @brief renvoie la chaîne de caractère décrivant cette room (ici son ID)
@@ -128,17 +128,17 @@ class Room{
     public String toString(){
         return(Integer.toString(this.id));
     }
-    
+
     public boolean equals(int i){
         return(this.id == i);
     }
-    
+
     public void setImage(String image) {
         this.image = image;
     }
-    
+
     public String getImage() {
         return this.image;
     }
-    
+
 }
