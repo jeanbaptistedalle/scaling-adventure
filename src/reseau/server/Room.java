@@ -34,10 +34,10 @@ class Room{
         wait = new WaitList();
         clients = new Vector<ClientManager>();
 
-        image = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\" contentScriptType=\"text/ecmascript\" width=\"470\" zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"416\" preserveAspectRatio=\"xMidYMid meet\" version=\"1.0\">\n" +
-                "<text x=\"20\" fill=\"silver\" y=\"20\" font-size=\"12\">Scaling Adventure by JB/K/A/R</text>\n" +
-                "</svg> " + "\n";
+        image = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+                "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\" contentScriptType=\"text/ecmascript\" width=\"470\" zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"416\" preserveAspectRatio=\"xMidYMid meet\" version=\"1.0\">" +
+                "<text x=\"20\" fill=\"silver\" y=\"20\" font-size=\"12\">Scaling Adventure by JB/K/A/R</text>" +
+                "</svg>";
     }
 
     /**

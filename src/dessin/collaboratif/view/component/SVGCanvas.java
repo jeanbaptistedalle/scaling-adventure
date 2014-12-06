@@ -1,27 +1,12 @@
 package dessin.collaboratif.view.component;
 
 import java.awt.Cursor;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
-import javax.swing.SwingUtilities;
-
-import org.apache.batik.ext.awt.geom.Polygon2D;
-import org.apache.batik.gvt.TextNode;
 import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGDocument;
 
 import dessin.collaboratif.controller.component.SvgCanvasMouseAdapter;
-import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
-import dessin.collaboratif.model.Client;
-import dessin.collaboratif.view.component.dialog.MoveDialog;
-import dessin.collaboratif.view.component.dialog.RenameDialog;
 
 public class SVGCanvas extends JSVGCanvas {
 

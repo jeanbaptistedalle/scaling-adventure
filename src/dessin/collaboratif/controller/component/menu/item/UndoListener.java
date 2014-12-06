@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
+import reseau.client.ClientNetwork;
 /**
  * Listener de l'item de menu Annuler
  * 
@@ -22,6 +23,9 @@ public class UndoListener implements ActionListener{
 		if(Client.getInstance().getImage() != null){
 			Client.getInstance().undo();
 			MainFrame.getInstance().repaintDrawPanel();
+
+                        /* Envoi du SVG au serveur */
+                        ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 		}
 	}
 }

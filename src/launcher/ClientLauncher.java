@@ -9,7 +9,7 @@ import dessin.collaboratif.view.component.LoginFrame;
  * @author JBD
  *
  */
-public class ClientLauncher {
+    public class ClientLauncher {
     public static void main(String[] args) {
         LoginFrame.getInstance();
     }

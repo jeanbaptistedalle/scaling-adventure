@@ -6,7 +6,6 @@ import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import reseau.client.ClientNetwork;
 import dessin.collaboratif.controller.component.FrameListener;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.menu.Menu;

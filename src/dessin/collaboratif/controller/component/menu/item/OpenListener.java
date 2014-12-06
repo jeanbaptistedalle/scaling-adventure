@@ -15,6 +15,7 @@ import org.w3c.dom.Document;
 
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
+import reseau.client.ClientNetwork;
 
 /**
  * Listener de l'item de menu d'ouverture
@@ -57,6 +58,9 @@ public class OpenListener implements ActionListener {
 				throw new RuntimeException(e1);
 			}
 			MainFrame.getInstance().repaintDrawPanel();
+
+                        /* Envoi du SVG au serveur */
+                        ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 		}
 	}
 }

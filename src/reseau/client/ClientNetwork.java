@@ -73,7 +73,7 @@ public class ClientNetwork extends Thread{
                 System.out.println("Socket : " + sock.toString());
                 System.out.println("in : " + in.toString());
                 System.out.println("out : " + out.toString());
-
+                System.out.println(System.getProperty("user.dir"));
                 return true;
             } catch (UnknownHostException ex) {
                 // Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
