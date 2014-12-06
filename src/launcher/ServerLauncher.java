@@ -11,6 +11,6 @@ import reseau.server.Server;
  */
 public class ServerLauncher {
 	public static void main(String[] args) {
-		new Server(Constant.PORT);
+		Server s = new Server(Constant.PORT);
 	}
 }

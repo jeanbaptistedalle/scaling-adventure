@@ -15,7 +15,7 @@ public class Launcher {
 	public static void main(String[] args) {
 		new Thread() {
 			public void run() {
-				new Server(Constant.PORT);
+				Server s = new Server(Constant.PORT);
 			}
 		}.start();
 

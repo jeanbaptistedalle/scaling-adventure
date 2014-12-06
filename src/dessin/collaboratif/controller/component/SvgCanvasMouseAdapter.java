@@ -22,6 +22,7 @@ import dessin.collaboratif.view.component.MainFrame;
 import dessin.collaboratif.view.component.SVGCanvas;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
 import dessin.collaboratif.view.component.dialog.RenameDialog;
+import reseau.client.ClientNetwork;
 
 /**
  * Adapter du tableau
@@ -98,6 +99,9 @@ public class SvgCanvasMouseAdapter implements MouseListener, MouseMotionListener
 		x2 = null;
 		y2 = null;
 		resize = false;
+                
+                /* Envoi du SVG au serveur */
+                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 	}
 
 	@Override

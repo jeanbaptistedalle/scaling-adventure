@@ -122,6 +122,8 @@ public class Message {
         cmd = Constant.getCommand(byteArrayToInt(b_cmd));
         int content_size = byteArrayToInt(b_content_size);
         
+        System.out.print("command : " + cmd + " . size : " + content_size + " . ");
+        
         @SuppressWarnings("LocalVariableHidesMemberVariable")
         byte[] content = new byte[content_size];
         
@@ -180,9 +182,10 @@ public class Message {
      * @return l'entier correspondant
      */
     public final int byteArrayToInt(byte[] input){
-        // on préfère multiplier qu'agir directement sur les bits
+        // On préfère multiplier qu'agir directement sur les bits
         // En effet, on ne peut pas appliquer un décalage suffisant sur les octets (overflow)
-        return(input[0] * 16777216 + input[1] * 65535 + input[2] * 255 + input[3]);
+        return ByteBuffer.wrap(input).getInt();
+        //return(input[0] * 16777216 + input[1] * 65535 + input[2] * 255 + input[3]);
     }
     
     /**
@@ -192,12 +195,6 @@ public class Message {
      * @return le tableau de bytes correspondant
      */
     private byte[] charArrayToByteArray(char [] input){
-//        
-//        byte res[] = new byte[input.length];
-//        for (int i = 0; i < input.length; i++){
-//            res[i] = (byte) input[i];
-//        }
-//        return(res);
         CharBuffer charBuffer = CharBuffer.wrap(input);
         ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
         byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),

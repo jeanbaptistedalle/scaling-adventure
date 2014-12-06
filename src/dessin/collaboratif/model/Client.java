@@ -35,6 +35,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.apache.batik.transcoder.TranscoderException;
+import reseau.client.ClientNetwork;
 
 public class Client {
 
@@ -140,7 +141,7 @@ public class Client {
 				default:
 					break;
 				}
-				return true;
+                                return true;
 			} else {
 				/*
 				 * TODO si aucune forme à dessiner n'est selectionnée, on doit
@@ -845,6 +846,10 @@ public class Client {
 				throw new RuntimeException(e);
 			}
 		}
+
+                /* Envoi du SVG au serveur */
+                //ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
+				
 	}
 
         @SuppressWarnings({"ConvertToTryWithResources", "UnnecessaryBoxing"})

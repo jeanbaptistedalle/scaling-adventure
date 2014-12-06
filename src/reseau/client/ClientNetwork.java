@@ -17,6 +17,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
+import org.apache.batik.dom.util.SAXIOException;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Document;
 /**
@@ -141,21 +142,17 @@ public class ClientNetwork extends Thread{
                     break;
                     case UPDATE :
                         /* Update du SVG. */
-
-//                        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//                        DocumentBuilder builder = factory.newDocumentBuilder();
-//                        Document doc = builder.parse( new InputSource( new StringReader( msg.getContent())));
-//
-//                        Client.getInstance().setImage(doc);
-//                        MainFrame.getInstance().repaintDrawPanel();
+                        try {
+                            StringReader reader = new StringReader(msg.getContent());
+                            String parser = XMLResourceDescriptor.getXMLParserClassName();
+                            SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(parser);
+                            Document doc = factory.createDocument(null, reader);
                         
-                        StringReader reader = new StringReader(msg.getContent());
-                        String parser = XMLResourceDescriptor.getXMLParserClassName();
-                        SAXSVGDocumentFactory factory = new SAXSVGDocumentFactory(parser);
-                        Document doc = factory.createDocument(null, reader);
-                        // Afficher le tableau
-                        Client.getInstance().setImage(doc);
-                        MainFrame.getInstance().repaintDrawPanel();
+                            Client.getInstance().setImage(doc);
+                            MainFrame.getInstance().repaintDrawPanel();
+                        } catch (SAXIOException e) {
+                            System.err.println(" ! Erreur lecture du fichier SVG.");
+                        }
                     break;
                     case LEAVE_CTRL :
                         if (this.have_control){
@@ -181,7 +178,7 @@ public class ClientNetwork extends Thread{
         try {
             byte message[] = new Message(addr, cmd, content).toByteArray();
 
-            System.out.print("Mesage to send : ");
+            System.out.print("¤ Mesage to send : ");
             for(int i = 0; i < message.length; i++)
                 System.out.print(message[i] + ".");
             System.out.println();
@@ -253,9 +250,9 @@ public class ClientNetwork extends Thread{
      * @param modif la chaîne de caractères qui représente la nouvelle image
      */
     public void submitPicture(String modif){
-        if(this.have_control){
+        //if(this.have_control){
             sendMessage(Constant.command.SUBMIT, modif);
-        }
+        //}
     }
 
     /**
