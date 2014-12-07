@@ -157,7 +157,6 @@ class ClientManager extends Thread {
                 break;
 
             case LEAVE_CTRL :
-
                 /* On ne se sert pas du LEAVE_CTRL envoyé par l'utilisateur. C'est le serveur qui s'occupe du controle. */
                 break;
 
@@ -176,7 +175,6 @@ class ClientManager extends Thread {
                 room.rmClient(this);
                 server.rmClient(this);
                 room.broadcast(new Message(msg.getFrom(), Constant.command.LIST_USERS, room.getClientList()));
-
                 break;
 
             default :
@@ -186,21 +184,6 @@ class ClientManager extends Thread {
                 room.broadcast(new Message(msg.getFrom(), Constant.command.LIST_USERS, room.getClientList()));
 
                 break;
-            }
-
-            /* Le timer est dans une boucle avec une action bloquante. Il faut le mettre dans un Thread à part. */
-            if (startTime != -1) {
-                endTime  = System.nanoTime();
-                duration = (endTime - startTime);
-
-                // System.out.println(" :: " + (duration / 1000000000));
-                if ((duration / 1000000000) > 30) {
-
-                    /* Retirer le controle au bout de 30 secondes. */
-                    this.startTime = -1;
-                    this.sendMessage(Constant.command.LEAVE_CTRL);
-                    room.leaveWaitList(this);
-                }
             }
         }
 
@@ -216,8 +199,8 @@ class ClientManager extends Thread {
         System.out.println("¤ Client " + this.getPseudo() + " leaved");
     }
 
-    public void takeControl() {
-        startTime = System.nanoTime();
+    public void leaveCtrl() {
+        this.sendMessage(Constant.command.LEAVE_CTRL);
     }
 
     /**

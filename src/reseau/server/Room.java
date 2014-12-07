@@ -61,10 +61,11 @@ class Room{
      * @brief Ajoute un client à la file d'attente (lui donne la main si il est le premier)
      * @param c le client à ajouter
      */
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public synchronized void joinWaitList(ClientManager c){
         if (wait.join(c)){       // Si il rejoint une file d'attente vide, il a la main
             broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, c.toString()));
-            c.takeControl();        // Enclenche le timer de control.
+            new SchedulerLeaveCtrl(this, c).start();
         }
     }
 
@@ -73,10 +74,11 @@ class Room{
      * @brief Fait quitter la liste d'attente au client c, donne la main au suivant si besoin
      * @param c le client
      */
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public synchronized void leaveWaitList(ClientManager c){
         if (wait.leave(c)){  // Si le client avait la main
             if (!wait.isEmpty()){   // Si un nouveau client reçoit la main
-                this.wait.getCurrent().takeControl();
+                new SchedulerLeaveCtrl(this, c).start();
                 broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, wait.getCurrent().toString()));
             }
         }
