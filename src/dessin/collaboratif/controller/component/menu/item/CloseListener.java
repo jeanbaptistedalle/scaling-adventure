@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
+import reseau.client.ClientNetwork;
 
 /**
  * Listener de l'item de fermeture du tableau

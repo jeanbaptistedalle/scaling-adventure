@@ -101,7 +101,8 @@ public class SvgCanvasMouseAdapter implements MouseListener, MouseMotionListener
 		resize = false;
                 
                 /* Envoi du SVG au serveur */
-                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
+                if(ClientNetwork.getInstance().haveControl())
+                    ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 	}
 
 	@Override

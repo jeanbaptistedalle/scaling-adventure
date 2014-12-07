@@ -2,6 +2,7 @@ package dessin.collaboratif.controller.component.menu.item;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import reseau.client.ClientNetwork;
 
 /**
  * Listener de l'item du menu Quitter
@@ -18,6 +19,7 @@ public class QuitListener implements ActionListener {
 	 */
         @Override
 	public void actionPerformed(ActionEvent arg0) {
+                ClientNetwork.getInstance().disconnect();
 		System.exit(0);
 	}
 }

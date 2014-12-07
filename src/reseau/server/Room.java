@@ -47,6 +47,8 @@ class Room{
      */
     public void addClient(ClientManager cli){
         clients.add(cli);
+        if (clients.isEmpty())
+            this.joinWaitList(cli);
     }
 
     /**
@@ -55,6 +57,7 @@ class Room{
      * @param cli le client à supprimer
      */
     public void rmClient(ClientManager cli){
+        this.leaveWaitList(cli);
         clients.remove(cli);
     }
 
@@ -64,8 +67,9 @@ class Room{
      * @param c le client à ajouter
      */
     public synchronized void joinWaitList(ClientManager c){
-        if (wait.join(this)){       // Si il rejoint une file d'attente vide, il a la main
+        if (wait.join(c)){       // Si il rejoint une file d'attente vide, il a la main
             broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, c.toString()));
+            c.takeControl();        // Enclenche le timer de control.
         }
     }
 
@@ -75,9 +79,10 @@ class Room{
      * @param c le client
      */
     public synchronized void leaveWaitList(ClientManager c){
-        if (wait.leave(this)){  // Si le client avait la main
+        if (wait.leave(c)){  // Si le client avait la main
             broadcast(new Message(Constant.SERVER_IP, Constant.command.LEAVE_CTRL));
             if (!wait.isEmpty()){   // Si un nouveau client reçoit la main
+                this.wait.getCurrent().takeControl();
                 broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, wait.getCurrent().toString()));
             }
         }
@@ -95,6 +100,7 @@ class Room{
         }
         if (!clients.isEmpty())
             res += clients.get(clients.size() - 1).toString();
+        
         return(res);
     }
 
@@ -104,7 +110,7 @@ class Room{
      * @brief Accesseur de la liste d'attente des clients
      * @return liste d'attente des clients
      */
-    public WaitList <ClientManager> getWaitList(){
+    public WaitList getWaitList(){
         return(this.wait);
     }
 

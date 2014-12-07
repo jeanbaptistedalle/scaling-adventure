@@ -28,6 +28,7 @@ class ClientManager extends Thread {
     private DataInputStream in;
     private DataOutputStream out;
     private ClientRC client;
+    private long startTime = -1, endTime, duration;
 
     public ClientManager(Socket client_sock, Server server) {
         this.server = server;
@@ -67,7 +68,7 @@ class ClientManager extends Thread {
                     } catch (IOException ex) {
                         Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    System.out.println("¤ Client leaved befrore connection.");
+                    System.out.println("¤ Client leaved before complete connection.");
                 return;
                 case CONNECT:
                     my_pseudo = msg.getContent();
@@ -109,16 +110,19 @@ class ClientManager extends Thread {
         }while (cont); */
         my_room = 0;
         this.room = server.getRoomById(my_room);
-        this.room.addClient(this);
         
-        
+        /* Laisse le temps à l'interface de charger correctement. */
+        /* Voir pour faire envoyer un message à l'interface quand elle est prete. */
         try {
             sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /* Si premier client de la room alors rien. (Le client doit faire nouveau) */
-        /* Sinon on envoit le SVG stocké sur le serveur. */
+        
+        this.room.addClient(this);
+        
+        /* Envoi du SVG stocké sur le serveur uand le client se connecte. 
+         Au départ de la room, SVG minimal. */
         this.sendMessage(Constant.command.UPDATE, this.room.getImage());
         
         cont = true;
@@ -133,14 +137,15 @@ class ClientManager extends Thread {
                     room.joinWaitList(this);
                 break;
                 case LEAVE_CTRL :
+                    this.startTime = -1;
                     room.leaveWaitList(this);
                 break;
                 case SUBMIT :
-                    //if (room.getWaitList().isCurrent(this)){
+                    if (room.getWaitList().isCurrent(this)){
                         /* Mettre l'image dans la room */
                         room.setImage(msg.getContent());
                         room.broadcast(new Message(msg.getFrom(), Constant.command.UPDATE, msg.getContent()));
-                    //}
+                    }
                 break;
                 case DISCONNECT :
                     cont = false;
@@ -155,6 +160,16 @@ class ClientManager extends Thread {
                     room.broadcast(new Message(msg.getFrom(), Constant.command.LIST_USERS, room.getClientList()));
                 break;
             }
+            
+            if (startTime != -1) {
+                endTime = System.nanoTime();
+                duration = (endTime - startTime);
+                // System.out.println(" :: " + (duration / 1000000000));
+                if ((duration / 1000000000) > 30) {
+                    /* Retirer le controle au bout de 30 secondes. */
+                    this.sendMessage(Constant.command.LEAVE_CTRL);
+                }
+            }
         }
         
         /* Lorsqu'on est ici, le client à demandé la déconnexion */
@@ -166,6 +181,10 @@ class ClientManager extends Thread {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("¤ Client " + this.getPseudo() + " leaved");
+    }
+    
+    public void takeControl () {
+        startTime = System.nanoTime();
     }
     
     /**

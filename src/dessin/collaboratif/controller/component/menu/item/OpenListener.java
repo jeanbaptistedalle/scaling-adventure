@@ -60,7 +60,8 @@ public class OpenListener implements ActionListener {
 			MainFrame.getInstance().repaintDrawPanel();
 
                         /* Envoi du SVG au serveur */
-                        ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
+                        if(ClientNetwork.getInstance().haveControl())
+                            ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 		}
 	}
 }

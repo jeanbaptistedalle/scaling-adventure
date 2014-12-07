@@ -124,7 +124,6 @@ public class ClientNetwork extends Thread{
      */
     @Override
     public void run(){
-        // TODO écoute des messages serveur, réponse en conséquent
         while(true){
             try {
                 Message msg = new Message(in);
@@ -135,8 +134,7 @@ public class ClientNetwork extends Thread{
                     case GIVE_CTRL :
                         if (msg.getContent().equals(me.toString())){
                             this.have_control = true;
-                        }
-                        else{
+                        } else{
                             this.have_control = false;
                         }
                     break;
@@ -157,6 +155,7 @@ public class ClientNetwork extends Thread{
                     case LEAVE_CTRL :
                         if (this.have_control){
                             this.have_control = false;
+                            this.sendMessage(Constant.command.LEAVE_CTRL);
                         }
                     break;
                 }
@@ -177,12 +176,6 @@ public class ClientNetwork extends Thread{
     private void sendMessage(Constant.command cmd, String content){
         try {
             byte message[] = new Message(addr, cmd, content).toByteArray();
-
-            System.out.print("¤ Mesage to send : ");
-            for(int i = 0; i < message.length; i++)
-                System.out.print(message[i] + ".");
-            System.out.println();
-
             out.write(message);
             out.flush();
         } catch (IOException ex) {
@@ -250,9 +243,9 @@ public class ClientNetwork extends Thread{
      * @param modif la chaîne de caractères qui représente la nouvelle image
      */
     public void submitPicture(String modif){
-        //if(this.have_control){
+        if(this.have_control){
             sendMessage(Constant.command.SUBMIT, modif);
-        //}
+        }
     }
 
     /**

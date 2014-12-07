@@ -1,5 +1,6 @@
 package dessin.collaboratif.controller.component;
 
+import dessin.collaboratif.model.Client;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

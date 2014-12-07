@@ -1,5 +1,6 @@
 package dessin.collaboratif.view.component.menu.item;
 
+import dessin.collaboratif.controller.component.menu.item.TakeHandListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
@@ -9,6 +10,8 @@ import javax.swing.KeyStroke;
 
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
+import java.awt.event.ActionListener;
+import reseau.client.ClientNetwork;
 
 public class TakeHandMenuItem extends JMenuItem {
 
@@ -29,8 +32,10 @@ public class TakeHandMenuItem extends JMenuItem {
 		} else {
 			this.setEnabled(false);
 		}
+		this.addActionListener(new TakeHandListener());
 	}
 
+        @Override
 	public void repaint() {
 
 		if (Client.getInstance().getImage() != null) {

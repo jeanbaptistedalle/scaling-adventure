@@ -3,17 +3,20 @@ package reseau.server;
 import java.util.Vector;
 
 /**
+ * @param <ClientManager>
  * @class WaitList
  * @brief Liste d'attente de client
  */
-public class WaitList <T>{
-    private Vector<T> list;
+public class WaitList{
+    @SuppressWarnings("FieldMayBeFinal")
+    private Vector<ClientManager> list;
     
     /**
      * @fn WaitList
      * @brief Constructeur de WaitList
      */
     public WaitList(){
+        list = new Vector<>();
     }
     
     /**
@@ -22,7 +25,7 @@ public class WaitList <T>{
      * @param elem le nouvel élément
      * @return true si l'élément est ajouté à une liste vide (donc élément courant actualisé), false sinon
      */
-    public boolean join(T elem){
+    public boolean join(ClientManager elem){
         boolean res = list.isEmpty();
         list.add(elem);
         return(res);
@@ -34,7 +37,7 @@ public class WaitList <T>{
      * @param elem l'élément à retirer
      * @return true si l'élément qui a la main est actualisé, false sinon
      */
-    public boolean leave(T elem){
+    public boolean leave(ClientManager elem){
         if (!list.isEmpty() && elem == getCurrent()){
             unshift();
             return(true);
@@ -51,7 +54,7 @@ public class WaitList <T>{
      */
     private void unshift(){
         if (!list.isEmpty()){
-            T first = getCurrent();
+            ClientManager first = getCurrent();
             list.remove(first);
         }
     }
@@ -61,7 +64,7 @@ public class WaitList <T>{
      * @brief Enlève un élément de la liste, quelle que soit sa position
      * @param elem l'élement à retirer 
      */
-    private void remove(T elem){
+    private void remove(ClientManager elem){
         list.remove(elem);
     }
     
@@ -70,11 +73,10 @@ public class WaitList <T>{
      * @brief Accesseur de l'élément courant (ici, client qui a la main)
      * @return list.get(0)
      */
-    public T getCurrent(){
-        if (list.isEmpty()){
-            return(list.get(0));
-        }
-        else{
+    public ClientManager getCurrent(){
+        if (!list.isEmpty()){
+            return(list.firstElement());
+        } else{
             return(null);
         }
     }
@@ -94,7 +96,7 @@ public class WaitList <T>{
      * @param elem l'élement à tester
      * @return true si c'est l'élément courant, false sinon
      */
-    public boolean isCurrent(T elem){
+    public boolean isCurrent(ClientManager elem){
         if (list.isEmpty()){
             return(false);
         }
