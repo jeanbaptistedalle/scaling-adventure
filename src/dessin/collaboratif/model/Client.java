@@ -715,30 +715,20 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawCircle(final Integer x1, final Integer y1,
-			final Integer x2, final Integer y2) {
+	private void drawCircle(Integer x1, Integer y1,
+			Integer x2, Integer y2) {
 		/*
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
 		 */
-		Integer nx1;
-		Integer ny1;
-		Integer nx2;
-		Integer ny2;
-		if (x1 < x2) {
-			nx1 = x1;
-			nx2 = x2;
-		} else {
-			nx2 = x1;
-			nx1 = x2;
-		}
-		if (y1 < y2) {
-			ny1 = y1;
-			ny2 = y2;
-		} else {
-			ny2 = y1;
-			ny1 = y2;
-		}
+                Integer fx = 1;
+                Integer fy = 1;
+		if (x1 > x2) {
+                    fx = -1;
+                }
+		if (y1 > y2) {
+                    fy = -1;
+                }
 
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
@@ -747,17 +737,22 @@ public class Client {
 
 		Integer cx, cy;
 		Integer rayon;
+                Integer dx = (x2 - x1) * fx; // valeur absolue de la distance en x
+                Integer dy = (y2 - y1) * fy; // valeur absolue de la distance en y
+                
+                if (dx < dy){
+                    y2 = y1 + dx * fy;
+                    dy = dx;
+                }
+                else{
+                    x2 = x1 + dy * fx;
+                    dx = dy;
+                }
 
-		if (nx2 - nx1 > ny2 - ny1) {
-			ny2 = nx2 - nx1 + ny1;
-		} else {
-			nx2 = ny2 - ny1 + nx1;
-		}
+                cx = x1 + (fx * dx) / 2;
+                cy = y1 + (fy * dy) / 2;
 
-		cx = ((nx2 - nx1) / 2) + nx1;
-		cy = ((ny2 - ny1) / 2) + ny1;
-
-		rayon = nx2 - cx;
+		rayon = dx / 2;
 
 		cercle.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE,
 				cx.toString());
@@ -770,7 +765,6 @@ public class Client {
 		svgRoot.appendChild(cercle);
 		saveSVG();
 	}
-
 	/**
 	 * This method draw a line on the selected .svg
 	 * 
