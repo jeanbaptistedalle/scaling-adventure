@@ -25,10 +25,15 @@ public class CloseListener implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        if (Client.getInstance().getImage() != null) {
-            Client.getInstance().setImage(null);
-            Client.getInstance().setFileImage(null);
-            MainFrame.getInstance().repaintDrawPanel();
+        if (ClientNetwork.getInstance().haveControl()) {
+            if (Client.getInstance().getImage() != null) {
+                Client.getInstance().setImage(null);
+                Client.getInstance().setFileImage(null);
+                MainFrame.getInstance().repaintDrawPanel();
+            }
+            
+            /* Envoi du SVG au serveur */
+            ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
         }
     }
 }

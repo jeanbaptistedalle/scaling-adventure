@@ -56,11 +56,13 @@ public class SvgCanvasMouseAdapter implements MouseListener, MouseMotionListener
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        x1     = e.getX();
-        y1     = e.getY();
-        x2     = null;
-        y2     = null;
-        timeDB = System.nanoTime();
+        if (ClientNetwork.getInstance().haveControl()) {
+            x1     = e.getX();
+            y1     = e.getY();
+            x2     = null;
+            y2     = null;
+            timeDB = System.nanoTime();
+        }
     }
 
     /**
