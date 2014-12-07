@@ -35,7 +35,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.apache.batik.transcoder.TranscoderException;
-import reseau.client.ClientNetwork;
 
 public class Client {
 
@@ -1084,7 +1083,7 @@ public class Client {
 	        Transformer trnsfrmr = tf.newTransformer();
 	        trnsfrmr.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 	        trnsfrmr.setOutputProperty(OutputKeys.METHOD, "xml");
-	        trnsfrmr.setOutputProperty(OutputKeys.INDENT, "yes");
+	        trnsfrmr.setOutputProperty(OutputKeys.INDENT, "no");
 	        trnsfrmr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
 	        trnsfrmr.transform(new DOMSource(doc), new StreamResult(sw));
