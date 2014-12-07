@@ -41,9 +41,9 @@ class Room{
      * @param cli le nouveau client
      */
     public void addClient(ClientManager cli){
-        clients.add(cli);
         if (clients.isEmpty())
             this.joinWaitList(cli);
+        clients.add(cli);
     }
 
     /**

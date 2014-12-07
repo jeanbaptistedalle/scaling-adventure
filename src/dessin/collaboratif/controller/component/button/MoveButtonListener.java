@@ -28,16 +28,14 @@ public class MoveButtonListener implements ActionListener {
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (ClientNetwork.getInstance().haveControl()) {
-            if (ClientNetwork.getInstance().haveControl()) {
-                String act = e.getActionCommand();
+            String act = e.getActionCommand();
 
-                Client.getInstance().move(act);
-                MoveDialog.getInstance().unpressAll();
-                MainFrame.getInstance().repaintDrawPanel();
+            Client.getInstance().move(act);
+            MoveDialog.getInstance().unpressAll();
+            MainFrame.getInstance().repaintDrawPanel();
 
-                /* Envoi du SVG au serveur */
-                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
-            }
+            /* Envoi du SVG au serveur */
+            ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
         }
     }
 }
