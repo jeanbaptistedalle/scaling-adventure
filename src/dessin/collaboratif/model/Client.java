@@ -715,8 +715,8 @@ public class Client {
 	 * @param x2
 	 * @param y2
 	 */
-	private void drawCircle(Integer x1, Integer y1,
-			Integer x2, Integer y2) {
+	private void drawCircle(final Integer x1, final Integer y1,
+			final Integer x2, final Integer y2) {
 		/*
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
@@ -741,11 +741,9 @@ public class Client {
                 Integer dy = (y2 - y1) * fy; // valeur absolue de la distance en y
                 
                 if (dx < dy){
-                    y2 = y1 + dx * fy;
                     dy = dx;
                 }
                 else{
-                    x2 = x1 + dy * fx;
                     dx = dy;
                 }
 
