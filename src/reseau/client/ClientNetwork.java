@@ -140,6 +140,8 @@ public class ClientNetwork extends Thread{
                     break;
                     case UPDATE :
                         /* Update du SVG. */
+                        
+                        /* Apparement introduit des \n dans le SVG et ajoute de #text à l'interface */
                         try {
                             StringReader reader = new StringReader(msg.getContent());
                             String parser = XMLResourceDescriptor.getXMLParserClassName();
@@ -155,7 +157,6 @@ public class ClientNetwork extends Thread{
                     case LEAVE_CTRL :
                         if (this.have_control){
                             this.have_control = false;
-                            this.sendMessage(Constant.command.LEAVE_CTRL);
                         }
                     break;
                 }

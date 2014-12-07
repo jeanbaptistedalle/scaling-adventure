@@ -1,14 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package reseau.server;
 
+//~--- non-JDK imports --------------------------------------------------------
+
 import reseau.common.Constant;
+
+//~--- JDK imports ------------------------------------------------------------
+
 import java.io.IOException;
+
 import java.net.ServerSocket;
 import java.net.Socket;
+
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,16 +21,16 @@ import java.util.logging.Logger;
  * room aura sa propre liste de clients.
  */
 public class Server {
-
-    private Vector<Room> rooms;
+    private Vector<Room>          rooms;
     private Vector<ClientManager> clients;
-    private ClientManager active;
+    private ClientManager         active;
 
-    @SuppressWarnings({"Convert2Diamond", "CallToThreadStartDuringObjectConstruction"})
+    @SuppressWarnings({ "Convert2Diamond", "CallToThreadStartDuringObjectConstruction" })
     public Server(int port) {
         try {
-            rooms = new Vector<Room>();
+            rooms   = new Vector<Room>();
             clients = new Vector<ClientManager>();
+
             ServerSocket sock = new ServerSocket(port);
 
             /**
@@ -36,6 +38,7 @@ public class Server {
              */
             for (int i = 0; i < Constant.NB_ROOM; i++) {
                 Room room = new Room(i);
+
                 rooms.add(room);
             }
 
@@ -48,7 +51,9 @@ public class Server {
                 Socket client_sock = sock.accept();
 
                 System.out.println("¤ New client tried to connect");
+
                 ClientManager client = new ClientManager(client_sock, this);
+
                 client.start();
             }
         } catch (IOException ex) {
@@ -100,9 +105,11 @@ public class Server {
      */
     public String getRoomList() {
         String res = "";
+
         for (int i = 0; i < rooms.size() - 1; i++) {
             res += rooms.get(i).toString() + Constant.SEPARATOR;
         }
+
         res += rooms.get(rooms.size() - 1).toString();
 
         return (res);
@@ -120,6 +127,10 @@ public class Server {
                 return (r);
             }
         }
+
         return (null);
     }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

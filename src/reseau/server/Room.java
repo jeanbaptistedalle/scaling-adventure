@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package reseau.server;
 
 import reseau.common.Message;
@@ -80,7 +75,6 @@ class Room{
      */
     public synchronized void leaveWaitList(ClientManager c){
         if (wait.leave(c)){  // Si le client avait la main
-            broadcast(new Message(Constant.SERVER_IP, Constant.command.LEAVE_CTRL));
             if (!wait.isEmpty()){   // Si un nouveau client reçoit la main
                 this.wait.getCurrent().takeControl();
                 broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, wait.getCurrent().toString()));

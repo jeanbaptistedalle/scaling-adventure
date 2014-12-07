@@ -1,16 +1,23 @@
 package dessin.collaboratif.controller.component;
 
+//~--- non-JDK imports --------------------------------------------------------
+
 import dessin.collaboratif.model.Client;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import reseau.client.ClientNetwork;
 
-public class FrameListener extends WindowAdapter {
+//~--- JDK imports ------------------------------------------------------------
 
-	@Override
-	public void windowClosing(WindowEvent windowEvent) {
-		ClientNetwork.getInstance().disconnect();
-		System.exit(0);
-	}
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+public class FrameListener extends WindowAdapter {
+    @Override
+    public void windowClosing(WindowEvent windowEvent) {
+        ClientNetwork.getInstance().disconnect();
+        System.exit(0);
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com
