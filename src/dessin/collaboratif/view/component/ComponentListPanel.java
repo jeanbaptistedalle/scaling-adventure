@@ -47,13 +47,11 @@ public class ComponentListPanel extends JPanel {
 			if (doc != null) {
                                 @SuppressWarnings("Convert2Diamond")
 				final List<String> formList = new ArrayList<String>();
-				if (doc != null) {
-					final Node root = doc.getFirstChild();
-					final NodeList nodeList = root.getChildNodes();
-					for (int i = 0; i < nodeList.getLength(); i++) {
-						formList.add(nodeList.item(i).getNodeName());
-					}
-				}
+                                final Node root = doc.getFirstChild();
+                                final NodeList nodeList = root.getChildNodes();
+                                for (int i = 0; i < nodeList.getLength(); i++) {
+                                        formList.add(nodeList.item(i).getNodeName());
+                                }
 				String[] array = new String[formList.size()];
 				array = formList.toArray(array);
 				componentList.setListData(array);
