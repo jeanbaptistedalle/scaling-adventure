@@ -31,12 +31,12 @@ public class MoveButtonListener implements ActionListener {
             String act = e.getActionCommand();
 
             Client.getInstance().move(act);
-            MoveDialog.getInstance().unpressAll();
             MainFrame.getInstance().repaintDrawPanel();
 
             /* Envoi du SVG au serveur */
             ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
         }
+        MoveDialog.getInstance().unpressAll();
     }
 }
 
