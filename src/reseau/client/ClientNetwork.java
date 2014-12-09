@@ -35,6 +35,7 @@ public class ClientNetwork extends Thread{
     private InetAddress addr = null;
     private String pseudo;
     private ClientRC me;
+    private boolean rqst_ctrl = false;
     private boolean have_control = false;
     private Vector <ClientRC> clients;
 
