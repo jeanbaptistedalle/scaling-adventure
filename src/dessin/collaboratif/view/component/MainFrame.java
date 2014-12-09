@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import dessin.collaboratif.controller.component.FrameListener;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.menu.Menu;
+import reseau.client.ClientNetwork;
 
 /**
  * 
@@ -67,6 +68,8 @@ public class MainFrame extends JComponent {
 
 		this.setVisible(true);
 		frame.setVisible(true);
+                
+                ClientNetwork.getInstance().ready();
 	}
 
 	/**

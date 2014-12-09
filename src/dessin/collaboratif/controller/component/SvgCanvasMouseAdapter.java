@@ -72,21 +72,30 @@ public class SvgCanvasMouseAdapter implements MouseListener, MouseMotionListener
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-        x2 = e.getX();
-        y2 = e.getY();
+        
+        if (ClientNetwork.getInstance().haveControl()) {
+            x2 = e.getX();
+            y2 = e.getY();
 
-        if ((x1 != null) && (x2 != null) && (x2 >= 0) && (y1 != null) && (y2 != null) && (y2 >= 0)) {
-            if (!resize) {
-                if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
-                    MainFrame.getInstance().repaintDrawPanel();
-                    resize = true;
-                }
-            } else if (((System.nanoTime() - timeDB) / 1000000) > 25) {
-                if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
-                    MainFrame.getInstance().repaintDrawPanel();
-                    timeDB = System.nanoTime();
+            if ((x1 != null) && (x2 != null) && (x2 >= 0) && (y1 != null) && (y2 != null) && (y2 >= 0)) {
+                if (!resize) {
+                    if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
+                        MainFrame.getInstance().repaintDrawPanel();
+                        resize = true;
+                    }
+                } else if (((System.nanoTime() - timeDB) / 1000000) > 25) {
+                    if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
+                        MainFrame.getInstance().repaintDrawPanel();
+                        timeDB = System.nanoTime();
+                    }
                 }
             }
+        } else {
+            x1     = null;
+            y1     = null;
+            x2     = null;
+            y2     = null;
+            resize = false;
         }
     }
 
@@ -102,20 +111,18 @@ public class SvgCanvasMouseAdapter implements MouseListener, MouseMotionListener
             y2 = e.getY();
 
             if ((x1 != null) && (x2 != null) && (y1 != null) && (y2 != null)) {
-                if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
-                    MainFrame.getInstance().repaintDrawPanel();
-                }
+                Client.getInstance().draw(x1, y1, x2, y2, resize);
             }
-
-            x1     = null;
-            y1     = null;
-            x2     = null;
-            y2     = null;
-            resize = false;
-
+            
             /* Envoi du SVG au serveur */
             ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
         }
+        x1     = null;
+        y1     = null;
+        x2     = null;
+        y2     = null;
+        resize = false;
+        MainFrame.getInstance().repaintDrawPanel();
     }
 
     @Override

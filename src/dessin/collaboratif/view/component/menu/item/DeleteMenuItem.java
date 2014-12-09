@@ -10,6 +10,7 @@ import javax.swing.KeyStroke;
 import dessin.collaboratif.controller.component.menu.item.DeleteListener;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
+import reseau.client.ClientNetwork;
 
 public class DeleteMenuItem extends JMenuItem {
 
@@ -36,8 +37,9 @@ public class DeleteMenuItem extends JMenuItem {
 	@Override
 	public void repaint() {
 		if (Client.getInstance().getImage() != null
-				&& Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
-				&& Client.getInstance().getSelected() != -1) {
+                    && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
+                    && Client.getInstance().getSelected() != -1
+                    && ClientNetwork.getInstance().haveControl()) {
 			this.setEnabled(true);
 		} else {
 			this.setEnabled(false);

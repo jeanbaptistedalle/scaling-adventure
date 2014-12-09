@@ -22,7 +22,8 @@ import java.awt.event.ActionListener;
 public class TakeHandListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        ClientNetwork.getInstance().requestControl();
+        if (!ClientNetwork.getInstance().hasRqstdCtrl())
+            ClientNetwork.getInstance().requestControl();
     }
 }
 

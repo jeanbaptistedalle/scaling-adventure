@@ -135,14 +135,13 @@ public class ClientNetwork extends Thread{
                     case GIVE_CTRL :
                         if (msg.getContent().equals(me.toString())){
                             this.have_control = true;
+                            this.rqst_ctrl = false;
                         } else{
                             this.have_control = false;
                         }
                     break;
                     case UPDATE :
                         /* Update du SVG. */
-                        
-                        /* Apparement introduit des \n dans le SVG et ajoute de #text à l'interface */
                         try {
                             StringReader reader = new StringReader(msg.getContent());
                             String parser = XMLResourceDescriptor.getXMLParserClassName();
@@ -229,6 +228,7 @@ public class ClientNetwork extends Thread{
      */
     public void requestControl(){
         sendMessage(Constant.command.REQUEST_CTRL);
+        this.rqst_ctrl = true;
     }
 
     /**
@@ -266,6 +266,14 @@ public class ClientNetwork extends Thread{
     public void disconnect(){
         sendMessage(Constant.command.DISCONNECT);
     }
+    
+    /**
+     * @fn ready
+     * @brief Indique au serveur que le client est près à recevoir l'image.
+     */
+    public void ready(){
+        sendMessage(Constant.command.ACCEPT);
+    }
 
     /**
      * @fn haveControl
@@ -274,5 +282,14 @@ public class ClientNetwork extends Thread{
      */
     public boolean haveControl(){
         return(this.have_control);
+    }
+    
+    /**
+     * @fn hasRqstdCtrl
+     * @brief indique si le client à demander le ctrl du dessin.
+     * @return this.rqst_ctrl
+     */
+    public boolean hasRqstdCtrl() {
+        return this.rqst_ctrl;
     }
 }
