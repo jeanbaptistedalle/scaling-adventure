@@ -33,78 +33,56 @@ import javax.xml.transform.stream.StreamResult;
  * Permet de créer un nouveau tableau
  */
 public class NewListener implements ActionListener {
-    @SuppressWarnings("FieldMayBeFinal")
-    private JFileChooser fileChooser;
+	@SuppressWarnings("FieldMayBeFinal")
+	public NewListener() {
 
-    public NewListener(final JFileChooser fileChooser) {
-        this.fileChooser = fileChooser;
-    }
+	}
 
-    /**
-     * Méthode lancée à la détection d'un clic sur le bouton
-     *
-     * @param action
-     */
-    @Override
-    public void actionPerformed(final ActionEvent action) {
-        if (ClientNetwork.getInstance().haveControl()) {
+	/**
+	 * Méthode lancée à la détection d'un clic sur le bouton
+	 *
+	 * @param action
+	 */
+	@Override
+	public void actionPerformed(final ActionEvent action) {
+		if (ClientNetwork.getInstance().haveControl()) {
 
-            // Allow user to choose a name for the new file
-            final Client client = Client.getInstance();
+			// Allow user to choose a name for the new file
+			final Client client = Client.getInstance();
 
-            // Choix du nom du fichier ou du fichier à écraser
-            int returnVal = fileChooser.showSaveDialog(null);
+			// Initialisation du DOM svg du fichier
+			Document doc = client.getDomImpl()
+					.createDocument(client.getSvgNameSpace(), "svg", null);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
+			// Get the root element (the 'svg' element).
+			Element svgRoot = doc.getDocumentElement();
 
-                // Verification de l'extension du fichier
-                if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("svg")) {
-                    file = new File(file.getParentFile(), FilenameUtils.getBaseName(file.getName()) + ".svg");
-                }
+			// Set the width and height attributes on the root 'svg'
+			// element.
+			svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE,
+					GeneralVariables.DEFAULT_WIDTH);
+			svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE,
+					GeneralVariables.DEFAULT_HEIGHT);
 
-                // Initialisation du DOM svg du fichier
-                Document doc = client.getDomImpl().createDocument(client.getSvgNameSpace(), "svg", null);
+			Text text = doc.createTextNode("Scaling Adventure by JB/K/A/R");
 
-                // Get the root element (the 'svg' element).
-                Element svgRoot = doc.getDocumentElement();
+			// Create the rectangle.
+			Element rectangle = doc.createElementNS(client.getSvgNameSpace(), "text");
 
-                // Set the width and height attributes on the root 'svg' element.
-                svgRoot.setAttributeNS(null, SVGConstants.SVG_WIDTH_ATTRIBUTE, GeneralVariables.DEFAULT_WIDTH);
-                svgRoot.setAttributeNS(null, SVGConstants.SVG_HEIGHT_ATTRIBUTE, GeneralVariables.DEFAULT_HEIGHT);
+			rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, "20");
+			rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, "20");
+			rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "silver");
+			rectangle.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, "12");
+			rectangle.appendChild(text);
+			svgRoot.appendChild(rectangle);
 
-                Text text = doc.createTextNode("Scaling Adventure by JB/K/A/R");
+			client.setImage(doc);
+			MainFrame.getInstance().repaintDrawPanel();
 
-                // Create the rectangle.
-                Element rectangle = doc.createElementNS(client.getSvgNameSpace(), "text");
-
-                rectangle.setAttributeNS(null, SVGConstants.SVG_X_ATTRIBUTE, "20");
-                rectangle.setAttributeNS(null, SVGConstants.SVG_Y_ATTRIBUTE, "20");
-                rectangle.setAttributeNS(null, SVGConstants.SVG_FILL_ATTRIBUTE, "silver");
-                rectangle.setAttributeNS(null, SVGConstants.SVG_FONT_SIZE_ATTRIBUTE, "12");
-                rectangle.appendChild(text);
-                svgRoot.appendChild(rectangle);
-
-                // Save the file
-                final DOMSource    source = new DOMSource(doc);
-                final StreamResult result = new StreamResult(file.getPath());
-
-                try {
-                    client.getTransformer().transform(source, result);
-                } catch (final Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-                client.setImage(doc);
-                client.setFileImage(file);
-                MainFrame.getInstance().repaintDrawPanel();
-
-                /* Envoi du SVG au serveur */
-                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
-            }
-        }
-    }
+			/* Envoi du SVG au serveur */
+			ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
+		}
+	}
 }
 
-
-//~ Formatted by Jindent --- http://www.jindent.com
+// ~ Formatted by Jindent --- http://www.jindent.com

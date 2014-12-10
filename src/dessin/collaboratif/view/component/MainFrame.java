@@ -93,7 +93,6 @@ public class MainFrame extends JComponent {
 	 * Repaint the component of the menu which can have stat (disabled, enabled)
 	 */
 	public void repaintMenu() {
-		menu.getFileMenu().getClose().repaint();
 		menu.getFileMenu().getExport().repaint();
 		menu.getEditionMenu().getUndo().repaint();
 		menu.getEditionMenu().getDelete().repaint();
