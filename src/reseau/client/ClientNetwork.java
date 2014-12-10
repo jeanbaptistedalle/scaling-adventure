@@ -77,9 +77,11 @@ public class ClientNetwork extends Thread{
                 System.out.println(System.getProperty("user.dir"));
                 return true;
             } catch (UnknownHostException ex) {
+                /* Erreur géré coté interface. */
                 // Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             } catch (IOException ex) {
+                /* Erreur géré coté interface. */
                 // Logger.getLogger(ClientNetwork.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }

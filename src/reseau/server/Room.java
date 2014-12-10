@@ -75,6 +75,7 @@ class Room{
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public synchronized void leaveWaitList(ClientManager c){
         if (wait.leave(c)){  // Si le client avait la main
+            c.sendMessage(new Message(c.getAddr(), Constant.command.UPDATE, this.image));
             if (!wait.isEmpty()){   // Si un nouveau client reçoit la main
                 new SchedulerLeaveCtrl(this, c).start();
                 broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, wait.getCurrent().toString()));
