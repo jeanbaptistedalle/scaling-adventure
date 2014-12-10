@@ -84,20 +84,9 @@ public class MainFrame extends JComponent {
 		} else {
 			drawPanel.getSvgCanvas().setImage(null);
 		}
-		repaintMenu();
+		menu.repaint();
 		componentListPanel.repaint();
 		drawPanel.repaint();
-	}
-
-	/**
-	 * Repaint the component of the menu which can have stat (disabled, enabled)
-	 */
-	public void repaintMenu() {
-		menu.getFileMenu().getExport().repaint();
-		menu.getEditionMenu().getUndo().repaint();
-		menu.getEditionMenu().getDelete().repaint();
-		menu.getEditionMenu().getMove().repaint();
-		menu.getEditionMenu().getRename().repaint();
 	}
 
 	/**

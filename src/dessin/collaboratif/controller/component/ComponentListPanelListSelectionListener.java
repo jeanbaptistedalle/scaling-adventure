@@ -33,7 +33,7 @@ public class ComponentListPanelListSelectionListener implements ListSelectionLis
     public void valueChanged(ListSelectionEvent e) {
         if (Client.getInstance().getSelected() != componentList.getSelectedIndex()) {
             Client.getInstance().setSelected(componentList.getSelectedIndex());
-            MainFrame.getInstance().repaintMenu();
+            MainFrame.getInstance().getMenu().repaint();
         }
     }
 }
