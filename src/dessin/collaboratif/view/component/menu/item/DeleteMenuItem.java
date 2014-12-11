@@ -7,10 +7,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import reseau.client.ClientNetwork;
 import dessin.collaboratif.controller.component.menu.item.DeleteListener;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
-import reseau.client.ClientNetwork;
 
 public class DeleteMenuItem extends JMenuItem {
 

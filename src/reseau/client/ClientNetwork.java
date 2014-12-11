@@ -1,11 +1,5 @@
 package reseau.client;
 
-import dessin.collaboratif.view.component.MainFrame;
-import dessin.collaboratif.model.Client;
-import reseau.common.Constant;
-import reseau.common.ClientRC;
-import reseau.common.Message;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,10 +10,17 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.dom.util.SAXIOException;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Document;
+
+import reseau.common.ClientRC;
+import reseau.common.Constant;
+import reseau.common.Message;
+import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.MainFrame;
 /**
  * @class Client
  * @brief Gère la partie "réseau" du client

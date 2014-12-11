@@ -2,18 +2,15 @@ package reseau.server;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import reseau.common.Constant;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.io.IOException;
-
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import reseau.common.Constant;
+//~--- JDK imports ------------------------------------------------------------
+import java.io.IOException;
 
 /**
  * @class Server

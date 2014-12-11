@@ -6,7 +6,6 @@ import javax.swing.JMenuItem;
 import dessin.collaboratif.controller.component.menu.item.CloseListener;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
-import reseau.client.ClientNetwork;
 
 public class CloseMenuItem extends JMenuItem {
 

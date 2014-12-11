@@ -2,26 +2,6 @@ package dessin.collaboratif.controller.component;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import dessin.collaboratif.misc.DrawModelEnum;
-import dessin.collaboratif.misc.GeneralVariables;
-import dessin.collaboratif.model.Client;
-import dessin.collaboratif.view.component.MainFrame;
-import dessin.collaboratif.view.component.SVGCanvas;
-import dessin.collaboratif.view.component.dialog.MoveDialog;
-import dessin.collaboratif.view.component.dialog.RenameDialog;
-
-import org.apache.batik.ext.awt.geom.Polygon2D;
-import org.apache.batik.gvt.TextNode;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.svg.SVGDocument;
-
-import reseau.client.ClientNetwork;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
@@ -29,6 +9,23 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.SwingUtilities;
+
+import org.apache.batik.ext.awt.geom.Polygon2D;
+import org.apache.batik.gvt.TextNode;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.svg.SVGDocument;
+
+import reseau.client.ClientNetwork;
+import dessin.collaboratif.misc.DrawModelEnum;
+import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.MainFrame;
+import dessin.collaboratif.view.component.SVGCanvas;
+import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.RenameDialog;
+//~--- JDK imports ------------------------------------------------------------
+import java.awt.event.MouseEvent;
 
 /**
  * Adapter du tableau

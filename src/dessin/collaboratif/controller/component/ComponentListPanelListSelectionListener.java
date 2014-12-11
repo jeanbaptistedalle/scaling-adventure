@@ -2,14 +2,13 @@ package dessin.collaboratif.controller.component;
 
 //~--- non-JDK imports --------------------------------------------------------
 
+import javax.swing.event.ListSelectionListener;
+
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
-
 //~--- JDK imports ------------------------------------------------------------
-
-import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.JList;
 
 /**
  * Listener de la liste d'elements

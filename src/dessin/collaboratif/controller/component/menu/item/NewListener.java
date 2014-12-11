@@ -2,30 +2,25 @@ package dessin.collaboratif.controller.component.menu.item;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import dessin.collaboratif.misc.GeneralVariables;
-import dessin.collaboratif.model.Client;
-import dessin.collaboratif.view.component.MainFrame;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.batik.util.SVGConstants;
 import org.apache.commons.io.FilenameUtils;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 import reseau.client.ClientNetwork;
-
+import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.MainFrame;
 //~--- JDK imports ------------------------------------------------------------
-
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.io.File;
-
-import javax.swing.JFileChooser;
-
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 /**
  * Listener de l'item pour creer nouveau tableau

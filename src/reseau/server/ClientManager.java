@@ -2,22 +2,19 @@ package reseau.server;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import reseau.common.ClientRC;
-import reseau.common.Constant;
-import reseau.common.Message;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import reseau.common.ClientRC;
+import reseau.common.Constant;
+import reseau.common.Message;
+//~--- JDK imports ------------------------------------------------------------
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 /**
  * @class ClientManager

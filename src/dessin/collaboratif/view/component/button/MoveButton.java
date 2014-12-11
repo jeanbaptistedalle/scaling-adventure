@@ -1,7 +1,5 @@
 package dessin.collaboratif.view.component.button;
 
-import java.awt.Dimension;
-
 import javax.swing.JToggleButton;
 
 import dessin.collaboratif.controller.component.MoveDialMouseAdapter;
