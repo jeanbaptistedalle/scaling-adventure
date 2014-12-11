@@ -721,36 +721,21 @@ public class Client {
 		 * On réorganise les valeurs afin que le point d'origine soit toujours
 		 * le plus petit afin que les largeurs et hauteurs soient positives.
 		 */
-                Integer fx = 1;
-                Integer fy = 1;
-		if (x1 > x2) {
-                    fx = -1;
-                }
-		if (y1 > y2) {
-                    fy = -1;
-                }
 
+		Integer dx, dy, cx, cy, rayon;
+                
+                dx = Math.abs(x2 - x1);
+                dy = Math.abs(y2 - y1);
+                
+                cx = (x1 + x2) / 2;
+                cy = (y1 + y2) / 2;
+
+		rayon = (int) Math.sqrt(dx * dx + dy * dy) / 2;
+                
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
 		Element cercle = doc.createElementNS(Client.getInstance()
 				.getSvgNameSpace(), "circle");
-
-		Integer cx, cy;
-		Integer rayon;
-                Integer dx = (x2 - x1) * fx; // valeur absolue de la distance en x
-                Integer dy = (y2 - y1) * fy; // valeur absolue de la distance en y
-                
-                if (dx < dy){
-                    dy = dx;
-                }
-                else{
-                    dx = dy;
-                }
-
-                cx = x1 + (fx * dx) / 2;
-                cy = y1 + (fy * dy) / 2;
-
-		rayon = dx / 2;
 
 		cercle.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE,
 				cx.toString());

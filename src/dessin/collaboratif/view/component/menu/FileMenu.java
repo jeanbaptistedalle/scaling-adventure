@@ -24,8 +24,6 @@ public class FileMenu extends JMenu {
 
 	private ExportMenuItem export;
 
-	private CloseMenuItem close;
-
 	private QuitMenuItem quit;
 
 	public FileMenu() {
@@ -37,8 +35,6 @@ public class FileMenu extends JMenu {
 		this.add(open);
 		export = new ExportMenuItem();
 		this.add(export);
-		close = new CloseMenuItem();
-		this.add(close);
 		quit = new QuitMenuItem();
 		this.add(quit);
 	}
@@ -57,14 +53,6 @@ public class FileMenu extends JMenu {
 
 	public void setOpen(OpenMenuItem open) {
 		this.open = open;
-	}
-
-	public CloseMenuItem getClose() {
-		return close;
-	}
-
-	public void setClose(CloseMenuItem close) {
-		this.close = close;
 	}
 
 	public QuitMenuItem getQuit() {

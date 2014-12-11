@@ -38,12 +38,11 @@ public class DeleteMenuItem extends JMenuItem {
 	public void repaint() {
 		if (Client.getInstance().getImage() != null
                     && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
-                    && Client.getInstance().getSelected() != -1
-                    && ClientNetwork.getInstance().haveControl()) {
+                    && Client.getInstance().getSelected() != -1) {
 			this.setEnabled(true);
 		} else {
 			this.setEnabled(false);
 		}
-		super.repaint();
+		//super.repaint();
 	}
 }
