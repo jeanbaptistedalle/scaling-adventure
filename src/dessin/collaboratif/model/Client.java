@@ -708,7 +708,7 @@ public class Client {
 	}
 
 	/**
-	 * This method draw a circle on the selected .svg
+	 * This method draws a circle on the selected .svg with (x1,y1) (x2,y2) as diameter
 	 * 
 	 * @param x1
 	 * @param y1
@@ -717,10 +717,6 @@ public class Client {
 	 */
 	private void drawCircle(final Integer x1, final Integer y1,
 			final Integer x2, final Integer y2) {
-		/*
-		 * On réorganise les valeurs afin que le point d'origine soit toujours
-		 * le plus petit afin que les largeurs et hauteurs soient positives.
-		 */
                 Integer fx = 1;
                 Integer fy = 1;
 		if (x1 > x2) {
