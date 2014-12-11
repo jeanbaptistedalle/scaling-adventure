@@ -2,18 +2,17 @@ package dessin.collaboratif.controller.component;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import dessin.collaboratif.misc.DrawModelEnum;
-import dessin.collaboratif.model.Client;
-import dessin.collaboratif.view.component.dialog.MoveDialog;
-import dessin.collaboratif.view.component.dialog.RenameDialog;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
+
+import dessin.collaboratif.misc.DrawModelEnum;
+import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.RenameDialog;
+//~--- JDK imports ------------------------------------------------------------
+import java.awt.event.MouseEvent;
 
 /**
  * Listener du listPanel concernant la souris

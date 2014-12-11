@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import dessin.collaboratif.controller.component.FrameListener;
+import dessin.collaboratif.controller.component.button.ValidateLoginButtonKeyListener;
 import dessin.collaboratif.controller.component.button.ValidateLoginButtonListener;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.view.component.button.ValidateLoginButton;
@@ -52,10 +53,17 @@ public class LoginFrame extends JFrame {
 		validateLoginButton = new ValidateLoginButton();
 		validateLoginButton.addActionListener(new ValidateLoginButtonListener());
 		loginPanel.add(validateLoginButton);
+		
+
+		serverField.addKeyListener(new ValidateLoginButtonKeyListener(validateLoginButton));
+		validateLoginButton.addKeyListener(new ValidateLoginButtonKeyListener(validateLoginButton));
+		loginField.addKeyListener(new ValidateLoginButtonKeyListener(validateLoginButton));
 
 		errorLabel = new JLabel("");
 		errorLabel.setForeground(Color.red);
-		loginPanel.add(errorLabel);
+		errorLabel.setHorizontalAlignment(0);
+		errorLabel.setPreferredSize(new Dimension(50,50));
+		this.add(errorLabel, BorderLayout.SOUTH);
 
 		this.setSize(new Dimension(350, 200));
 		this.setLocationRelativeTo(null);

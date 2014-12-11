@@ -2,12 +2,8 @@ package dessin.collaboratif.controller.component;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import dessin.collaboratif.model.Client;
-
 import reseau.client.ClientNetwork;
-
 //~--- JDK imports ------------------------------------------------------------
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

@@ -3,18 +3,23 @@ package dessin.collaboratif.model;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.batik.dom.svg.SVGDOMImplementation;
+import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
@@ -30,11 +35,6 @@ import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.misc.ScaleEnum;
 import dessin.collaboratif.view.component.MainFrame;
-import java.io.IOException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import org.apache.batik.transcoder.TranscoderException;
 
 public class Client {
 
@@ -717,36 +717,20 @@ public class Client {
 	 */
 	private void drawCircle(final Integer x1, final Integer y1,
 			final Integer x2, final Integer y2) {
-                Integer fx = 1;
-                Integer fy = 1;
-		if (x1 > x2) {
-                    fx = -1;
-                }
-		if (y1 > y2) {
-                    fy = -1;
-                }
+		Integer dx, dy, cx, cy, rayon;
+                
+                dx = Math.abs(x2 - x1);
+                dy = Math.abs(y2 - y1);
+                
+                cx = (x1 + x2) / 2;
+                cy = (y1 + y2) / 2;
 
+		rayon = (int) Math.sqrt(dx * dx + dy * dy) / 2;
+                
 		final Document doc = getImage();
 		final Element svgRoot = doc.getDocumentElement();
 		Element cercle = doc.createElementNS(Client.getInstance()
 				.getSvgNameSpace(), "circle");
-
-		Integer cx, cy;
-		Integer rayon;
-                Integer dx = (x2 - x1) * fx; // valeur absolue de la distance en x
-                Integer dy = (y2 - y1) * fy; // valeur absolue de la distance en y
-                
-                if (dx < dy){
-                    dy = dx;
-                }
-                else{
-                    dx = dy;
-                }
-
-                cx = x1 + (fx * dx) / 2;
-                cy = y1 + (fy * dy) / 2;
-
-		rayon = dx / 2;
 
 		cercle.setAttributeNS(null, SVGConstants.SVG_CX_ATTRIBUTE,
 				cx.toString());

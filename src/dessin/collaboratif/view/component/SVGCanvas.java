@@ -1,6 +1,7 @@
 package dessin.collaboratif.view.component;
 
 import java.awt.Cursor;
+
 import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.Document;
 import org.w3c.dom.svg.SVGDocument;

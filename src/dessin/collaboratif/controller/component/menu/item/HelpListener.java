@@ -2,12 +2,11 @@ package dessin.collaboratif.controller.component.menu.item;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import dessin.collaboratif.view.component.HelpFrame;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import dessin.collaboratif.view.component.HelpFrame;
+//~--- JDK imports ------------------------------------------------------------
+import java.awt.event.ActionEvent;
 
 /**
  * Listener de l'item d'aide

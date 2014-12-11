@@ -17,8 +17,6 @@
  */
 package reseau.server;
 
-import reseau.common.Constant;
-
 /**
  *
  * @author kevin

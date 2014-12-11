@@ -2,26 +2,6 @@ package dessin.collaboratif.controller.component;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import dessin.collaboratif.misc.DrawModelEnum;
-import dessin.collaboratif.misc.GeneralVariables;
-import dessin.collaboratif.model.Client;
-import dessin.collaboratif.view.component.MainFrame;
-import dessin.collaboratif.view.component.SVGCanvas;
-import dessin.collaboratif.view.component.dialog.MoveDialog;
-import dessin.collaboratif.view.component.dialog.RenameDialog;
-
-import org.apache.batik.ext.awt.geom.Polygon2D;
-import org.apache.batik.gvt.TextNode;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.svg.SVGDocument;
-
-import reseau.client.ClientNetwork;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
@@ -29,6 +9,23 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.SwingUtilities;
+
+import org.apache.batik.ext.awt.geom.Polygon2D;
+import org.apache.batik.gvt.TextNode;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.svg.SVGDocument;
+
+import reseau.client.ClientNetwork;
+import dessin.collaboratif.misc.DrawModelEnum;
+import dessin.collaboratif.misc.GeneralVariables;
+import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.MainFrame;
+import dessin.collaboratif.view.component.SVGCanvas;
+import dessin.collaboratif.view.component.dialog.MoveDialog;
+import dessin.collaboratif.view.component.dialog.RenameDialog;
+//~--- JDK imports ------------------------------------------------------------
+import java.awt.event.MouseEvent;
 
 /**
  * Adapter du tableau
@@ -72,21 +69,30 @@ public class SvgCanvasMouseAdapter implements MouseListener, MouseMotionListener
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-        x2 = e.getX();
-        y2 = e.getY();
+        
+        if (ClientNetwork.getInstance().haveControl()) {
+            x2 = e.getX();
+            y2 = e.getY();
 
-        if ((x1 != null) && (x2 != null) && (x2 >= 0) && (y1 != null) && (y2 != null) && (y2 >= 0)) {
-            if (!resize) {
-                if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
-                    MainFrame.getInstance().repaintDrawPanel();
-                    resize = true;
-                }
-            } else if (((System.nanoTime() - timeDB) / 1000000) > 25) {
-                if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
-                    MainFrame.getInstance().repaintDrawPanel();
-                    timeDB = System.nanoTime();
+            if ((x1 != null) && (x2 != null) && (x2 >= 0) && (y1 != null) && (y2 != null) && (y2 >= 0)) {
+                if (!resize) {
+                    if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
+                        MainFrame.getInstance().repaintDrawPanel();
+                        resize = true;
+                    }
+                } else if (((System.nanoTime() - timeDB) / 1000000) > 25) {
+                    if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
+                        MainFrame.getInstance().repaintDrawPanel();
+                        timeDB = System.nanoTime();
+                    }
                 }
             }
+        } else {
+            x1     = null;
+            y1     = null;
+            x2     = null;
+            y2     = null;
+            resize = false;
         }
     }
 
@@ -102,20 +108,18 @@ public class SvgCanvasMouseAdapter implements MouseListener, MouseMotionListener
             y2 = e.getY();
 
             if ((x1 != null) && (x2 != null) && (y1 != null) && (y2 != null)) {
-                if (Client.getInstance().draw(x1, y1, x2, y2, resize)) {
-                    MainFrame.getInstance().repaintDrawPanel();
-                }
+                Client.getInstance().draw(x1, y1, x2, y2, resize);
             }
-
-            x1     = null;
-            y1     = null;
-            x2     = null;
-            y2     = null;
-            resize = false;
-
+            
             /* Envoi du SVG au serveur */
             ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
         }
+        x1     = null;
+        y1     = null;
+        x2     = null;
+        y2     = null;
+        resize = false;
+        MainFrame.getInstance().repaintDrawPanel();
     }
 
     @Override

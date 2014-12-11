@@ -1,5 +1,7 @@
 package launcher;
 
+//~--- non-JDK imports --------------------------------------------------------
+
 import dessin.collaboratif.view.component.LoginFrame;
 
 /**
@@ -9,8 +11,11 @@ import dessin.collaboratif.view.component.LoginFrame;
  * @author JBD
  *
  */
-    public class ClientLauncher {
+public class ClientLauncher {
     public static void main(String[] args) {
         LoginFrame.getInstance();
     }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

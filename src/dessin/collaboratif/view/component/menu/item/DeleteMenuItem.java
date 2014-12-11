@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import reseau.client.ClientNetwork;
 import dessin.collaboratif.controller.component.menu.item.DeleteListener;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
@@ -36,12 +37,12 @@ public class DeleteMenuItem extends JMenuItem {
 	@Override
 	public void repaint() {
 		if (Client.getInstance().getImage() != null
-				&& Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
-				&& Client.getInstance().getSelected() != -1) {
+                    && Client.getInstance().getImage().getDocumentElement().getFirstChild() != null
+                    && Client.getInstance().getSelected() != -1) {
 			this.setEnabled(true);
 		} else {
 			this.setEnabled(false);
 		}
-		super.repaint();
+		//super.repaint();
 	}
 }

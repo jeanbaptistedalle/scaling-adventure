@@ -66,6 +66,10 @@ public class GeneralVariables {
 			+ "ressources/icons/help_icon.png";
 
 	public final static String HELP_MENU_TEXT_ICON_PATH = PROJECT_PATH + "ressources/icons/";
+	
+	public final static String INFO_MENU_HAVE_HAND = "Vous avez la main";
+	public final static String INFO_MENU_REQUEST_HAND = "Vous avez demandé la main";
+	public final static String INFO_MENU_HAVENT_HAND = "Vous n'avez pas la main";
 
 	public static final String CHOOSE_COLOR_MESSAGE = "Choisissez une couleur";
 
@@ -77,7 +81,7 @@ public class GeneralVariables {
 	public static final String TEXT_INPUT_FRAME_VALIDATE_BUTTON = "Valider";
 
 	public static final Integer DEFAULT_LIST_HEIGHT = 100;
-	public static final Integer DEFAULT_LIST_WIDTH = 700;
+	public static final Integer DEFAULT_LIST_WIDTH = 580;
 	public static final Dimension DEFAULT_LIST_DIMENSION = new Dimension(DEFAULT_LIST_HEIGHT,
 			DEFAULT_LIST_WIDTH);
 
@@ -96,6 +100,9 @@ public class GeneralVariables {
 	public static final String TEXT_ICON_PATH = ICONS_PATH + "text_icon.png";
 	public static final String LINE_ICON_PATH = ICONS_PATH + "line_icon.png";
 	public static final String CURSOR_ICON_PATH = ICONS_PATH + "cursor_icon.png";
+	public static final String RED_LIGHT_ICON_PATH = ICONS_PATH + "red_light.png";
+	public static final String ORANGE_LIGHT_ICON_PATH = ICONS_PATH + "orange_light.png";
+	public static final String GREEN_LIGHT_ICON_PATH = ICONS_PATH + "green_light.png";
 
 	public static final String FILE_NOT_EXISTS = "Le fichier sélectionné n'existe pas...";
 

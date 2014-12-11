@@ -6,6 +6,7 @@ import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import reseau.client.ClientNetwork;
 import dessin.collaboratif.controller.component.FrameListener;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.menu.Menu;
@@ -67,6 +68,8 @@ public class MainFrame extends JComponent {
 
 		this.setVisible(true);
 		frame.setVisible(true);
+                
+                ClientNetwork.getInstance().ready();
 	}
 
 	/**
@@ -81,21 +84,9 @@ public class MainFrame extends JComponent {
 		} else {
 			drawPanel.getSvgCanvas().setImage(null);
 		}
-		repaintMenu();
+		menu.repaint();
 		componentListPanel.repaint();
 		drawPanel.repaint();
-	}
-
-	/**
-	 * Repaint the component of the menu which can have stat (disabled, enabled)
-	 */
-	public void repaintMenu() {
-		menu.getFileMenu().getClose().repaint();
-		menu.getFileMenu().getExport().repaint();
-		menu.getEditionMenu().getUndo().repaint();
-		menu.getEditionMenu().getDelete().repaint();
-		menu.getEditionMenu().getMove().repaint();
-		menu.getEditionMenu().getRename().repaint();
 	}
 
 	/**

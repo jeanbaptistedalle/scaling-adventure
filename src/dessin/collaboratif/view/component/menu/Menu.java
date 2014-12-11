@@ -1,6 +1,15 @@
 package dessin.collaboratif.view.component.menu;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+
+import reseau.client.ClientNetwork;
+import dessin.collaboratif.misc.GeneralVariables;
 
 public class Menu extends JMenuBar {
 
@@ -14,8 +23,10 @@ public class Menu extends JMenuBar {
 	private EditionMenu editionMenu;
 
 	private CollaborationMenu collaborationMenu;
-	
+
 	private HelpMenu helpMenu;
+
+	private JLabel info;
 
 	public Menu() {
 		super();
@@ -27,6 +38,10 @@ public class Menu extends JMenuBar {
 		this.add(collaborationMenu);
 		helpMenu = new HelpMenu();
 		this.add(helpMenu);
+		info = new JLabel(GeneralVariables.INFO_MENU_HAVENT_HAND);
+		this.add(info);
+		final ImageIcon fileIcon = new ImageIcon(GeneralVariables.RED_LIGHT_ICON_PATH);
+		info.setIcon(fileIcon);
 	}
 
 	public FileMenu getFileMenu() {
@@ -51,5 +66,37 @@ public class Menu extends JMenuBar {
 
 	public void setCollaborationMenu(CollaborationMenu collaborationMenu) {
 		this.collaborationMenu = collaborationMenu;
+	}
+
+	@Override
+	public void repaint() {
+		if (info != null) {
+			if (ClientNetwork.getInstance().haveControl()) {
+				final ImageIcon fileIcon = new ImageIcon(GeneralVariables.GREEN_LIGHT_ICON_PATH);
+				info.setText(GeneralVariables.INFO_MENU_HAVE_HAND);
+				info.setIcon(fileIcon);
+			} else {
+				if (ClientNetwork.getInstance().hasRqstdCtrl()) {
+					final ImageIcon fileIcon = new ImageIcon(GeneralVariables.ORANGE_LIGHT_ICON_PATH);
+					info.setText(GeneralVariables.INFO_MENU_REQUEST_HAND);
+					info.setIcon(fileIcon);
+
+				} else {
+					final ImageIcon fileIcon = new ImageIcon(GeneralVariables.RED_LIGHT_ICON_PATH);
+					info.setText(GeneralVariables.INFO_MENU_HAVENT_HAND);
+					info.setIcon(fileIcon);
+				}
+			}
+		}
+		if (fileMenu != null) {
+			getFileMenu().getExport().repaint();
+		}
+		if (editionMenu != null) {
+			editionMenu.getUndo().repaint();
+			editionMenu.getDelete().repaint();
+			editionMenu.getMove().repaint();
+			editionMenu.getRename().repaint();
+		}
+		super.repaint();
 	}
 }

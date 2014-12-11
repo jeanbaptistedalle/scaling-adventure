@@ -1,8 +1,9 @@
 package reseau.server;
 
-import reseau.common.Message;
-import reseau.common.Constant;
 import java.util.Vector;
+
+import reseau.common.Constant;
+import reseau.common.Message;
 /**
  * @class Room
  * @brief Correspond à un groupe de clients travaillant sur le même dessin
@@ -75,6 +76,7 @@ class Room{
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public synchronized void leaveWaitList(ClientManager c){
         if (wait.leave(c)){  // Si le client avait la main
+            c.sendMessage(new Message(c.getAddr(), Constant.command.UPDATE, this.image));
             if (!wait.isEmpty()){   // Si un nouveau client reçoit la main
                 new SchedulerLeaveCtrl(this, c).start();
                 broadcast(new Message(Constant.SERVER_IP, Constant.command.GIVE_CTRL, wait.getCurrent().toString()));

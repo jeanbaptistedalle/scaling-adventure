@@ -2,22 +2,19 @@ package reseau.server;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import reseau.common.ClientRC;
-import reseau.common.Constant;
-import reseau.common.Message;
-
-//~--- JDK imports ------------------------------------------------------------
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import reseau.common.ClientRC;
+import reseau.common.Constant;
+import reseau.common.Message;
+//~--- JDK imports ------------------------------------------------------------
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 /**
  * @class ClientManager
@@ -124,24 +121,45 @@ class ClientManager extends Thread {
          */
         my_room   = 0;
         this.room = server.getRoomById(my_room);
-
-        /* Laisse le temps à l'interface de charger correctement. */
-        /* Voir pour faire envoyer un message à l'interface quand elle est prete. */
-        try {
-            sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         this.room.addClient(this);
+        
+        /* Attente d'un message du client indiquant qu'il est près à recevoir le dessin. */
+        cont = true;
+        do {
+            Message msg = recvMessage();
+            
+            switch (msg.getCmd()) {
+            case DISCONNECT :
+                server.rmClient(this);
+
+                try {
+                    in.close();
+                    out.close();
+                    sock.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                System.out.println("¤ Client leaved before complete connection.");
+
+                return;
+
+            case ACCEPT :
+                cont = false;
+                break;
+
+            default :
+                break;
+            }
+        } while (cont);
 
         /*
          *  Envoi du SVG stocké sur le serveur uand le client se connecte.
          * Au départ de la room, SVG minimal.
          */
         this.sendMessage(Constant.command.UPDATE, this.room.getImage());
+        
         cont = true;
-
         while (cont) {
             Message msg = recvMessage();
 
@@ -236,7 +254,8 @@ class ClientManager extends Thread {
     @SuppressWarnings("ImplicitArrayToString")
     private void sendMessage(Constant.command cmd) {
         try {
-            out.write(new Message(Constant.SERVER_IP, cmd).toByteArray());
+            if (!this.sock.isClosed())
+                out.write(new Message(Constant.SERVER_IP, cmd).toByteArray());
         } catch (IOException ex) {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }
