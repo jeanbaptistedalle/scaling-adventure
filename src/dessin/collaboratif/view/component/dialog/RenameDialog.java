@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import dessin.collaboratif.model.Client;
+import reseau.client.ClientNetwork;
 
 public class RenameDialog extends JDialog {
 
@@ -42,6 +43,9 @@ public class RenameDialog extends JDialog {
 			@Override
 			public void textValueChanged(TextEvent arg0) {
 				Client.getInstance().rename(text.getText());
+
+                                /* Envoi du SVG au serveur */
+                                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 			}
 		});
 		fill();

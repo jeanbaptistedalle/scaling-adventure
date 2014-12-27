@@ -8,6 +8,7 @@ import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.RenameDialog;
 //~--- JDK imports ------------------------------------------------------------
 import java.awt.event.ActionEvent;
+import reseau.client.ClientNetwork;
 
 /**
  * Listener de l'item du menu Renommer
@@ -23,8 +24,10 @@ public class RenameListener implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        if (Client.getInstance().getImage() != null) {
-            RenameDialog.getInstance().setVisible(true);
+        if (ClientNetwork.getInstance().haveControl()) {
+            if (Client.getInstance().getImage() != null) {
+                RenameDialog.getInstance().setVisible(true);
+            }
         }
     }
 }
