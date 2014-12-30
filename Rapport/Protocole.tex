@@ -39,5 +39,30 @@ Les messages sont donc constitués de trois parties :
 Le format ainsi construit des message nous permet donc aisément de savoir qui à envoyé le message et donc de lui répondre, d'envoyé des informations au client ou au serveur. Cela permet aussi au serveur d'envoyer des ordres aux clients (Le serveur peut indiquer à tout les clients que c'est au tour de tel client de prendre le contrôle du dessin), ainsi qu'au client d'envoyer des demandes au serveur (Le client peut demander à prendre la main par exemple).
 
 \section{Types de messages échangés.}
+Afin de faire fonctionner notre application nous avons mis en place 13 commandes différentes qui vont être échangées entre les clients et la serveur.
+\begin{itemize}
+\item CONNECT : Cette commande est utilisée par le client pour demander une connexion auprès du serveur. Cette commande est utilisée avec comme contenu de message le pseudo désiré par le client. Cette commande attend en retour, comme réponse soit la commande ACCEPT, soit la commande DENY que nous verons plus tard.
+
+\item DISCONNECT : Cette commande est utilisée par le client pour se déconnecter. La commande n'attend rien en retour, le serveur en recevant le message retire le client de sa liste.
+
+\item ACCEPT : Cette commande est envoyé par le serveur au client pour informer que le pseudo demander par le client et valide et que la connexion est accepté. Cette commande est aussi utilisé par le client pour informer le serveur qu'il est près à recevoir le dessin stocké sur le serveur.
+
+\item DENY : Cette commande est envoyé par le serveur dans le cas où le pseudo demander par le client est déjà utilisé. Le client doit alors demander un autre pseudo.
+
+\item  REQUEST_CTRL : Il s'agit de la commande utilisé par les clients pour demander le contrôle du dessin.   lorsqu'un client demande à prendre le contrôle du dessin le serveur l'ajoute à une liste d'attente, le client en tête de la liste obtient le contrôle pendant 30 secondes. A la fin du temps imparti le client qui avait le contrôle est éliminé de la liste et on passe au client suivant, le client qui avait le contrôle doit donc redemander le contrôle pour être ré-inséré en fin de liste d'attente.
+
+\item GIVE_CTRL : Cette commande est utilisée par le serveur pour indiquer aux clients, qui prend le contrôle. 
+
+\item LEAVE_CTRL : Cette commande est envoyée du serveur au client qui à la main, afin qu'il la relâche,
+
+\item SUBMIT : Cette commande est envoyé à chaque fois que le dessin est modifié. Le client qui à la main, l'envoie au serveur quand il fait une modification. Le contenu du message joint avec la commande est le contenu du dessin, c'est à dire le document SVG servant à le stocker.
+
+\item UPDATE : Cette commande est renvoyé par le serveur à tous les client après qu'il est reçut une modification du dessin de la par du client qui à le contrôle du dessin. Comme pour la commande SUBMIT, le contenu du message est le document SVG qui stocke le dessin.
+On envoi également cette commande lorsque le client ce connecte et qu'il à indiqué avec la commande ACCEPT, qu'il était près à recevoir le dessin.
+
+\end{itemize}
+
+
+
 \end{multicols}
 \end{document}
