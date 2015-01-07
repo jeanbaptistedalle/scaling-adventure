@@ -81,6 +81,41 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 \section{Déroulement du protocole}
 \paragraph{}Nous allons maintenant suivre dans cette partie le déroulement du protocole depuis la connexion d'un client jusqu'à la modification du dessin et les répercutions de cette modification sur les autres clients.
 
-\paragraph{}
+\paragraph{}Ce protocole peut se diviser en 3 phases : 
+\begin{itemize}
+	\item[1] La connexion proprement dite, où le client choisit son pseudonyme (ainsi que sa room si cette fonctionnalité est implémentée
+	\item[2] La communication de données, que l'on peut séparer en 2 catégories :
+	\begin{itemize}
+		\item[a] La réception de données, pour tous les clients
+		\item[b] L'envoi de mises à jours concernant le dessin, fait seulement par le client ayant la main
+	\end{itemize}
+	\item[3] La déconnexion du client, annoncée par un message spécifique
+\end{itemize}
+
+\textit{Dans ce chapitre, les messages seront décrits sous la forme [ expéditeur ; type ; contenu ] pour plus de lisibilité}
+
+\subsection{Connexion}
+On suppose que le client A veut se connecter à un serveur, sur lequel sont déjà les clients B et C.
+\begin{itemize}
+	\item[1] A envoie une demande de connexion au serveur, du type [ A ; CONNECT ; mon\_pseudo ]
+	\item[2] Si le serveur ne comporte aucun client portant ce pseudo, il renvoie [ SERVER ; ACCEPT ; ] \\
+	Sinon, il renvoie [ SERVER ; DENY ; ] et le client recommence l'étape 1
+	\item[3] Comme le client prend un certain temps (variable selon la machine employée) pour préparer son interface, le serveur attends de lui un message de confirmation [ A ; ACCEPT ; ], qui indiquera que la transmission des données de dessin peut commencer
+\end{itemize}
+
+\subsection{Échanges de données entre clients par le serveur}
+\subsubsection{Processus de prise de main}
+Afin de pouvoir modifier le dessin, le client A doit avoir la main sur son serveur. Pour cela, il va la demander en envoyant un message [ A ; REQUEST\_CTRL ; ]. \\
+Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main. \\
+Après 30 secondes, le serveur fait savoir au client A que son temps est écoulé, et fait savoir par la même occasion aux autres clients que A n'a plus la main par le message [ SERVER ; LEAVE\_CTRL ; A ].
+
+\subsubsection{Envoi de données par le clients ayant la main}
+Lorsque le client A a la main, il va donc renvoyer la totalité du dessin à chaque modification effectuée (souris relachée pour la création de forme, bouton cliqué pour le redimensionnement/déplacement). Bien que ce soit plus coûteux, cette technique permet d'éviter beaucoup de bugs de synchronisation entre le client et le serveur. Ces messages se présenteront sous la forme [ A ; SUBMIT ; nouveau\_dessin ]
+
+\subsubsection{Transmission de l'image du serveur au client}
+Le serveur va ensuite transmettre l'image mise à jour à tous les clients (c'est aussi par ce procédé que le client reçoit l'image après sa connexion). De la même façon, pour éviter des problèmes de synchronisation, le dessin est transmis en entier à chaque fois. Le message sera [ SERVER ; UPDATE ; nouveau\_dessin ].
+
+\subsection{Déconnexion}
+Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur par un message [ A ; DISCONNECT ; ], pour éviter que le serveur continue d'écouter sur un socket "vide". Il peut ensuite se déconnecter sans risque : en effet, l'emploi du protocole TCP pour acheminer les messages permet d'être sûr que le serveur a bien reçu cette annonce de déconnexion.
 
 \end{document}
