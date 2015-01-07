@@ -178,27 +178,27 @@ La bibliothèque Swing permet l'agencement de projets en MVC. L'utilisation de "
 L'interface graphique, impl\'ement\'ee avec la bibliothèque Swing, est compos\'ee de 4 zones principales.
 
 \begin{description}
- \item[La zone de menu] permet d'acc\'eder \`a un ensemble d'actions telles que la fermeture de l'application ou demander la main;
- \item[La barre de dessin] permet s\'electionner la fonction du curseur sur la zone de dessin;
+ \item[La zone de menu] permet d'acc\'eder \`a un ensemble d'actions telles que la fermeture de l'application ou la demande de main;
+ \item[La barre de dessin] permet de s\'electionner la fonction du curseur sur la zone de dessin;
  \item[La zone de dessin] affiche le dessin et chaque clic r\'ealis\'e sur cette surface actionnera la fonction d\'esir\'ee (ajout de forme, \ldots) ;
  \item[La liste des formes] recense les formes dessin\'ees sur la zone de dessin.
 \end{description}
 
-Le choix de r\'ealis\'er ces diff\'erentes zones s'est impos\'e petit \`a petit. N'utilisez qu'une barre de menu pour choisir les diff\'erentes formes ou sa couleur devenait r\'ebarbatif. Avoir un panel de boutons sous la main s'est r\'ev\'el\'e plus intuitif. De plus, ajouter une liste des formes composant le dessin permet de plus facilement s\'electionner un \'el\'ement. Une ligne d'un pixel d'\'epaisseur est difficile \`a s\'electionner, tout autant qu'un \'el\'ement cach\'e par un autre. 
+Le choix de r\'ealis\'er ces diff\'erentes zones s'est impos\'e petit \`a petit. N'utiliser qu'une barre de menu pour choisir les diff\'erentes formes ou leur couleur devenait r\'ebarbatif. Avoir un panel de boutons sous la main s'est r\'ev\'el\'e plus intuitif. De plus, ajouter une liste des formes composant le dessin permet de plus facilement s\'electionner un \'el\'ement. Une ligne d'un pixel d'\'epaisseur est difficile \`a s\'electionner, tout autant qu'un \'el\'ement cach\'e par un autre. 
 
 Il y a trois grands types d'actions: 
 
 \begin{itemize}
- \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace \`a un des boutons d\'edi\'es. Ensuite, on r\'ealis\'e un "drag\&drop" ("glisser-d\'eposer" en fran\c{c}ais) sur la zone de dessin.
+ \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace au des boutons d\'edi\'es. Ensuite, on r\'ealise un "drag\&drop" ("glisser-d\'eposer" en fran\c{c}ais) sur la zone de dessin.
  
- \item[Modifier:] On s\'electionne la forme \`a modifier en r\'ealisant un clic sp\'ecial (double clic pour d\'eplacer ou redimensionner, simple clic droit pour modifier le contenu d'un texte) dessus dans la zone de dessin ou en cliquant sur la forme dans la liste. 
+ \item[Modifier:] On s\'electionne la forme \`a modifier en r\'ealisant un clic sp\'ecial (double clic pour d\'eplacer ou redimensionner, clic droit pour modifier le contenu d'un texte) dessus dans la zone de dessin ou en cliquant sur la forme dans la liste. 
  
  \item[Autres:] Les autres actions inclassables sont par exemple "prendre la main" qui permet d'\^etre celui qui dessine.
 \end{itemize}
 
-\subsubsection{Les probl\`emes rencontr\'es}
+\subsubsection{Probl\`emes rencontr\'es}
 
-Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En effet, ce dernier permet l'affichage simplifi\'e d'un svg dans Swing. Cependant \`a chaque rafra\^ichissement de la vue, il relit le SVG pour le r\'einterpr\'eter en entier. Ainsi cela rend inutile le double buffering et induit un effet de scintillement lors du dessin. 
+Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En effet, cette classe permet l'affichage d'un svg dans un composant Swing. Cependant \`a chaque rafra\^ichissement de la vue, le JSVGCanvas relit le SVG pour le r\'einterpr\'eter en entier. Un svg n'étant initialement pas fait pour être modifié, le double buffering n'a pas été implémenté pour ce composant ce qui induit un effet de scintillement lors du dessin. 
 
 De plus, dans un soucis de respect des d\'elais, le d\'eplacement et le redimensionnement des formes s'effectuent par le biais de boutons et non par "drag\&drop".
 
@@ -314,7 +314,7 @@ Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur pa
 
 \section{Recette}
 
-Les test unitaires n'\'etant pas enseign\'es dans notre formation, il s'agissait en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit. Le temps manquant, nous n'avons compos\'e des tests que pour la classe Client de l'interface et quelques autres classes de la partie serveur. 
+Les test unitaires n'\'etant pas enseign\'es dans notre formation, il a fallu en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions jugées critiques notamment au niveau du Modèle et du serveur mais n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit et supposent que les classes fournies par la biblioth\`eque Swing sont susceptible de ne pas fonctionner correctement. Nous avons donc suppos\'e infaillible cette biblioth\`eque.
 
 \section{Gestion de projet}
 Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés.
