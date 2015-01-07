@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,11pt]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -119,7 +119,11 @@ Nous avons aussi mis en avant quelques normes de développement. En premier lieu
 \paragraph{} Bien que cette hiérarchie puisse sembler laborieuse, elle permet très facilement de comprendre la fonction de la classe en question par rapport à l'endroit où elle se situe et l'affichage hiérarchique que fournit la plupart des IDE comme Eclipse permet de s'y déplacer facilement.
 
 \subsubsection{UML}
-Afin de donner un cadre au projet, nous avons mis en place un UML pour représenter la hiérarchie des classes ainsi que leur utilisation entre elles. Grâce à la hiérarchie des packages expliqué plus tôt, il fut très simple d'organiser ses classes entre elles tout en faisant un découpage clair des fonctionnalités.
+Afin de donner un cadre au projet, nous avons mis en place un UML pour représenter la hiérarchie des classes ainsi que leur utilisation entre elles. Grâce à la hiérarchie des packages expliqué plus tôt, il fut très simple d'organiser ses classes entre elles tout en faisant un découpage clair des fonctionnalités. 
+
+\paragraph{} Dans le but d'avoir un UML lisible, nous avons préféré créer une version simplifié de celui-ci. En effet, plutôt que d'afficher toutes les classes liées à l'interface graphique, nous avons inséré le package view. De la même manière, pour le controlleur, nous n'avons inséré que le package.
+
+\paragraph{} Ainsi, notre UML permet de comprendre les interactions entre les différents composants du projet, représenté soit par des packages, soit par des classes.
 
 \subsubsection{Chiffrage}
 Le chiffrage correspond à la partie de l'analyse durant laquelle il a fallu déterminer le temps que prendrait les différentes tâches afin de pouvoir les organiser pour réaliser le planning. La difficulté de cette étape fut en premier lieu de trouver un temps de développement cohérent pour les différentes tâches. En règle générale, une entreprise demandera à quelqu'un ayant l'habitude de réaliser ce genre de chiffrage et qui notamment possède une bonne expertise technique afin de chiffrer de manière cohérente. Dans notre cas, bien que nous puissions estimer la charge demandée, il est difficile de toujours donner un chiffrage cohérent. De plus, étant donné que la réalisation de ce projet s'est fait en parallèle d'autres projets et cours, aucun de nous ne pouvait être réellement compter comme une ressource à part entière.
@@ -220,7 +224,6 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 \item JOIN$\_$ROOM : Cette commande est utilisé par le client pour indiquer au serveur quelle room il veut rejoindre, et donc sur quel dessin il veut travailler.
 \end{itemize}
 
-\pagebreak
 \subsection{Déroulement du protocole}
 \paragraph{}Nous allons maintenant suivre dans cette partie le déroulement du protocole depuis la connexion d'un client jusqu'à la modification du dessin et les répercutions de cette modification sur les autres clients.
 
@@ -253,18 +256,17 @@ Ensuite on test si le pseudo demandé par le client est valide, ceci ce fait en 
 La connexion entre le serveur et le client étant engagé avant même que le client est réellement démarré l'application de dessin, si le client s'arrête (en fermant la fenêtre de connexion) alors le message DISCONNECT est envoyé au serveur qui s'occupe de rompre la connexion.
 
 
-\paragraph{}Le serveur se met ensuite en attente d'un message du client l'informant qu'il est prêt à recevoir le dessin, l'application pouvant mettre du temps à charger nous devons être sur que tout soit en place pour recevoir et afficher le dessin.
+\paragraph{} Le serveur se met ensuite en attente d'un message du client l'informant qu'il est prêt à recevoir le dessin, l'application pouvant mettre du temps à charger nous devons être sur que tout soit en place pour recevoir et afficher le dessin.
 
 Quand le client à chargé tout ses composants il envoie au serveur le message avec la commande ACCEPT, celui si répond alors en envoyant un message avec la commande UPDATE et comme contenu le dessin SVG qu'il stocke à ce moment. Le client est maintenant correctement connecté et peut alors afficher le dessin, et recevoir les futurs modifications ou demander à prendre la main, etc
 
 \subsubsection{Processus de prise de main}
 Afin de pouvoir modifier le dessin, le client A doit avoir la main sur son serveur. Pour cela, il va la demander en envoyant un message [ A ; REQUEST\_CTRL ; ].
 
-Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main.
+\paragraph{} Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main.
 
-Après 30 secondes, le serveur fait savoir au client A que son temps est écoulé, et fait savoir par la même occasion aux autres clients que A n'a plus la main par le message [ SERVER ; LEAVE\_CTRL ; A ].
+\paragraph{} Après 30 secondes, le serveur fait savoir au client A que son temps est écoulé, et fait savoir par la même occasion aux autres clients que A n'a plus la main par le message [ SERVER ; LEAVE\_CTRL ; A ].
 
-\pagebreak
 \subsubsection{Envoi de données par le clients ayant la main}
 Lorsque le client A a la main, il va donc renvoyer la totalité du dessin à chaque modification effectuée (souris relachée pour la création de forme, bouton cliqué pour le redimensionnement/déplacement). Bien que ce soit plus coûteux, cette technique permet d'éviter beaucoup de bugs de synchronisation entre le client et le serveur. Ces messages se présenteront sous la forme [ A ; SUBMIT ; nouveau\_dessin ]
 
@@ -276,35 +278,43 @@ Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur pa
 
 \subsection{Branchement Interface et Réseau}
 
+
 \subsection{Recette}
 
+
 \section{Gestion de projet}
-Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés puis la 
+Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés.
 
 \subsection{Réunion}
 Notre projet a été ponctué au fil de temps d'un certain nombre de réunion, chacune ayant des objectifs différents.
 
-Notre projet a débuté par une première réunion durant laquelle nous avons lu et analyser le cahier des charges. C'est durant celle-ci que nous nous sommes mis d'accord sur les outils et solutions que nous utiliserions, que nous avons défini de manière grossière l'architecture utilisée et organisé la suite du projet. Nous avons notamment dû choisir un chef de projet dont la fonction serait d'organiser et de planifier le projet afin de le mener à sa bonne réalisation mais aussi d'être le contact privilégié avec les enseignants. Parmi nous, Romain et Jean-Baptiste se sont portés volontaire pour cette fonction. Finalement, après s'être mis d'accord, c'est Jean-Baptiste qui a pris cette fonction.
+\paragraph{} Notre projet a débuté par une première réunion durant laquelle nous avons lu et analyser le cahier des charges. C'est durant celle-ci que nous nous sommes mis d'accord sur les outils et solutions que nous utiliserions, que nous avons défini de manière grossière l'architecture utilisée et organisé la suite du projet. Nous avons notamment dû choisir un chef de projet dont la fonction serait d'organiser et de planifier le projet afin de le mener à sa bonne réalisation mais aussi d'être le contact privilégié avec les enseignants. Parmi nous, Romain et Jean-Baptiste se sont portés volontaire pour cette fonction. Finalement, après s'être mis d'accord, c'est Jean-Baptiste qui a pris cette fonction.
 
-Contrairement à des projets d'envergure dont la gestion de projet demande un investissement en temps conséquent, la gestion de notre projet a tout de même permis au chef de projet de participer activement au développement et aux développeurs de donner souvent leur avis quant à la gestion de projet.
+\paragraph{} Contrairement à des projets d'envergure dont la gestion de projet demande un investissement en temps conséquent, la gestion de notre projet a tout de même permis au chef de projet de participer activement au développement et aux développeurs de donner souvent leur avis quant à la gestion de projet.
 
-Comme cela est visible dans le planning, nous avons ensuite ponctuer la période dédiée au projet de différentes réunions de suivi, qui avaient pour but de vérifier l'avancement du projet, de prévoir d’éventuels problèmes pouvant modifier le planning. Il s'est avéré que ces réunions avaient plutôt pour but de vérifier l'avancement du projet et d'effectuer les modifications du planning suivant les tâches réalisés et à venir. Cet état de fait fut possible grâce à notre proximité, ce qui nous a permis de parler des différents problèmes rencontrés ainsi que des solutions à apporter au fil de l'eau et non pendant les réunions ponctuelles.
+\paragraph{} Comme cela est visible dans le planning, nous avons ensuite ponctuer la période dédiée au projet de différentes réunions de suivi, qui avaient pour but de vérifier l'avancement du projet, de prévoir d’éventuels problèmes pouvant modifier le planning. Il s'est avéré que ces réunions avaient plutôt pour but de vérifier l'avancement du projet et d'effectuer les modifications du planning suivant les tâches réalisés et à venir. Cet état de fait fut possible grâce à notre proximité, ce qui nous a permis de parler des différents problèmes rencontrés ainsi que des solutions à apporter au fil de l'eau et non pendant les réunions ponctuelles.
 
-A mi-parcourt, nous avons dû réaliser une réunion avec M Richer de manière à expliquer à quel point en était notre projet. Nous avons donc préparé cette réunion entre nous en faisant un bilan sur les fonctionnalités terminées, les fonctionnalités en cours et les fonctionnalités qui n'étaient pas commencées ainsi qu'en mettant par écrit les différents points à éclaircir de manière à répondre le mieux possibles au cahier des charges.
+\paragraph{} A mi-parcourt, nous avons dû réaliser une réunion avec M Richer de manière à expliquer à quel point en était notre projet. Nous avons donc préparé cette réunion entre nous en faisant un bilan sur les fonctionnalités terminées, les fonctionnalités en cours et les fonctionnalités qui n'étaient pas commencées ainsi qu'en mettant par écrit les différents points à éclaircir de manière à répondre le mieux possibles au cahier des charges.
 
 \subsection{Planning}
+De manière à terminer le projet dans le temps imparti tout en livrant toutes les fonctionnalités, nous avons mis en place un planning résumant chaque tâche avec une estimation de la durée de chacune.
 
-\subsection{Livrable}
+\paragraph{} Ce planning s'est majoritairement appuyé sur le chiffrage effectué précédemment et a donc évolué au fil du temps, certaines tâches se révélant plus rapide alors que d'autres furent plus longue à réaliser. Nous avons donc mis à jours ce planning de manière à savoir l'avancement de chacun et les tâches suivantes à réaliser.
+
+\paragraph{} Le planning a été réaliser grâce à Gantt Project. Le planning ainsi créé étant trop imposant pour être inséré dans le rapport, il est trouvable sous forme d'image dans l'archive contenant le projet (cf : Dessin collaboratif – Planning). Le diagramme de PERT quant à lui été généré grâce à Gantt Project à partir du planning (cf : Dessin collaboratif – Diagramme de PERT).
 
 \section{Bilan}
-
-\subsection{Bilan sur le projet}
-
-\subsection{Problèmes rencontrés et ouverture}
-
 \subsection{Bilan technique}
+Ce projet a été très formateur pour chacun d'entre nous et ce pour divers raisons. 
+
+\paragraph{} En premier lieu, il nous a permis d'améliorer notre maîtrise du langage Java. En effet, venant chacun de formations différentes, nous ne sommes pas partis avec la même maîtrise de ce langage et, bien que nous connaissions tous des langages objets, il a fallut que nous nous mettions au même niveau.
+
+\paragraph{} Ensuite, nous avons découvert différents outils nécessaires à la bonne mises en œuvre de ce projet. Bien que nous en connaissions déjà certains comme Git et Swing, ce projet nous a permis d'approfondir nos connaissances et d'être plus efficace et rapide à les utiliser. Mais nous avons aussi eu l'occasion de découvrir d'autres outils et bibliothèques que nous n'aurions peut-être pas découvert sans ce projet comme Batik par exemple.
+
+\paragraph{} Mais ce projet nous a surtout montré que le choix des outils en début de projet est déterminant dans la bonne mise en œuvre ce projet et qu'un mauvais choix d'outils est déterminant par la suite. Dans notre cas, nous avons compris que, même si Batik permet de gérer simplement l'affichage de .svg, cette bibliothèque permet des traitements génériques mais ne répondant pas forcément à nos besoins. Notamment, nous avons besoin de ré-afficher le canvas contenant l'image, mais la bibliothèque ne gère pas le double buffering, cause du clignotement de l'image lors des modifications. Nous en avons conclu que, si nous avions à refaire ce projet, nous n'utiliserions pas cette bibliothèque, préférant créer nos propres composants répondant au problème plutôt que de tenter de modifier les comportement de Batik, de peur de la rendre instable.
 
 \subsection{Bilan humain}
+Ce projet nous a beaucoup appris, notamment concernant la gestion de projet. En effet, beaucoup des processus mis en œuvre afin de mener à bien notre projet peuvent finalement s'apparenter à ceux utilisés en entreprise. En effet, notre chiffrage, bien que sommaire permettra en entreprise d'estimer combien de temps de développement demandera un projet. Le planning quant à lui est similaire et permet aux développeurs de connaître leurs affectations au fil du temps.
 
 \section*{Conclusion}
 
