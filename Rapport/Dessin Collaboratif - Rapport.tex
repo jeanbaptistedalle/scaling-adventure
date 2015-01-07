@@ -1,0 +1,209 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\geometry{letterpaper}
+
+\usepackage{doc}
+\usepackage{url}
+
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+
+\geometry{hscale=0.85,vscale=0.85,centering}
+\title{Protocole}
+\author{Jean-Baptiste Dalle - Romain Gaborieau - Kevin Hivert - Alexis Braine}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\clearpage
+
+\tableofcontents
+
+\clearpage
+
+\section*{Introduction}
+Dans le cadre du premier semestre du Master 1 Informatique de l'Université d'Angers, nous avons été amenés à réaliser un projet rattaché à deux unités d'enseignement : Génie Logiciel et Réseaux. Le but de ce projet était de réaliser un logiciel permettant de \textbf{dessiner collaborativement}. On entend par là un logiciel permettant à plusieurs utilisateurs de coopérer dans la réalisation d'un dessin. \\
+
+Étant rattaché à deux matières, ce projet induit deux aspects importants :
+
+\begin{itemize}
+	\item L'aspect Génie Logiciel, regroupant plusieurs procédés tels que l'analyse des besoins, l'estimation du temps requis, la structuration des tâches, le management des différents éléments de l'équipe etc.
+	\item L'aspect Réseau, regroupant de manière plus technique l'implémentation d'un protocole visant à faire communiquer plusieurs instances du logiciel, l'architecture réseau utilisée, la sécurité mise en œuvre etc.
+\end{itemize}
+
+Dans le but de fournir une solution convenable et en adéquation avec les consignes du sujet, nous avons suivi une succession d'étapes qui seront expliquées dans ce rapport. Dans un premier temps, nous expliquerons l'analyse effectuée avant le développement de notre application, puis la façon dont nous l'avons développé pour finalement expliquer les méthodes utilisées pour le management et la bonne tenue du projet.
+
+
+\section*{Problématique}
+Tout au long de ce projet, nous avons été confrontés à des choix de méthodes, d'implémentation et de structuration. La problématique est donc :
+
+\textit{Comment réaliser un projet tout en utilisant des méthodes adaptées à sa bonne réalisation ?}
+
+
+\section{Lancement du projet}
+\subsection{Scénario nominal/alternatif}
+
+Définition d'un scénario nominal et alternatif \\
+
+Dans le cadre de ce projet et notamment de son analyse, nous avons défini un scénario nominal, expliquant l'utilisation normale du logiciel par des utilisateurs avertis, puis un scénario alternatif, décrivant de quelle façon seront gérés certains cas évident comme la perte de connexion. \\
+
+Scénario nominal
+
+\begin{itemize}
+	\item[1]Le « propriétaire » lance le serveur.
+	\item[2]Deux utilisateur A et B se connectent sur le serveur.
+	\item[3]A peut donc prendre la main. Il dessine quelques formes.
+	\item[4]B demande la main.
+	\item[5]Lorsque A perd la main (volontairement ou par inactivité), B récupère la main et peut maintenant dessiner.
+	\item[6]A et B peuvent exporter le dessin sur leur machine (au format .jpeg ou .svg).
+	\item[7]A et B se déconnectent.
+\end{itemize}
+
+Scénario alternatif
+
+\begin{itemize}
+	\item[1]Le « propriétaire » lance le serveur
+	\item[2]Deux utilisateur A et B se connectent sur le serveur.
+	\item[3]A, ayant rejoins en premier le salon, à la main et décide d'importer un dessin au format .svg. Puis il dessine quelques formes.
+	\item[4]A perd sa connexion internet.
+	\item[5]La main passe automatiquement à B qui est alors le seul utilisateur encore présent dans ce salon.
+	\item[6]B peut exporter le dessin sur sa machine.
+	\item[7]B se déconnecte.
+\end{itemize}
+
+Bien qu'il existe de nombreux autres cas comme par exemple la succession de demande de prise de main, la perte de connexion de tous les utilisateurs etc. ces deux scénarios résument de manière simple et compréhensible les attentes en terme de fonctionnalités de notre application.
+
+
+\subsection{Analyse}
+
+Une fois les objectifs fixés, nous avons commencé à réfléchir à ce dont nous aurions besoin pour notre projet ainsi que de la façon dont nous allions le structurer.
+
+\subsubsection{Image}
+Dans un premier temps, nous avons réfléchi à la façon de stocker les images qui seront utilisées par notre application. Nous avons opté pour le dessin vectoriel et plus particulièrement pour le svg, format qui permet d'enregistrer un dessin vectoriel en xml. Cette solution permet notamment d'utiliser une syntaxe claire pour représenter le dessin. En effet, chaque forme correspond à une balise et il sera donc aisé de rajouter et/ou modifier des formes. \\
+
+Nous avons aussi pensé qu'il serait bon que l'utilisateur puisse exporter son image sous un autre format plus commun comme le jpeg par exemple. 
+
+\subsubsection{Architecture}
+Après avoir analysé et débattu sur le sujet, nous avons défini que l'application suivrait l'architecture Client/Serveur. En effet, cette architecture permet de centraliser dans un seul serveur toutes les données nécessaires au(x) client(s). Cette centralisation nous permettra de stocker en un point les images de manière à ce que tous les clients puissent y accéder sans avoir à questionner les autres clients. \\
+
+Cette architecture sera couplée, pour le côté Client à une architecture MVC, qui est un design pattern particulièrement adapté à l'élaboration d'application ayant un aspect graphique. Cette architecture sépare le Client en 3 parties : le modèle, qui contient les données de l'application, la vue, qui correspond à l'affichage de l'application et le contrôleur, qui effectue les modifications de la vue et du modèle lorsque l'utilisateur interagit avec la vue. \\
+
+Dans le cas d'un couplage avec une architecture Client/Serveur, le contrôleur agira sur le modèle et la vue comme l'impose l'architecture MVC mais agira aussi sur le serveur en envoyant des messages en fonctions des actions de l'utilisateur sur la vue. A l'inverse, lorsque le serveur communique avec le client, il s'occupera de modifier les données et de mettre à jour la vue en conséquence. \\
+
+Finalement, nous avons opté pour le design pattern Singleton pour plusieurs de nos composants. En effet, celui-ci permet de s'assurer que, pour une classe l'implémentant, on ne puisse avoir qu'une seule instance de celle-ci. L'utilisation de ce design pattern nous permet ainsi de s'assurer qu'il n'existera qu'une seule instance des composants graphique et du modèle pour un même client. \\
+
+Par exemple, lorsque l'utilisateur ouvrira pour la première fois la fenêtre d'aide, celle-ci sera instanciée et affiché. Si l'utilisateur décide de fermer cette fenêtre puis de la rouvrir plus tard, il s'agira de la même instance car elle a été conservé grâce au Singleton. Cela permet de nous assurer notamment que, chaque fois que l'utilisateur ouvre la fenêtre d'aide, il ne soit pas créer une nouvelle instance de la fenêtre qui ne sera ensuite plus jamais utilisée.
+
+\subsubsection{Normes de développement}
+Nous avons aussi mis en avant quelques normes de développement. En premier lieu, nous avons décidé de centraliser les différentes constantes comme les chaînes de caractère utilisées pour les titres, les menu, les messages d'erreur. Ainsi, la modification des texte de l'application est simplifiée par le fait que tous les messages se trouvent au même endroit. Cependant, nous avons aussi du faire attention à n'utiliser les constantes que si leur utilisation concordait. Par exemple, deux boutons peuvent utiliser la chaîne « Valider » mais il faut être certains que leur comportement est le même car en cas de modification, l'application pourrait ne plus être cohérente. \\
+
+Ensuite, nous avons décidé de procéder à un découpage strict des fonctions de l'application : Un composant graphique correspond à une classe. Le listener de ce composant correspond à une autre classe et n'est pas interne au composant afin de bien séparer l'aspect Contrôleur de l'aspect Vue. De façon à bien représenter cette séparation, nous avons ordonné nos packages de la façon suivante : 
+
+\begin{itemize}
+	\item Un composant graphique se trouvera dans le package « dessin.collaboratif.view.component ». Cette hiérarchie est poursuivie par le type de composant. Ainsi, le bouton « Quitter » du menu se trouvera dans « dessin.collaboratif.view.component.menu.item »
+	\item Un contrôleur aura toujours la même hiérarchie de package que le composant auquel il est rattaché, à ceci près que le package view est remplacé par le package controller. Pour l'exemple précédent, la classe permettant d'écouter le clic sur le bouton quitter se trouvera dans « dessin.collaboratif.controller.components.menu.item »
+	\item Une classe JUnit permettant de tester les fonctionnalités d'un composants se trouvera de la même façon dans un package test. Toujours pour l'exemple précédent, une classe JUnit permettant de tester la fonction quitter se trouvera dans « dessin.collaboratif.test.components.menu.item »
+	\item Les classes correspondant aux données seront situé dans « dessin.collaboratif.model », néanmoins, les données étant communes à tous les composants, la suite de la hiérarchie est différentes des composants qui l'utilisent.
+	\item La classe GeneralVariables contenant toutes les constantes ainsi que les différentes énumération se trouveront dans « dessin.collaboratif.misc »
+\end{itemize}
+
+Finalement, alors que l’arborescence de « dessin.collaboratif » correspond au client, le package « server » correspond au server. Le dernier package « launcher » est le lien entre les deux packages précédent et fournit des classes permettant de lancer le client, le serveur ou les deux. \\
+
+Bien que cette hiérarchie puisse sembler laborieuse, elle permet très facilement de comprendre la fonction de la classe en question par rapport à l'endroit où elle se situe et l'affichage hiérarchique que fournit la plupart des IDE comme Eclipse permet de s'y déplacer facilement.
+
+\subsubsection{UML}
+Afin de donner un cadre au projet, nous avons mis en place un UML pour représenter la hiérarchie des classes ainsi que leur utilisation entre elles. Grâce à la hiérarchie des packages expliqué plus tôt, il fut très simple d'organiser ses classes entre elles tout en faisant un découpage clair des fonctionnalités.
+
+\subsubsection{Chiffrage}
+Le chiffrage correspond à la partie de l'analyse durant laquelle il a fallu déterminer le temps que prendrait les différentes tâches afin de pouvoir les organiser pour réaliser le planning. La difficulté de cette étape fut en premier lieu de trouver un temps de développement cohérent pour les différentes tâches. En règle générale, une entreprise demandera à quelqu'un ayant l'habitude de réaliser ce genre de chiffrage et qui notamment possède une bonne expertise technique afin de chiffrer de manière cohérente. Dans notre cas, bien que nous puissions estimer la charge demandée, il est difficile de toujours donner un chiffrage cohérent. De plus, étant donné que la réalisation de ce projet s'est fait en parallèle d'autres projets et cours, aucun de nous ne pouvait être réellement compter comme une ressource à part entière. \\
+
+Cette situation ressemble beaucoup à des situations similaires connues en entreprise comme lorsque l'équipe comprend un alternant ou bien un développeur travaillant sur plusieurs projets et n'étant pas disponible tous les jours. \\
+
+Notre chiffrage a donc été réalisé en prenant en compte ces différents points. Au fur et à mesure des développements, nous nous sommes rendu compte que certaines tâches avaient été sur-chiffrées et que, bien qu'elles semblaient complexes, une fois l'environnement technique appréhendé, elles se révélèrent plus simples que prévue. A l'inverse, certaines tâches que nous pensions aisées à réaliser se sont révélées plus ardues que prévu ou ont mis à jour certaines difficultés que nous n'avions pas prise en compte. \\
+
+En considérant l'avance prise sur certaines tâches et le retard pris sur d'autre, nous avons dans l'ensemble plutôt bien respecté les délais, ce qui nous a laissé une bonne marge de manœuvre pour la rédaction du rapport et la recette. De manière à ne pas mettre en péril le projet, nous avons pensé à certaines fonctionnalités non demandées dans le sujet que nous avons qualifié de facultatives et n'en avons réalisé que certaines. Néanmoins, sans cette phase d'analyse, nous aurions peut-être perdu trop de temps pour des éléments non présent dans le cahier des charges, ce qui n'est pas admissible car le respect des délais est un point capital, que ce soit pour ce projet ou en entreprise.
+
+\subsection{Choix de solution}
+Dans le cadre de notre projet, nous avons été amenés à choisir un certain nombre de solutions afin de répondre le mieux possible au cahier des charges. Les solutions à choisir peuvent être distinguées en deux types : les bibliothèque de développement, qui nous ont permises de développer certaines parties du projet, et qui sont donc liées au langage utilisé (ici Java) et les outils de développement, qui ont permis de simplifier certains process de la gestion de projet, notamment le versionning, le planning etc.
+
+\subsubsection{Bibliothèque}
+Dans un premier temps, notre application disposant d'une interface graphique, nous devions choisir la bibliothèque graphique que à utiliser. En Java, il existe plusieurs bibliothèque graphique. Nous avons sélectionné deux bibliothèques : Swing et JavaFX. \\
+
+Swing est la bibliothèque graphique la plus connue. Elle est basée sur une autre bibliothèque nommée AWT. Bien qu'elle soit moins efficace qu'AWT, Swing facilite la création d'interface et fournit notamment une interface qui ne varie pas suivant le système d'exploitation utilisé. Finalement, il favorise l'utilisation du design pattern MVC. \\
+
+JavaFX est une autre bibliothèque graphique qui tend à prendre de l'importance. En effet, depuis la sortie de Java 8, elle est désormais la bibliothèque graphique officielle de java, le développement de Swing ayant été abandonné. \\
+
+Nous avons donc eu le choix entre une technologie naissante et plus moderne face à une autre plus ancienne mais pour lesquels il existe plus d'outil. En effet, il manque encore à JavaFX nombre de fonctionnalités courante (qui sont apportées par d'autres bibliothèques mais qui ne sont donc pas fournies directement). Finalement, ce sera le choix de la technologie de stockage du dessin vectoriel qui orientera notre choix sur Swing. \\
+
+En effet, nous avons ensuite fait de recherches pour choisir une bibliothèque facilitant la création et l'édition de dessin vectoriel au format .svg. Nous nous sommes donc tourné vers une bibliothèque Apache nommée Batik. En effet, celle-ci nous a permis notamment d'ouvrir des fichiers .svg sous forme d'arbre de nœuds, mais surtout de lier ce dessin à notre interface graphique. En effet, la bibliothèque Batik fournit la classe JSVGCanvas, qui s'intègre à la bibliothèque Swing et qui permet d'afficher aisément des dessins vectoriels. \\
+
+Finalement, nous utiliserons la bibliothèque JUnit pour effectuer les tests unitaire. Celle-ci permet de mettre en place des tests unitaire automatique dont le but est d'assurer que malgré des évolutions et des corrections, les fonctionnalités répondent toujours au comportement attendu (sauf si l'évolution modifie le comportement testé). Bien que le choix de cette bibliothèque était imposé par le cahier des charges, nous nous sommes tout de même demandé s'il s'agissait bien d'une bibliothèque adaptée à nos besoins. Nous nous sommes par exemple demandé si l'outil Selenium utilisé pour automatiser des tests d'application Web pourrait nous permettre d’effectuer les tests de l'interface graphique. Après quelques investigations, nous avons compris que Selenium ne permettait pas simplement de tester une application non web et nous avons donc choisi de ne conserver que JUnit pour les tests. \\
+
+\subsubsection{Outils}
+Suite au choix de bibliothèque, nous avons décidé d'utiliser un certains nombre d'outil permettant de simplifier la réalisation du projet. \\
+
+En premier lieu, nous avons décider que nous développerions à l'aide d'IDE. En effet, ceux-ci permettent de faciliter un certain nombre de tâche, notamment en fournissant une auto-complétion, un analyseur syntaxique, une coloration syntaxique plus poussée que sur les éditeurs de texte, ainsi que tout un panel de raccourci facilitant le développement lorsque l'on les connais (permettant ainsi de facilement naviguer entre les classes, de trouver à quels endroit une fonction est appelée, etc.). Le choix de l'IDE n'étant pas décisif, nous avons chacun utilisés ceux auquel nous étions habitués, soit Eclipse et NetBeans. \\
+
+Ensuite, nous avons décidé à la vue de l'ampleur du projet et du fait que nous étions 4 à le développer qu'il était indispensable d'utiliser un outil de versionning. Comme nous connaissions tous Git, nous avons décidé de mettre en place notre projet sur un GitHub. La mise en place cette solution nous a permis de travailler indépendamment sur de petites tâches, puis de les mettre en commun une fois celles-ci fonctionnelles. Outre cette mise en commun, git fournit aussi un certain nombre de fonctionnalités comme la possibilité de restaurer une ancienne version du projet, de visualiser et de comparer le code de deux version, de connaître l'auteur d'une ligne en particulier, etc. Nous avons couplé à Git l'outil KDiff3. Celui-ci permet la comparaison de code et sert à gérer les conflits lorsque deux personnes tentent de valider des modifications au même endroit dans un code. \\
+
+Concernant la gestion de projet, nous avons décidé d'utiliser GanttProject pour la mise en place du planning, du diagramme de Gantt et de PERT. Celui-ci fournit un éditeur permettant de disposer des tâches et d'y affecter des ressources. Il permet aussi de lier des tâches entre elles, de poser des réunions, etc.
+
+\subsection*{Conclusion}
+Cette phase d'analyse nous a permis de réfléchir et de prendre des décisions indispensables à la bonne réalisation du projet ainsi que de choisir tout un panel de solutions cohérente avec les besoins du cahier des charges. Néanmoins, au fil de la réalisation de ce projet, nous nous sommes rendu compte que certains de nos choix n'étaient pas optimaux et des outils plus adaptés auraient sans doute permis de mieux répondre au besoin ou d'y répondre plus rapidement. Nous expliquerons plus en détail dans le bilan les différents problèmes rencontrés avec nos choix de solutions qui nous sont apparus au fil du développement.
+
+\section{Développement}
+Une fois l'analyse terminée, nous avons pu commencer la phase de réalisation. Nous expliqueront cette phase de la façon suivante : dans un premier temps, nous parlerons de la phase de formation. Nous avons fait le choix de développer l'interface et le réseau séparément de manière à cloisonner les concepts dans un premier temps. Bien que cela ait permis de simplifier le développement, nous avons du planifier une période durant laquelle ces deux aspects seraient branchés entre eux. Cette situation n'a cependant été possible que parce que nous étions souvent en contact et nous nous sommes tenus au courant régulièrement. Ainsi, quand nous sommes arrivé au branchement de l'interface graphique au réseau, les deux composants étaient déjà prévu pour être couplé aisément, ce qui facilita cette phase. \\
+
+Nous expliquerons donc le développement de l'interface puis celui du réseau. Nous continuerons avec le branchement des deux composants pour terminer par le recettage de l'application.
+
+\subsection{Interface}
+
+\subsection{Réseau}
+
+\subsection{Branchement Interface et Réseau}
+
+\subsection{Recette}
+
+\section{Gestion de projet}
+Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés puis la 
+
+\subsection{Réunion}
+Notre projet a été ponctué au fil de temps d'un certain nombre de réunion, chacune ayant des objectifs différents. \\
+
+Notre projet a débuté par une première réunion durant laquelle nous avons lu et analyser le cahier des charges. C'est durant celle-ci que nous nous sommes mis d'accord sur les outils et solutions que nous utiliserions, que nous avons défini de manière grossière l'architecture utilisée et organisé la suite du projet. Nous avons notamment dû choisir un chef de projet dont la fonction serait d'organiser et de planifier le projet afin de le mener à sa bonne réalisation mais aussi d'être le contact privilégié avec les enseignants. Parmi nous, Romain et Jean-Baptiste se sont portés volontaire pour cette fonction. Finalement, après s'être mis d'accord, c'est Jean-Baptiste qui a pris cette fonction. \\
+
+Contrairement à des projets d'envergure dont la gestion de projet demande un investissement en temps conséquent, la gestion de notre projet a tout de même permis au chef de projet de participer activement au développement et aux développeurs de donner souvent leur avis quant à la gestion de projet. \\
+
+Comme cela est visible dans le planning, nous avons ensuite ponctuer la période dédiée au projet de différentes réunions de suivi, qui avaient pour but de vérifier l'avancement du projet, de prévoir d’éventuels problèmes pouvant modifier le planning. Il s'est avéré que ces réunions avaient plutôt pour but de vérifier l'avancement du projet et d'effectuer les modifications du planning suivant les tâches réalisés et à venir. Cet état de fait fut possible grâce à notre proximité, ce qui nous a permis de parler des différents problèmes rencontrés ainsi que des solutions à apporter au fil de l'eau et non pendant les réunions ponctuelles. \\
+
+A mi-parcourt, nous avons dû réaliser une réunion avec M Richer de manière à expliquer à quel point en était notre projet. Nous avons donc préparé cette réunion entre nous en faisant un bilan sur les fonctionnalités terminées, les fonctionnalités en cours et les fonctionnalités qui n'étaient pas commencées ainsi qu'en mettant par écrit les différents points à éclaircir de manière à répondre le mieux possibles au cahier des charges. \\
+
+\subsection{Planning}
+
+\subsection{Livrable}
+
+\section{Bilan}
+
+\subsection{Bilan sur le projet}
+
+\subsection{Problèmes rencontrés et ouverture}
+
+\subsection{Bilan technique}
+
+\subsection{Bilan humain}
+
+\section*{Conclusion}
+
+\section*{Lexique}
+
+\section*{Annexe}
+
+\end{document}

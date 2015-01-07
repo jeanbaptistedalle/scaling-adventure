@@ -44,8 +44,8 @@ public class RenameDialog extends JDialog {
 			public void textValueChanged(TextEvent arg0) {
 				Client.getInstance().rename(text.getText());
 
-                                /* Envoi du SVG au serveur */
-                                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
+                            /* Envoi du SVG au serveur */
+                            ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
 			}
 		});
 		fill();
