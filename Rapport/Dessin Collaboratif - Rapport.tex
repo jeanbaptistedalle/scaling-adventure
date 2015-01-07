@@ -109,7 +109,7 @@ Nous avons aussi mis en avant quelques normes de développement. En premier lieu
 \begin{itemize}
 	\item Un composant graphique se trouvera dans le package « dessin.collaboratif.view.component ». Cette hiérarchie est poursuivie par le type de composant. Ainsi, le bouton « Quitter » du menu se trouvera dans « dessin.collaboratif.view.component.menu.item »
 	\item Un contrôleur aura toujours la même hiérarchie de package que le composant auquel il est rattaché, à ceci près que le package view est remplacé par le package controller. Pour l'exemple précédent, la classe permettant d'écouter le clic sur le bouton quitter se trouvera dans « dessin.collaboratif.controller.components.menu.item »
-	\item Une classe JUnit permettant de tester les fonctionnalités d'un composants se trouvera de la même façon dans un package test. Toujours pour l'exemple précédent, une classe JUnit permettant de tester la fonction quitter se trouvera dans « dessin.collaboratif.test.components.menu.item »
+	\item Une classe JUnit permettant de tester les fonctionnalités d'un composants se trouvera de la même façon dans un package test. Toujours pour l'exemple précédent, une possible classe JUnit permettant de tester la fonction quitter se trouvera dans « dessin.collaboratif.test.components.menu.item »
 	\item Les classes correspondant aux données seront situé dans « dessin.collaboratif.model », néanmoins, les données étant communes à tous les composants, la suite de la hiérarchie est différentes des composants qui l'utilisent.
 	\item La classe GeneralVariables contenant toutes les constantes ainsi que les différentes énumération se trouveront dans « dessin.collaboratif.misc »
 \end{itemize}
@@ -126,7 +126,7 @@ Afin de donner un cadre au projet, nous avons mis en place un UML pour représen
 \paragraph{} Ainsi, notre UML permet de comprendre les interactions entre les différents composants du projet, représenté soit par des packages, soit par des classes.
 
 \subsubsection{Chiffrage}
-Le chiffrage correspond à la partie de l'analyse durant laquelle il a fallu déterminer le temps que prendrait les différentes tâches afin de pouvoir les organiser pour réaliser le planning. La difficulté de cette étape fut en premier lieu de trouver un temps de développement cohérent pour les différentes tâches. En règle générale, une entreprise demandera à quelqu'un ayant l'habitude de réaliser ce genre de chiffrage et qui notamment possède une bonne expertise technique afin de chiffrer de manière cohérente. Dans notre cas, bien que nous puissions estimer la charge demandée, il est difficile de toujours donner un chiffrage cohérent. De plus, étant donné que la réalisation de ce projet s'est fait en parallèle d'autres projets et cours, aucun de nous ne pouvait être réellement compter comme une ressource à part entière.
+Le chiffrage correspond à la partie de l'analyse durant laquelle il a fallu déterminer le temps que prendrait les différentes tâches afin de pouvoir les organiser pour réaliser le planning. La difficulté de cette étape fut en premier lieu de trouver un temps de développement cohérent pour les différentes tâches. En règle générale, une entreprise demandera à quelqu'un ayant l'habitude de réaliser ce genre de chiffrage et qui notamment possède une bonne expertise technique afin de chiffrer de manière cohérente. Dans notre cas, bien que nous puissions estimer la charge demandée, il est difficile de toujours donner un chiffrage cohérent. De plus, étant donné que la réalisation de ce projet s'est fait en parallèle d'autres projets et cours, aucun de nous ne pouvait être réellement compt\'e comme une ressource à part entière.
 
 \paragraph{} Cette situation ressemble beaucoup à des situations similaires connues en entreprise comme lorsque l'équipe comprend un alternant ou bien un développeur travaillant sur plusieurs projets et n'étant pas disponible tous les jours.
 
@@ -163,11 +163,44 @@ Suite au choix de bibliothèque, nous avons décidé d'utiliser un certains nomb
 Cette phase d'analyse nous a permis de réfléchir et de prendre des décisions indispensables à la bonne réalisation du projet ainsi que de choisir tout un panel de solutions cohérente avec les besoins du cahier des charges. Néanmoins, au fil de la réalisation de ce projet, nous nous sommes rendu compte que certains de nos choix n'étaient pas optimaux et des outils plus adaptés auraient sans doute permis de mieux répondre au besoin ou d'y répondre plus rapidement. Nous expliquerons plus en détail dans le bilan les différents problèmes rencontrés avec nos choix de solutions qui nous sont apparus au fil du développement.
 
 \section{Développement}
-Une fois l'analyse terminée, nous avons pu commencer la phase de réalisation. Nous expliqueront cette phase de la façon suivante : dans un premier temps, nous parlerons de la phase de formation. Nous avons fait le choix de développer l'interface et le réseau séparément de manière à cloisonner les concepts dans un premier temps. Bien que cela ait permis de simplifier le développement, nous avons du planifier une période durant laquelle ces deux aspects seraient branchés entre eux. Cette situation n'a cependant été possible que parce que nous étions souvent en contact et nous nous sommes tenus au courant régulièrement. Ainsi, quand nous sommes arrivé au branchement de l'interface graphique au réseau, les deux composants étaient déjà prévu pour être couplé aisément, ce qui facilita cette phase.
+Une fois l'analyse terminée, nous avons pu commencer la phase de réalisation. Nous expliqueront cette phase de la façon suivante : dans un premier temps, nous parlerons de la phase de formation. Nous avons fait le choix de développer l'interface et le réseau séparément de manière à cloisonner les concepts. Bien que cela ait permis de simplifier le développement, nous avons d\^u planifier une période durant laquelle ces deux aspects seraient branchés entre eux. Cette situation n'a cependant été possible que parce que nous étions souvent en contact et nous nous sommes tenus au courant régulièrement. Ainsi, quand nous sommes arrivé au branchement de l'interface graphique au réseau, les deux composants étaient déjà prévu pour être couplé aisément, ce qui facilita cette phase.
 
 \paragraph{} Nous expliquerons donc le développement de l'interface puis celui du réseau. Nous continuerons avec le branchement des deux composants pour terminer par le recettage de l'application.
 
 \subsection{Interface}
+
+\subsubsection{Description}
+
+Le d\'eveloppement de l'interface s'\'etant r\'ealis\'ee au premier abord sans partie r\'eseau, il subsiste dans le code des \'el\'ements tels que la cr\'eation de nouvelles images ou l'enregistrement de l'image (\`a ne pas confondre avec l'exportation). Nous les avons gard\'es, dans l'hypoth\`ese d'une future am\'elioration permettant une utilisation non collaborative de l'application par exemple. 
+
+La bibliothèque Swing permet l'agencement de projets en MVC. L'utilisation de "controllers" et de "views" a \'et\'e respect\'e. Ainsi, chaque \'el\'em\'ent visuel pr\'esent dans l'application comporte un "controller" qui lui est propre. 
+
+L'interface graphique, impl\'ement\'ee avec la bibliothèque Swing, est compos\'ee de 4 zones principales.
+
+\begin{description}
+ \item[La zone de menu] permet d'acc\'eder \`a un ensemble d'actions telles que la fermeture de l'application ou demander la main;
+ \item[La barre de dessin] permet s\'electionner la fonction du curseur sur la zone de dessin;
+ \item[La zone de dessin] affiche le dessin et chaque clic r\'ealis\'e sur cette surface actionnera la fonction d\'esir\'ee (ajout de forme, \ldots) ;
+ \item[La liste des formes] recense les formes dessin\'ees sur la zone de dessin.
+\end{description}
+
+Le choix de r\'ealis\'er ces diff\'erentes zones s'est impos\'e petit \`a petit. N'utilisez qu'une barre de menu pour choisir les diff\'erentes formes ou sa couleur devenait r\'ebarbatif. Avoir un panel de boutons sous la main s'est r\'ev\'el\'e plus intuitif. De plus, ajouter une liste des formes composant le dessin permet de plus facilement s\'electionner un \'el\'ement. Une ligne d'un pixel d'\'epaisseur est difficile \`a s\'electionner, tout autant qu'un \'el\'ement cach\'e par un autre. 
+
+Il y a trois grands types d'actions: 
+
+\begin{itemize}
+ \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace \`a un des boutons d\'edi\'es. Ensuite, on r\'ealis\'e un "drag\&drop" ("glisser-d\'eposer" en fran\c{c}ais) sur la zone de dessin.
+ 
+ \item[Modifier:] On s\'electionne la forme \`a modifier en r\'ealisant un clic sp\'ecial (double clic pour d\'eplacer ou redimensionner, simple clic droit pour modifier le contenu d'un texte) dessus dans la zone de dessin ou en cliquant sur la forme dans la liste. 
+ 
+ \item[Autres:] Les autres actions inclassables sont par exemple "prendre la main" qui permet d'\^etre celui qui dessine.
+\end{itemize}
+
+\subsubsection{Les probl\`emes rencontr\'es}
+
+Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En effet, ce dernier permet l'affichage simplifi\'e d'un svg dans Swing. Cependant \`a chaque rafra\^ichissement de la vue, il relit le SVG pour le r\'einterpr\'eter en entier. Ainsi cela rend inutile le double buffering et induit un effet de scintillement lors du dessin. 
+
+De plus, dans un soucis de respect des d\'elais, le d\'eplacement et le redimensionnement des formes s'effectuent par le biais de boutons et non par "drag\&drop".
 
 \subsection{Réseau}
 
