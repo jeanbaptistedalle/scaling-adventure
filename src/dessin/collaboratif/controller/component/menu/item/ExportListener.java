@@ -2,16 +2,18 @@ package dessin.collaboratif.controller.component.menu.item;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-//~--- JDK imports ------------------------------------------------------------
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.swing.JFileChooser;
+import dessin.collaboratif.model.Client;
 
 import org.apache.commons.io.FilenameUtils;
 
-import dessin.collaboratif.model.Client;
+//~--- JDK imports ------------------------------------------------------------
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.io.File;
+
+import javax.swing.JFileChooser;
 
 /**
  * Listener de l'item d'export

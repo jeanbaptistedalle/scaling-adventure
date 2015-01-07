@@ -2,13 +2,15 @@ package dessin.collaboratif.controller.component.menu.item;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import java.awt.event.ActionListener;
-
-import reseau.client.ClientNetwork;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.MainFrame;
+
+import reseau.client.ClientNetwork;
+
 //~--- JDK imports ------------------------------------------------------------
+
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Listener de l'item de fermeture du tableau
@@ -29,7 +31,7 @@ public class CloseListener implements ActionListener {
                 Client.getInstance().setFileImage(null);
                 MainFrame.getInstance().repaintDrawPanel();
             }
-            
+
             /* Envoi du SVG au serveur */
             ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
         }

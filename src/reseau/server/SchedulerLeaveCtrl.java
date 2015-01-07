@@ -15,6 +15,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
+
+
 package reseau.server;
 
 /**
@@ -22,30 +25,35 @@ package reseau.server;
  * @author kevin
  */
 public class SchedulerLeaveCtrl extends Thread {
-    private long startTime, endTime, duration;
-    private Room room;
+    private long          startTime, endTime, duration;
+    private Room          room;
     private ClientManager client;
-    
+
     public SchedulerLeaveCtrl(Room room, ClientManager client) {
-        this.room = room;
+        this.room   = room;
         this.client = client;
-        startTime = System.nanoTime();
+        startTime   = System.nanoTime();
     }
-    
+
     @Override
     public void run() {
         boolean cont = true;
+
         while (cont) {
             endTime  = System.nanoTime();
             duration = (endTime - startTime);
-                if ((duration / 1000000000) > 30) {
 
-                    /* Retirer le controle au bout de 30 secondes. */
-                    this.startTime = -1;
-                    client.leaveCtrl();
-                    room.leaveWaitList(client);
-                    cont = false;
-                }
+            if ((duration / 1000000000) > 30) {
+
+                /* Retirer le controle au bout de 30 secondes. */
+                this.startTime = -1;
+                client.leaveCtrl();
+                room.leaveWaitList(client);
+                cont = false;
+            }
         }
     }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

@@ -8,11 +8,12 @@ package dessin.collaboratif.controller.component.menu.item;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import java.awt.event.ActionListener;
-
 import reseau.client.ClientNetwork;
+
 //~--- JDK imports ------------------------------------------------------------
+
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -21,8 +22,9 @@ import java.awt.event.ActionEvent;
 public class TakeHandListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        if (!ClientNetwork.getInstance().hasRqstdCtrl())
+        if (!ClientNetwork.getInstance().hasRqstdCtrl()) {
             ClientNetwork.getInstance().requestControl();
+        }
     }
 }
 
