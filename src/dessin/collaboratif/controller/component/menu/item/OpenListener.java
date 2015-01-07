@@ -2,20 +2,24 @@ package dessin.collaboratif.controller.component.menu.item;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.swing.JFileChooser;
+import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.MainFrame;
 
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.util.XMLResourceDescriptor;
+
 import org.w3c.dom.Document;
 
 import reseau.client.ClientNetwork;
-import dessin.collaboratif.model.Client;
-import dessin.collaboratif.view.component.MainFrame;
+
 //~--- JDK imports ------------------------------------------------------------
+
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.io.File;
+
+import javax.swing.JFileChooser;
 
 /**
  * Listener de l'item de menu d'ouverture

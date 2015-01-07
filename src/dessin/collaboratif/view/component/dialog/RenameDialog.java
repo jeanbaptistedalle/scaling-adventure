@@ -1,5 +1,13 @@
 package dessin.collaboratif.view.component.dialog;
 
+//~--- non-JDK imports --------------------------------------------------------
+
+import dessin.collaboratif.model.Client;
+
+import reseau.client.ClientNetwork;
+
+//~--- JDK imports ------------------------------------------------------------
+
 import java.awt.BorderLayout;
 import java.awt.TextArea;
 import java.awt.event.TextEvent;
@@ -8,71 +16,67 @@ import java.awt.event.TextListener;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import dessin.collaboratif.model.Client;
-import reseau.client.ClientNetwork;
-
 public class RenameDialog extends JDialog {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1151343403574524760L;
+    /**
+     *
+     */
+    private static final long  serialVersionUID = 1151343403574524760L;
+    public static RenameDialog INSTANCE         = null;
+    private TextArea           text;
 
-	public static RenameDialog INSTANCE = null;
+    private RenameDialog() {
+        super();
+        setModal(true);
+        setAlwaysOnTop(true);
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        text = new TextArea("");
 
-	private TextArea text;
+        JPanel pan = new JPanel(new BorderLayout());
 
-	private RenameDialog() {
-		super();
-		setModal(true);
-		setAlwaysOnTop(true);
-		setModalityType(ModalityType.APPLICATION_MODAL);
-		text = new TextArea("");
-		JPanel pan = new JPanel(new BorderLayout());
+        pan.add(text);
+        add(pan);
+        pack();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocation(250, 250);
+        setResizable(false);
+        text.addTextListener(new TextListener() {
+            @Override
+            public void textValueChanged(TextEvent arg0) {
+                Client.getInstance().rename(text.getText());
 
-		pan.add(text);
+                /* Envoi du SVG au serveur */
+                ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
+            }
+        });
+        fill();
+    }
 
-		add(pan);
+    public static RenameDialog getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new RenameDialog();
+        }
 
-		pack();
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setLocation(250, 250);
-		setResizable(false);
-		text.addTextListener(new TextListener() {
+        return INSTANCE;
+    }
 
-			@Override
-			public void textValueChanged(TextEvent arg0) {
-				Client.getInstance().rename(text.getText());
+    @Override
+    public void setVisible(boolean b) {
+        fill();
+        super.setVisible(true);
+    }
 
-                            /* Envoi du SVG au serveur */
-                            ClientNetwork.getInstance().submitPicture(Client.getInstance().imageToString());
-			}
-		});
-		fill();
-	}
+    private void fill() {
+        int    i   = Client.getInstance().getSelected();
+        String txt = Client.getInstance().getNode(i).getTextContent();
 
-	public static RenameDialog getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new RenameDialog();
-		}
-		return INSTANCE;
-	}
-	
-	@Override
-	public void setVisible(boolean b)
-	{
-		fill();
-		super.setVisible(true);
-	}
+        text.setText(txt);
 
-	private void fill() {
-		int i = Client.getInstance().getSelected();
-		String txt = Client.getInstance().getNode(i).getTextContent();
-		text.setText(txt);
-
-		// this.setSize(new Dimension (250,250));
-		// ((JPanel)this.getContentPane()).setBorder(BorderFactory.createEmptyBorder(10,
-		// 10, 10, 10));
-	}
-
+        // this.setSize(new Dimension (250,250));
+        // ((JPanel)this.getContentPane()).setBorder(BorderFactory.createEmptyBorder(10,
+        // 10, 10, 10));
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com
