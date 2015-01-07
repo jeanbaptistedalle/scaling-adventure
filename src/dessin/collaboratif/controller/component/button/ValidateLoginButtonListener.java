@@ -2,17 +2,20 @@ package dessin.collaboratif.controller.component.button;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import reseau.client.ClientNetwork;
 import dessin.collaboratif.misc.GeneralVariables;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.LoginFrame;
 import dessin.collaboratif.view.component.MainFrame;
+
+import reseau.client.ClientNetwork;
+
 //~--- JDK imports ------------------------------------------------------------
+
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Listener du bouton Validate

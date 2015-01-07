@@ -2,13 +2,15 @@ package dessin.collaboratif.controller.component.menu.item;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import java.awt.event.ActionListener;
-
-import reseau.client.ClientNetwork;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
+
+import reseau.client.ClientNetwork;
+
 //~--- JDK imports ------------------------------------------------------------
+
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Listener de l'item de déplacement

@@ -2,19 +2,22 @@ package reseau.server;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import reseau.common.ClientRC;
 import reseau.common.Constant;
 import reseau.common.Message;
+
 //~--- JDK imports ------------------------------------------------------------
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @class ClientManager
@@ -122,12 +125,13 @@ class ClientManager extends Thread {
         my_room   = 0;
         this.room = server.getRoomById(my_room);
         this.room.addClient(this);
-        
+
         /* Attente d'un message du client indiquant qu'il est près à recevoir le dessin. */
         cont = true;
+
         do {
             Message msg = recvMessage();
-            
+
             switch (msg.getCmd()) {
             case DISCONNECT :
                 server.rmClient(this);
@@ -146,6 +150,7 @@ class ClientManager extends Thread {
 
             case ACCEPT :
                 cont = false;
+
                 break;
 
             default :
@@ -158,8 +163,8 @@ class ClientManager extends Thread {
          * Au départ de la room, SVG minimal.
          */
         this.sendMessage(Constant.command.UPDATE, this.room.getImage());
-        
         cont = true;
+
         while (cont) {
             Message msg = recvMessage();
 
@@ -175,6 +180,7 @@ class ClientManager extends Thread {
                 break;
 
             case LEAVE_CTRL :
+
                 /* On ne se sert pas du LEAVE_CTRL envoyé par l'utilisateur. C'est le serveur qui s'occupe du controle. */
                 break;
 
@@ -193,6 +199,7 @@ class ClientManager extends Thread {
                 room.rmClient(this);
                 server.rmClient(this);
                 room.broadcast(new Message(msg.getFrom(), Constant.command.LIST_USERS, room.getClientList()));
+
                 break;
 
             default :
@@ -254,8 +261,9 @@ class ClientManager extends Thread {
     @SuppressWarnings("ImplicitArrayToString")
     private void sendMessage(Constant.command cmd) {
         try {
-            if (!this.sock.isClosed())
+            if (!this.sock.isClosed()) {
                 out.write(new Message(Constant.SERVER_IP, cmd).toByteArray());
+            }
         } catch (IOException ex) {
             Logger.getLogger(ClientManager.class.getName()).log(Level.SEVERE, null, ex);
         }

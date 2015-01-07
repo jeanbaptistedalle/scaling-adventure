@@ -4,20 +4,20 @@ package dessin.collaboratif.misc;
  * ENum des valeurs possibles d'un redimensionnement
  */
 public enum ScaleEnum {
-	
-	INCREASE("+"),
+    INCREASE("+"), DECREASE("-");
 
-	DECREASE("-");
+    @SuppressWarnings("FieldMayBeFinal")
+    private String tagName;
 
-        @SuppressWarnings("FieldMayBeFinal")
-	private String tagName;
-	
-	private ScaleEnum(final String name){
-		tagName = name;
-	}
-	
-	@Override
-	public String toString() {
-		return tagName;
-	}
+    private ScaleEnum(final String name) {
+        tagName = name;
+    }
+
+    @Override
+    public String toString() {
+        return tagName;
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

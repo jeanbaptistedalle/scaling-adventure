@@ -2,17 +2,18 @@ package dessin.collaboratif.controller.component;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import java.awt.event.MouseListener;
-
-import javax.swing.JList;
-import javax.swing.SwingUtilities;
-
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.model.Client;
 import dessin.collaboratif.view.component.dialog.MoveDialog;
 import dessin.collaboratif.view.component.dialog.RenameDialog;
+
 //~--- JDK imports ------------------------------------------------------------
+
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JList;
+import javax.swing.SwingUtilities;
 
 /**
  * Listener du listPanel concernant la souris
@@ -53,21 +54,25 @@ public class ComponentListPanelMouseAdapter implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent arg0) {
+
         // TODO Auto-generated method stub
     }
 
     @Override
     public void mouseExited(MouseEvent arg0) {
+
         // TODO Auto-generated method stub
     }
 
     @Override
     public void mousePressed(MouseEvent arg0) {
+
         // TODO Auto-generated method stub
     }
 
     @Override
     public void mouseReleased(MouseEvent arg0) {
+
         // TODO Auto-generated method stub
     }
 }

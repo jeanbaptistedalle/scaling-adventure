@@ -1,9 +1,6 @@
 package dessin.collaboratif.view.component;
 
-import java.awt.GridLayout;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
+//~--- non-JDK imports --------------------------------------------------------
 
 import dessin.collaboratif.misc.DrawModelEnum;
 import dessin.collaboratif.view.component.button.CircleButton;
@@ -16,218 +13,221 @@ import dessin.collaboratif.view.component.button.TextButton;
 import dessin.collaboratif.view.component.field.TextInsertField;
 import dessin.collaboratif.view.component.field.TextSizeField;
 
+//~--- JDK imports ------------------------------------------------------------
+
+import java.awt.GridLayout;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+
 public class ToolPanel extends JPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7961403117980955928L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7961403117980955928L;
+    private ButtonGroup       toolButtonGroup;
+    private SquareButton      squareButton;
+    private CircleButton      circleButton;
+    private EllipseButton     ellipseButton;
+    private LineButton        lineButton;
+    private TextButton        textButton;
+    private CursorButton      cursorButton;
+    private ColorPickerButton colorPickerButton;
+    private TextInsertField   textInsertField;
+    private TextSizeField     textSizeField;
 
-	private ButtonGroup toolButtonGroup;
+    public ToolPanel() {
+        super(new GridLayout());
+        toolButtonGroup = new ButtonGroup();
+        cursorButton    = new CursorButton();
+        this.add(cursorButton);
+        toolButtonGroup.add(cursorButton);
+        colorPickerButton = new ColorPickerButton();
+        toolButtonGroup.add(colorPickerButton);
+        this.add(colorPickerButton);
+        lineButton = new LineButton();
+        toolButtonGroup.add(lineButton);
+        this.add(lineButton);
+        squareButton = new SquareButton();
+        toolButtonGroup.add(squareButton);
+        this.add(squareButton);
+        circleButton = new CircleButton();
+        toolButtonGroup.add(circleButton);
+        this.add(circleButton);
+        ellipseButton = new EllipseButton();
+        toolButtonGroup.add(ellipseButton);
+        this.add(ellipseButton);
+        textButton = new TextButton();
+        toolButtonGroup.add(textButton);
+        this.add(textButton);
+        textInsertField = new TextInsertField();
+        this.add(textInsertField);
+        textSizeField = new TextSizeField();
+        this.add(textSizeField);
+    }
 
-	private SquareButton squareButton;
+    public TextSizeField getTextSizeField() {
+        return textSizeField;
+    }
 
-	private CircleButton circleButton;
+    public void setTextSizeField(TextSizeField textSizeField) {
+        this.textSizeField = textSizeField;
+    }
 
-	private EllipseButton ellipseButton;
+    public void press(final DrawModelEnum drawModelEnum) {
 
-	private LineButton lineButton;
+//      unpressAll();
+//      if (drawModelEnum == null) {
+//              cursorButton.getModel().setPressed(true);
+//      } else {
+//              switch (drawModelEnum) {
+//              case SQUARE:
+//                      squareButton.getModel().setPressed(true);
+//                      break;
+//              case CIRCLE:
+//                      circleButton.getModel().setPressed(true);
+//                      break;
+//              case LINE:
+//                      lineButton.getModel().setPressed(true);
+//                      break;
+//              case ELLIPSE:
+//                      ellipseButton.getModel().setPressed(true);
+//                      break;
+//              case TEXT:
+//                      textButton.getModel().setPressed(true);
+//                      break;
+//              default:
+//                      throw new RuntimeException("Type de bouton non géré");
+//              }
+//      }
+    }
 
-	private TextButton textButton;
+    public boolean isPress(final DrawModelEnum drawModelEnum) {
+        switch (drawModelEnum) {
+        case RECTANGLE :
+            if (squareButton.getModel().isPressed()) {
+                return true;
+            }
 
-	private CursorButton cursorButton;
+            return false;
 
-	private ColorPickerButton colorPickerButton;
+        case CIRCLE :
+            if (circleButton.getModel().isPressed()) {
+                return true;
+            }
 
-	private TextInsertField textInsertField;
+            return false;
 
-	private TextSizeField textSizeField;
+        case LINE :
+            if (lineButton.getModel().isPressed()) {
+                return true;
+            }
 
-	public ToolPanel() {
-		super(new GridLayout());
-		toolButtonGroup = new ButtonGroup();
+            return false;
 
-		cursorButton = new CursorButton();
-		this.add(cursorButton);
-		toolButtonGroup.add(cursorButton);
+        case ELLIPSE :
+            if (ellipseButton.getModel().isPressed()) {
+                return true;
+            }
 
-		colorPickerButton = new ColorPickerButton();
-		toolButtonGroup.add(colorPickerButton);
-		this.add(colorPickerButton);
+            return false;
 
-		lineButton = new LineButton();
-		toolButtonGroup.add(lineButton);
-		this.add(lineButton);
+        case TEXT :
+            if (textButton.getModel().isPressed()) {
+                return true;
+            }
 
-		squareButton = new SquareButton();
-		toolButtonGroup.add(squareButton);
-		this.add(squareButton);
+            return false;
 
-		circleButton = new CircleButton();
-		toolButtonGroup.add(circleButton);
-		this.add(circleButton);
+        default :
+            break;
+        }
 
-		ellipseButton = new EllipseButton();
-		toolButtonGroup.add(ellipseButton);
-		this.add(ellipseButton);
+        return false;
+    }
 
-		textButton = new TextButton();
-		toolButtonGroup.add(textButton);
-		this.add(textButton);
+    public void unpressAll() {
+        squareButton.getModel().setPressed(false);
+        circleButton.getModel().setPressed(false);
+        lineButton.getModel().setPressed(false);
+        cursorButton.getModel().setPressed(false);
+        ellipseButton.getModel().setPressed(false);
+        textButton.getModel().setPressed(false);
+    }
 
-		textInsertField = new TextInsertField();
-		this.add(textInsertField);
+    public SquareButton getSquareButton() {
+        return squareButton;
+    }
 
-		textSizeField = new TextSizeField();
-		this.add(textSizeField);
-	}
+    public void setSquareButton(SquareButton squareButton) {
+        this.squareButton = squareButton;
+    }
 
-	public TextSizeField getTextSizeField() {
-		return textSizeField;
-	}
+    public ButtonGroup getToolButtonGroup() {
+        return toolButtonGroup;
+    }
 
-	public void setTextSizeField(TextSizeField textSizeField) {
-		this.textSizeField = textSizeField;
-	}
+    public void setToolButtonGroup(ButtonGroup toolButtonGroup) {
+        this.toolButtonGroup = toolButtonGroup;
+    }
 
-	public void press(final DrawModelEnum drawModelEnum) {
-//		unpressAll();
-//		if (drawModelEnum == null) {
-//			cursorButton.getModel().setPressed(true);
-//		} else {
-//			switch (drawModelEnum) {
-//			case SQUARE:
-//				squareButton.getModel().setPressed(true);
-//				break;
-//			case CIRCLE:
-//				circleButton.getModel().setPressed(true);
-//				break;
-//			case LINE:
-//				lineButton.getModel().setPressed(true);
-//				break;
-//			case ELLIPSE:
-//				ellipseButton.getModel().setPressed(true);
-//				break;
-//			case TEXT:
-//				textButton.getModel().setPressed(true);
-//				break;
-//			default:
-//				throw new RuntimeException("Type de bouton non géré");
-//			}
-//		}
-	}
+    public CircleButton getCircleButton() {
+        return circleButton;
+    }
 
-	public boolean isPress(final DrawModelEnum drawModelEnum) {
-		switch (drawModelEnum) {
-		case RECTANGLE:
-			if (squareButton.getModel().isPressed()) {
-				return true;
-			}
-			return false;
-		case CIRCLE:
-			if (circleButton.getModel().isPressed()) {
-				return true;
-			}
-			return false;
-		case LINE:
-			if (lineButton.getModel().isPressed()) {
-				return true;
-			}
-			return false;
-		case ELLIPSE:
-			if (ellipseButton.getModel().isPressed()) {
-				return true;
-			}
-			return false;
-		case TEXT:
-			if (textButton.getModel().isPressed()) {
-				return true;
-			}
-			return false;
-		default:
-			break;
-		}
-		return false;
-	}
+    public void setCircleButton(CircleButton circleButton) {
+        this.circleButton = circleButton;
+    }
 
-	public void unpressAll() {
-		squareButton.getModel().setPressed(false);
-		circleButton.getModel().setPressed(false);
-		lineButton.getModel().setPressed(false);
-		cursorButton.getModel().setPressed(false);
-		ellipseButton.getModel().setPressed(false);
-		textButton.getModel().setPressed(false);
-	}
+    public LineButton getLineButton() {
+        return lineButton;
+    }
 
-	public SquareButton getSquareButton() {
-		return squareButton;
-	}
+    public void setLineButton(LineButton lineButton) {
+        this.lineButton = lineButton;
+    }
 
-	public void setSquareButton(SquareButton squareButton) {
-		this.squareButton = squareButton;
-	}
+    public CursorButton getCursorButton() {
+        return cursorButton;
+    }
 
-	public ButtonGroup getToolButtonGroup() {
-		return toolButtonGroup;
-	}
+    public void setCursorButton(CursorButton cursorButton) {
+        this.cursorButton = cursorButton;
+    }
 
-	public void setToolButtonGroup(ButtonGroup toolButtonGroup) {
-		this.toolButtonGroup = toolButtonGroup;
-	}
+    public ColorPickerButton getColorPickerButton() {
+        return colorPickerButton;
+    }
 
-	public CircleButton getCircleButton() {
-		return circleButton;
-	}
+    public void setColorPickerButton(ColorPickerButton colorPickerButton) {
+        this.colorPickerButton = colorPickerButton;
+    }
 
-	public void setCircleButton(CircleButton circleButton) {
-		this.circleButton = circleButton;
-	}
+    public EllipseButton getEllipseButton() {
+        return ellipseButton;
+    }
 
-	public LineButton getLineButton() {
-		return lineButton;
-	}
+    public void setEllipseButton(EllipseButton ellipseButton) {
+        this.ellipseButton = ellipseButton;
+    }
 
-	public void setLineButton(LineButton lineButton) {
-		this.lineButton = lineButton;
-	}
+    public TextButton getTextButton() {
+        return textButton;
+    }
 
-	public CursorButton getCursorButton() {
-		return cursorButton;
-	}
+    public void setTextButton(TextButton textButton) {
+        this.textButton = textButton;
+    }
 
-	public void setCursorButton(CursorButton cursorButton) {
-		this.cursorButton = cursorButton;
-	}
+    public TextInsertField getTextInsertField() {
+        return textInsertField;
+    }
 
-	public ColorPickerButton getColorPickerButton() {
-		return colorPickerButton;
-	}
-
-	public void setColorPickerButton(ColorPickerButton colorPickerButton) {
-		this.colorPickerButton = colorPickerButton;
-	}
-
-	public EllipseButton getEllipseButton() {
-		return ellipseButton;
-	}
-
-	public void setEllipseButton(EllipseButton ellipseButton) {
-		this.ellipseButton = ellipseButton;
-	}
-
-	public TextButton getTextButton() {
-		return textButton;
-	}
-
-	public void setTextButton(TextButton textButton) {
-		this.textButton = textButton;
-	}
-
-	public TextInsertField getTextInsertField() {
-		return textInsertField;
-	}
-
-	public void setTextInsertField(TextInsertField textInsertField) {
-		this.textInsertField = textInsertField;
-	}
+    public void setTextInsertField(TextInsertField textInsertField) {
+        this.textInsertField = textInsertField;
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com
