@@ -79,7 +79,17 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 \section{Déroulement du protocole}
 \paragraph{}Nous allons maintenant suivre dans cette partie le déroulement du protocole depuis la connexion d'un client jusqu'à la modification du dessin et les répercutions de cette modification sur les autres clients.
 
-\paragraph{}
+\paragraph{}Lorsqu'un client démarre l'application, il se trouve face à une boite de dialogue lui demandant le pseudo qu'il veut utiliser, ainsi que l'adresse du serveur. On ouvre alors une connexion entre le serveur et le client en premier lieu.
 
+Ensuite on test si le pseudo demandé par le client est valide, ceci ce fait en envoyant un message avec la commande CONNECT et le pseudo désiré par le client au serveur. Le serveur test alors l'unicité du pseudonyme, si celui ci est valide : le serveur envoie le message avec la commande ACCEPT au client qui démarre alors l'application de dessin; sinon le serveur envoie le message DENY et le client doit proposer un autre pseudo au serveur.
+
+La connexion entre le serveur et le client étant engagé avant même que le client est réellement démarré l'application de dessin, si le client s'arrête (en fermant la fenêtre de connexion) alors le message DISCONNECT est envoyé au serveur qui s'occupe de rompre la connexion.
+
+
+\paragraph{}Le serveur se met ensuite en attente d'un message du client l'informant qu'il est prêt à recevoir le dessin, l'application pouvant mettre du temps à charger nous devons être sur que tout soit en place pour recevoir et afficher le dessin.
+
+Quand le client à chargé tout ses composants il envoie au serveur le message avec la commande ACCEPT, celui si répond alors en envoyant un message avec la commande UPDATE et comme contenu le dessin SVG qu'il stocke à ce moment. Le client est maintenant correctement connecté et peut alors afficher le dessin, et recevoir les futurs modifications ou demander à prendre la main, etc.
+
+\paragraph{}Lorsque le client qui à la main effectue des modifications alors un message SUBMIT est evnoyé au serveur avec le nouveau dessin SVG comme contenu.
 
 \end{document}
