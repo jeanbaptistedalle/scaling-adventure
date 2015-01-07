@@ -90,7 +90,7 @@ public class Client {
 	 * @param y2
 	 * @return
 	 */
-	private boolean isLegal(final Integer x1, final Integer y1,
+	public boolean isLegal(final Integer x1, final Integer y1,
 			final Integer x2, final Integer y2) {
 		if (x1 != null && x2 != null && y1 != null && y2 != null
 				&& Math.abs(x2 - x1) < 1 && Math.abs(y2 - y1) < 1)

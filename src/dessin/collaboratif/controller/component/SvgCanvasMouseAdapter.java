@@ -361,6 +361,8 @@ public class SvgCanvasMouseAdapter implements MouseListener, MouseMotionListener
     public boolean clickOnText(final int x, final int y, final Node n) {
         final TextNode node;
 
+        //TODO revoir car ne marche pas!
+        
         if (n instanceof TextNode) {
             node = (TextNode) n;
         } else {
