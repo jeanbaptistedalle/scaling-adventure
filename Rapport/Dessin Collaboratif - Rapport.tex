@@ -12,6 +12,7 @@
 
 \usepackage{graphicx}
 \usepackage{epstopdf}
+\usepackage{color}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 
@@ -107,14 +108,14 @@ Nous avons aussi mis en avant quelques normes de développement. En premier lieu
 \paragraph{} Ensuite, nous avons décidé de procéder à un découpage strict des fonctions de l'application : Un composant graphique correspond à une classe. Le listener de ce composant correspond à une autre classe et n'est pas interne au composant afin de bien séparer l'aspect Contrôleur de l'aspect Vue. De façon à bien représenter cette séparation, nous avons ordonné nos packages de la façon suivante : 
 
 \begin{itemize}
-	\item Un composant graphique se trouvera dans le package « dessin.collaboratif.view.component ». Cette hiérarchie est poursuivie par le type de composant. Ainsi, le bouton « Quitter » du menu se trouvera dans « dessin.collaboratif.view.component.menu.item »
-	\item Un contrôleur aura toujours la même hiérarchie de package que le composant auquel il est rattaché, à ceci près que le package view est remplacé par le package controller. Pour l'exemple précédent, la classe permettant d'écouter le clic sur le bouton quitter se trouvera dans « dessin.collaboratif.controller.components.menu.item »
-	\item Une classe JUnit permettant de tester les fonctionnalités d'un composants se trouvera de la même façon dans un package test. Toujours pour l'exemple précédent, une possible classe JUnit permettant de tester la fonction quitter se trouvera dans « dessin.collaboratif.test.components.menu.item »
-	\item Les classes correspondant aux données seront situé dans « dessin.collaboratif.model », néanmoins, les données étant communes à tous les composants, la suite de la hiérarchie est différentes des composants qui l'utilisent.
-	\item La classe GeneralVariables contenant toutes les constantes ainsi que les différentes énumération se trouveront dans « dessin.collaboratif.misc »
+	\item Un composant graphique se trouvera dans le package \texttt{dessin.collaboratif.view.component}. Cette hiérarchie est poursuivie par le type de composant. Ainsi, le bouton « Quitter » du menu se trouvera dans \texttt{dessin.collaboratif.view.component.menu.item}
+	\item Un contrôleur aura toujours la même hiérarchie de package que le composant auquel il est rattaché, à ceci près que le package view est remplacé par le package controller. Pour l'exemple précédent, la classe permettant d'écouter le clic sur le bouton quitter se trouvera dans \texttt{dessin.collaboratif.controller.components.menu.item}
+	\item Une classe JUnit permettant de tester les fonctionnalités d'un composants se trouvera de la même façon dans un package test. Toujours pour l'exemple précédent, une possible classe JUnit permettant de tester la fonction quitter se trouvera dans \texttt{dessin.collaboratif.test.components.menu.item}
+	\item Les classes correspondant aux données seront situé dans \texttt{dessin.collaboratif.model}, néanmoins, les données étant communes à tous les composants, la suite de la hiérarchie est différentes des composants qui l'utilisent.
+	\item La classe GeneralVariables contenant toutes les constantes ainsi que les différentes énumération se trouveront dans \texttt{dessin.collaboratif.misc}
 \end{itemize}
 
-\paragraph{} Finalement, alors que l’arborescence de « dessin.collaboratif » correspond au client, le package « server » correspond au server. Le dernier package « launcher » est le lien entre les deux packages précédent et fournit des classes permettant de lancer le client, le serveur ou les deux.
+\paragraph{} Finalement, alors que l’arborescence de \texttt{dessin.collaboratif} correspond au client, le package \texttt{server} correspond au server. Le dernier package \texttt{launcher} est le lien entre les deux packages précédent et fournit des classes permettant de lancer le client, le serveur ou les deux.
 
 \paragraph{} Bien que cette hiérarchie puisse sembler laborieuse, elle permet très facilement de comprendre la fonction de la classe en question par rapport à l'endroit où elle se situe et l'affichage hiérarchique que fournit la plupart des IDE comme Eclipse permet de s'y déplacer facilement.
 
@@ -173,7 +174,7 @@ Une fois l'analyse terminée, nous avons pu commencer la phase de réalisation. 
 
 Le d\'eveloppement de l'interface s'\'etant r\'ealis\'ee au premier abord sans partie r\'eseau, il subsiste dans le code des \'el\'ements tels que la cr\'eation de nouvelles images ou l'enregistrement de l'image (\`a ne pas confondre avec l'exportation). Nous les avons gard\'es, dans l'hypoth\`ese d'une future am\'elioration permettant une utilisation non collaborative de l'application par exemple. 
 
-La bibliothèque Swing permet l'agencement de projets en MVC. L'utilisation de "controllers" et de "views" a \'et\'e respect\'e. Ainsi, chaque \'el\'em\'ent visuel pr\'esent dans l'application comporte un "controller" qui lui est propre. 
+La bibliothèque Swing permet l'agencement de projets en MVC. L'utilisation de \og controllers \fg et de \og views \fg a \'et\'e respect\'e. Ainsi, chaque \'el\'em\'ent visuel pr\'esent dans l'application comporte un \og controller \fg qui lui est propre. 
 
 L'interface graphique, impl\'ement\'ee avec la bibliothèque Swing, est compos\'ee de 4 zones principales.
 
@@ -189,18 +190,129 @@ Le choix de r\'ealis\'er ces diff\'erentes zones s'est impos\'e petit \`a petit.
 Il y a trois grands types d'actions: 
 
 \begin{itemize}
- \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace \`a un des boutons d\'edi\'es. Ensuite, on r\'ealis\'e un "drag\&drop" ("glisser-d\'eposer" en fran\c{c}ais) sur la zone de dessin.
+ \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace \`a un des boutons d\'edi\'es. Ensuite, on r\'ealis\'e un \og drag\&drop \fg (\og glisser-d\'eposer \fg en fran\c{c}ais) sur la zone de dessin.
  
  \item[Modifier:] On s\'electionne la forme \`a modifier en r\'ealisant un clic sp\'ecial (double clic pour d\'eplacer ou redimensionner, simple clic droit pour modifier le contenu d'un texte) dessus dans la zone de dessin ou en cliquant sur la forme dans la liste. 
  
- \item[Autres:] Les autres actions inclassables sont par exemple "prendre la main" qui permet d'\^etre celui qui dessine.
+ \item[Autres:] Les autres actions inclassables sont par exemple \og prendre la main \fg qui permet d'\^etre celui qui dessine.
 \end{itemize}
+
+\subsubsection{La d\'etection du clic}
+
+Le plus gros morceau d\'evelopp\'e pour cette interface est la fonction  \texttt{public void click(MouseEvent e)} de \texttt{dessin.collaboratif.controller.component.SvgCanvasMouseAdapter}. Celle-ci prend en paramètre un \'ev\'enement de la souris, et va d\'etecter si le click s'est r\'ealis\'e sur une figure pr\'esente sur la zone de dessin. Le principe utilis\'e est celui de la d\'etection de collisions. Pour cela, on s'est servi chaque forme de \texttt{java.awt.geom.*2D} qui repr\'esentent ces formes. Par exemple, une cercle sera repr\'esent\'e par Circle2D. Le choix s'est port\'e sur cette bibliothèque car il permet de repr\'esenter une forme dans un plan et de d\'etecter la pr\'esence ou non d'un point dans cette forme, gr\^ace \`a la m\'ethode \texttt{boolean contains(double x, double y)}. En ce qui concerne le texte, nous avons utilis\'e \texttt{org.apache.batik.gvt.TextNode} avec sa m\'ethode \texttt{boolean contains(Point2D p)} prenant un Point2D (de la bibliothèque vue pr\'ec\'edemment). Tout comme les \texttt{java.awt.geom.*2D}, cette m\'ethode est tr\`es pr\'ecise: il faut cliquer sur la partie pleine d'une lettre pour consid\'erer que le point est contenu. Cliquer sur le \og trou \fg \`a l'int\'erieur d'un D sera consid\'er\'e comme nul.
+
+\subsubsection{L'ajout d'une forme}
+
+Pour pouvoir d\'etecter une forme, il faut tout d'abord l'ajouter. Pour cela, on utilise la technique du \og drag\&drop \fg. Cette derni\`ere consiste un maintenant le clic d'un point A \`a un point B. Le point A est le point o\`u se trouve le curseur au moment de la pression du bouton, le point B quant \`a lui correspond au point o\`u se trouve le curseur au moment de la relaxe de la pression. Ceci d\'efini un segment autour duquel on peut dessiner une forme. 
+
+Dans le cas d'un rectangle, A et B correspondent \`a deux sommets oppos\'es. Pour une ellipse, on consid\`ere un rectangle th\'eorique form\'e par A et B et on dessine l'ellipse inscrit dans ce rectangle. En ce qui concerne le carr\'e\footnote{Le carr\'e a \'et\'e retir\'e des formes pour ne laisser que le rectangle, afin de limiter le nombre d'\'el\'ements dans la barre. Dans une version sup\'erieure, nous pourrons regrouper le carr\'e et le rectangle dans un m\^eme groupe, le cercle et l'ellipse de m\^eme.} (et par le m\^eme principe que pr\'ec\'edemment pour le cercle inscrit), afin de garder la propri\'et\'e \'equilat\'erale, on consid\`ere la coordonn\'ee la plus grande pour \'egaliser son abscisse et son ordonn\'ee. 
+
+De plus, nous avons r\'ealis\'e nos calculs de ces points A et B en fonction de la direction dans laquelle se dirigeait le curseur. L'abscisse de A et B sont le minimum (resp. le maximum) entre l'abscisse de A et l'abscisse de B, idem pour l'ordonn\'ee, ce qui donne un A' (resp. B') utilis\'es pour le dessin de la forme.
+
+\begin{picture}(500,70)(0,-30)
+
+  %Premiere figure
+
+  \put(20,0){
+    \line(1,0){40}
+  }
+  \put(60,0){
+    \line(0,1){30}
+  }
+  \put(60,30){
+    \line(-1,0){40}
+  }
+  \put(20,30){
+    \line(0,-1){30}
+  }
+  \put(20,0){
+    \vector(4,3){40}
+  }
+  \put(0,-10){
+    \tiny{D\'ebut du clic}
+  }
+  \put(50,35){
+    \tiny{Fin du clic}
+  }
+
+  % Deuxieme figure
+
+  \put(160,0){
+    \line(1,0){40}
+  }
+  \put(200,0){
+    \line(0,1){30}
+  }
+  \put(200,30){
+    \line(-1,0){40}
+  }
+  \put(160,30){
+    \line(0,-1){30}
+  }
+  \put(160,0){
+    \vector(4,3){40}
+  }
+  \put(140,-10){
+    \tiny{D\'ebut du clic}
+  }
+  \put(210,35){
+    \tiny{Fin du clic}
+  }
+  \put(150,35){
+    \tiny{A'}
+  }
+  \put(205,-10){
+    \tiny{B'}
+  }
+
+
+
+  % Troisieme figure
+
+  \put(300,0){
+    \line(1,0){40}
+  }
+  \put(340,0){
+    \line(0,1){30}
+  }
+  \put(340,30){
+    \line(-1,0){40}
+  }
+  \put(300,30){
+    \line(0,-1){30}
+  }
+  \put(300,0){
+    \vector(4,3){40}
+  }
+  \textcolor{red}{
+    \put(300,30){
+      \vector(4,-3){40}
+    }
+  }
+  \put(280,-10){
+    \tiny{D\'ebut du clic}
+  }
+  \put(350,35){
+    \tiny{Fin du clic}
+  }
+  \put(290,35){
+    \tiny{A'}
+  }
+  \put(345,-10){
+    \tiny{B'}
+  }
+
+\end{picture}
+
+\subsubsection{L'utilisation de Batik}
+
+Pour afficher ces formes, nous nous sommes servi utilis\'e la bibliothèque Batik qui fournit un JSVGCanvas, sous-classe de JComponent de la bibliothèque Swing. JSVGCanvas permet d'afficher un SVG tr\`es simplement car il \og parse \fg le fichier et affiche ses \'el\'ements. En effet, il est \`a rappeler que le SVG n'est pas un format d'image matricielle mais vectorielle dont la description est bas\'ee sur XML. Cependant, ce traitement est tr\`es co\^uteux. Une fois l'application presque viable, nous avons souhait\'e la rendre plus intuitive en affichant \`a chaque mouvement du \og drag\&drop \fg la forme telle qu'elle serait si l'utilisateur relâchait la pression. Un traitement de l'image est donc r\'ealis\'ee \`a chaque mouvement de la souris. Cela induit un effet de clignotement de la zone de dessin. JSVGCanvas ne g\'erant pas le double buffering, il aurait \'et\'e n\'ecessaire de changer de bibliothèque, mais la date finale approchant et l'optimisation graphique n'\'etant pas un enjeux capital dans ce projet, nous avons plac\'e cette t\^ache dans les moins prioritaires. 
 
 \subsubsection{Les probl\`emes rencontr\'es}
 
 Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En effet, ce dernier permet l'affichage simplifi\'e d'un svg dans Swing. Cependant \`a chaque rafra\^ichissement de la vue, il relit le SVG pour le r\'einterpr\'eter en entier. Ainsi cela rend inutile le double buffering et induit un effet de scintillement lors du dessin. 
 
-De plus, dans un soucis de respect des d\'elais, le d\'eplacement et le redimensionnement des formes s'effectuent par le biais de boutons et non par "drag\&drop".
+De plus, dans un soucis de respect des d\'elais, le d\'eplacement et le redimensionnement des formes s'effectuent par le biais de boutons et non par \og drag\&drop \fg.
 
 \subsection{Réseau}
 
@@ -307,14 +419,14 @@ Lorsque le client A a la main, il va donc renvoyer la totalité du dessin à cha
 Le serveur va ensuite transmettre l'image mise à jour à tous les clients (c'est aussi par ce procédé que le client reçoit l'image après sa connexion). De la même façon, pour éviter des problèmes de synchronisation, le dessin est transmis en entier à chaque fois. Le message sera [ SERVER ; UPDATE ; nouveau\_dessin ].
 
 \subsubsection{Déconnexion}
-Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur par un message [ A ; DISCONNECT ; ], pour éviter que le serveur continue d'écouter sur un socket "vide". Il peut ensuite se déconnecter sans risque : en effet, l'emploi du protocole TCP pour acheminer les messages permet d'être sûr que le serveur a bien reçu cette annonce de déconnexion.
+Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur par un message [ A ; DISCONNECT ; ], pour éviter que le serveur continue d'écouter sur un socket \og vide \fg. Il peut ensuite se déconnecter sans risque : en effet, l'emploi du protocole TCP pour acheminer les messages permet d'être sûr que le serveur a bien reçu cette annonce de déconnexion.
 
 \subsection{Branchement Interface et Réseau}
 
 
 \section{Recette}
 
-Les test unitaires n'\'etant pas enseign\'es dans notre formation, il s'agissait en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit. Le temps manquant, nous n'avons compos\'e des tests que pour la classe Client de l'interface et quelques autres classes de la partie serveur. 
+Les test unitaires n'\'etant pas enseign\'es dans notre formation, il s'agissait en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit. Le temps manquant, nous n'avons compos\'e des tests que pour la classe Client de l'interface et quelques autres classes de la partie serveur. Finalement, r\'ealiser ces quelques tests nous ont permis d'\'eviter les r\'egressions de code, c'est-\`a-dire \'eviter qu'une modification ou une am\'elioration d'une ou plusieurs fonctions ne r\'epondent plus \`a tous les cas d'utilisation. 
 
 \section{Gestion de projet}
 Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés.
