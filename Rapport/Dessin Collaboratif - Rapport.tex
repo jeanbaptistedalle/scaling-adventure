@@ -314,11 +314,11 @@ Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En ef
 
 De plus, dans un soucis de respect des d\'elais, le d\'eplacement et le redimensionnement des formes s'effectuent par le biais de boutons et non par \og drag\&drop \fg.
 
-\subsection{Réseau}
+\subsection{Protocole Réseau}
 
 \paragraph{} Nous allons décrire dans la suite de ce document le protocole mis en place au sein de l'application de dessin collaboratif. Le protocole à été mis en place afin de permettre la connexion et la déconnexion d'un utilisateur, la transmission du dessin en temps réel entre tous les utilisateurs de l'application, la prise de contrôle sur le dessin en cours d'un utilisateur, etc... 
 
-\subsection{Format des messages échangés.}
+\subsubsection{Format des messages échangés}
 Afin de communiquer entre les clients et le serveurs nous avons définis un format précis de messages à envoyer qui permettra de savoir qui a envoyé le message d'une part et de faire passer une commande / une instructions et éventuellement (suivant le type de la commande) des paramètres ou des informations complémentaires.
 
 
@@ -336,7 +336,7 @@ Afin de communiquer entre les clients et le serveurs nous avons définis un form
 
 \paragraph{}Le format ainsi construit des message nous permet donc aisément de savoir qui à envoyé le message et donc de lui répondre, d'envoyer des informations au client ou au serveur. Cela permet aussi au serveur d'envoyer des ordres aux clients (Le serveur peut indiquer à tout les clients que c'est au tour de tel client de prendre le contrôle du dessin), ainsi qu'au client d'envoyer des demandes au serveur (Le client peut demander à prendre la main par exemple).
 
-\subsection{Types de messages échangés.}
+\subsubsection{Types de messages échangés}
 \paragraph{}Afin de faire fonctionner notre application nous avons mis en place 13 commandes différentes qui vont être échangées entre les clients et la serveur.
 
 \paragraph{}\begin{itemize}
@@ -369,7 +369,7 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 \item JOIN$\_$ROOM : Cette commande est utilisé par le client pour indiquer au serveur quelle room il veut rejoindre, et donc sur quel dessin il veut travailler.
 \end{itemize}
 
-\subsection{Déroulement du protocole}
+\subsection{Déroulement du protocole réseau}
 \paragraph{}Nous allons maintenant suivre dans cette partie le déroulement du protocole depuis la connexion d'un client jusqu'à la modification du dessin et les répercutions de cette modification sur les autres clients.
 
 \paragraph{}Ce protocole peut se diviser en 3 phases : 
@@ -422,7 +422,25 @@ Le serveur va ensuite transmettre l'image mise à jour à tous les clients (c'es
 Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur par un message [ A ; DISCONNECT ; ], pour éviter que le serveur continue d'écouter sur un socket \og vide \fg. Il peut ensuite se déconnecter sans risque : en effet, l'emploi du protocole TCP pour acheminer les messages permet d'être sûr que le serveur a bien reçu cette annonce de déconnexion.
 
 \subsection{Branchement Interface et Réseau}
+Comme nous l'avons dit précédemment nous avons fait le choix de développer l'application en deux parties bien distincte. D'un côté l'interface utilisateur et de l'autre la partie réseau, il à donc fallut à un moment réunir ces deux partie du programme pour arriver au résultat souhaiter à savoir, l'application de dessin collaboratif.
 
+La partie réseau ayant été codé comme une sorte de mini-API, nous n'avons eu qu'à utiliser les fonctions de communications préparées à certains emplacements clef de la partie interface, c'est à dire dans la partie Controller du modèle MVC.
+
+\paragraph{} Même si de cette manière la tâche nous à été grandement simplifié c'est aussi à ce moment que nous nous sommes rendu compte que certaines choses avait été oubliées ou mal pensées dans notre application, et il a donc fallut revoir et développer de nouvelle choses.
+
+\paragraph{} Par exemple nous nous sommes rendu compte qu'il fallait un certain temps à l'application pour charger l'interface et que si le serveur envoyait directement au client le dessin avant que l'interface ne soit chargée complètement alors certaines exception remontaient. Nous avons donc modifier légèrement notre protocole afin que le client envoie au serveur un message pour indiquer qu'il est près à recevoir le dessin.
+
+\paragraph{} Nous avons également modifié certaine action des boutons du menu, comme par exemple le bouton nouveau qui avant la mise en commun des deux parties de l'application créait un nouveau dessin et demandais donc un noms de fichier à l'utilisateur pur l'enregistrer sur l'ordinateur, maintenant ce bouton remet simplement le dessin à une page blanche, comme c'est le serveur qui stocke le dessin on le fait simplement repartir d'un nouveau dessin vide.
+
+\paragraph{} Nous avons également ajouté une icône indiquant à l'utilisateur si il à la main ou non, comme avant la mise en commun il n'y avait pas ce problème de prise de main, le besoin de la fonctionnalité était passé inaperçu.
+
+\paragraph{} Nous avons également du réfléchir à ce qui ce passait lorsqu'un client en train de dessiné, c'est à dire avec le bouton gauche de la souris appuyé, perdait la main.
+
+En effet cela peut très bien arrivé puisque, nous avons fait le choix de changer le client qui à la main aussitôt que le temps de prise de contrôle est écoulée. Une autre option aurait été de laisser le contrôle tant que le client à le bouton de la souris appuyé, mais cela compliquait la tâche si le client gardait indéfiniment enfoncé le bouton de sa souris et nous avons donc choisi l'autre option.
+
+Il s'est avéré qu'avec ce choix il y avait un décalage lorsque le client perdait la main, car de la façon dont l'application était codée la perte de contrôle du client faisait que la forme en cours de dessin, au moment de la perte de contrôle, était dessinée du côté du client mais non envoyée sur le serveur (le forme disparaissait ensuite avec la modification suivante par le prochain client ayant la main). Comme nous ne voulions pas envoyer au serveur un forme non terminé par le client et que nous voulions évité que le client croit que la forme qu'il dessinait avait été envoyé, nous avons du modifier de nouveau très légèrement notre protocole pour que le client qui perd la main reçoive le dessin stocké sur le serveur à la fin du temps qu'il lui était imparti, afin de gommer les éventuelles modifications qui n'auraient été que locales.
+
+\paragraph{} L'écriture très modulaire du code et la séparation bien précise des différents éléments de l'application nous à donc été grandement utile pour corriger ces problèmes assez rapidement et sans avoir à ré-écrire les différentes fonctions déjà écrites.
 
 \section{Recette}
 
