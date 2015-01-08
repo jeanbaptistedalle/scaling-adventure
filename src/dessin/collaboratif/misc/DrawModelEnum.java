@@ -1,59 +1,58 @@
 package dessin.collaboratif.misc;
 
+//~--- JDK imports ------------------------------------------------------------
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Enum des formes dessinables  
+ * Enum des formes dessinables
  */
 public enum DrawModelEnum {
-	CIRCLE("circle"),
+    CIRCLE("circle"), RECTANGLE("rect"), LINE("line"), ELLIPSE("ellipse"), TEXT("text");
 
-	RECTANGLE("rect"),
+    @SuppressWarnings("FieldMayBeFinal")
+    private String tagName;
 
-	LINE("line"),
+    private DrawModelEnum(final String tagName) {
+        this.tagName = tagName;
+    }
 
-	ELLIPSE("ellipse"),
-	
-	TEXT("text");
+    public String getTagName() {
+        return tagName;
+    }
 
-        @SuppressWarnings("FieldMayBeFinal")
-	private String tagName;
+    /**
+     * @return la liste des valeurs de l'enum
+     */
+    public static List<DrawModelEnum> getAll() {
+        @SuppressWarnings("Convert2Diamond") List<DrawModelEnum> list = new ArrayList<DrawModelEnum>();
 
-	private DrawModelEnum(final String tagName) {
-		this.tagName = tagName;
-	}
+        list.add(CIRCLE);
+        list.add(ELLIPSE);
+        list.add(LINE);
+        list.add(RECTANGLE);
+        list.add(TEXT);
 
-	public String getTagName() {
-		return tagName;
-	}
+        return list;
+    }
 
-	/**
-	 * @return la liste des valeurs de l'enum
-	 */
-	public static List<DrawModelEnum> getAll() {
-                @SuppressWarnings("Convert2Diamond")
-		List<DrawModelEnum> list = new ArrayList<DrawModelEnum>();
-		list.add(CIRCLE);
-		list.add(ELLIPSE);
-		list.add(LINE);
-		list.add(RECTANGLE);
-		list.add(TEXT);
-		return list;
-	}
+    /**
+     * Methode retournant l'Enum correspondant à une chaine de caracteres
+     *
+     * @param tagName la chaine de caracteres
+     * @return l'enum correspodnant, null sinon
+     */
+    public static DrawModelEnum evaluate(final String tagName) {
+        for (DrawModelEnum model : getAll()) {
+            if (model.getTagName().equals(tagName)) {
+                return model;
+            }
+        }
 
-	/**
-	 * Methode retournant l'Enum correspondant à une chaine de caracteres
-	 * 
-	 * @param tagName la chaine de caracteres
-	 * @return l'enum correspodnant, null sinon
-	 */
-	public static DrawModelEnum evaluate(final String tagName) {
-		for (DrawModelEnum model : getAll()) {
-			if (model.getTagName().equals(tagName)) {
-				return model;
-			}
-		}
-		return null;
-	}
+        return null;
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

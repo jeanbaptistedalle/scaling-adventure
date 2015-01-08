@@ -2,18 +2,20 @@ package dessin.collaboratif.controller.component;
 
 //~--- non-JDK imports --------------------------------------------------------
 
+import dessin.collaboratif.misc.ScaleEnum;
+import dessin.collaboratif.model.Client;
+import dessin.collaboratif.view.component.MainFrame;
+
+//~--- JDK imports ------------------------------------------------------------
+
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JToggleButton;
-
-import dessin.collaboratif.misc.ScaleEnum;
-import dessin.collaboratif.model.Client;
-import dessin.collaboratif.view.component.MainFrame;
-//~--- JDK imports ------------------------------------------------------------
-import java.awt.event.MouseEvent;
 
 /**
  * Adapteur des boutons de la fenetre de deplacement/redimensionnement

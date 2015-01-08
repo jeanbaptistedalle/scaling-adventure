@@ -4,23 +4,20 @@ package dessin.collaboratif.misc;
  * Enum des directions possibles d'un déplacement
  */
 public enum DirectionEnum {
-	UP("up"),
+    UP("up"), DOWN("down"), LEFT("left"), RIGHT("right");
 
-	DOWN("down"),
+    @SuppressWarnings("FieldMayBeFinal")
+    private String tagName;
 
-	LEFT("left"),
+    private DirectionEnum(final String name) {
+        tagName = name;
+    }
 
-	RIGHT("right");
-
-        @SuppressWarnings("FieldMayBeFinal")
-	private String tagName;
-	
-	private DirectionEnum(final String name){
-		tagName = name;
-	}
-	
-	@Override
-	public String toString() {
-		return tagName;
-	}
+    @Override
+    public String toString() {
+        return tagName;
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

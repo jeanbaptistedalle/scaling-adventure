@@ -25,11 +25,10 @@
 \abstract{ Nous allons décrire dans la suite de ce document le protocole mis en place au sein de l'application de dessin collaboratif. Le protocole à été mis en place afin de permettre la connexion et la déconnexion d'un utilisateur, la transmission du dessin en temps réel entre tous les utilisateurs de l'application, la prise de contrôle sur le dessin en cours d'un utilisateur, etc... }
 
 
-\section{Format des messages échangés.}
+\subsection{Format des messages échangés.}
 Afin de communiquer entre les clients et le serveurs nous avons définis un format précis de messages à envoyer qui permettra de savoir qui a envoyé le message d'une part et de faire passer une commande / une instructions et éventuellement (suivant le type de la commande) des paramètres ou des informations complémentaires. \\ \\
 
-
-\includegraphics[scale=0.5]{message.png}
+%\includegraphics[scale=0.5]{message.png}
 
 \paragraph{}Les messages sont donc constitués de quatre parties : 
 \begin{itemize}
@@ -44,7 +43,7 @@ Afin de communiquer entre les clients et le serveurs nous avons définis un form
 
 \paragraph{}Le format ainsi construit des message nous permet donc aisément de savoir qui à envoyé le message et donc de lui répondre, d'envoyer des informations au client ou au serveur. Cela permet aussi au serveur d'envoyer des ordres aux clients (Le serveur peut indiquer à tout les clients que c'est au tour de tel client de prendre le contrôle du dessin), ainsi qu'au client d'envoyer des demandes au serveur (Le client peut demander à prendre la main par exemple).
 
-\section{Types de messages échangés.}
+\subsection{Types de messages échangés.}
 \paragraph{}Afin de faire fonctionner notre application nous avons mis en place 13 commandes différentes qui vont être échangées entre les clients et la serveur.
 
 
@@ -78,7 +77,7 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 \item JOIN$\_$ROOM : Cette commande est utilisé par le client pour indiquer au serveur quelle room il veut rejoindre, et donc sur quel dessin il veut travailler.
 \end{itemize}
 
-\section{Déroulement du protocole}
+\subsection{Déroulement du protocole}
 \paragraph{}Nous allons maintenant suivre dans cette partie le déroulement du protocole depuis la connexion d'un client jusqu'à la modification du dessin et les répercutions de cette modification sur les autres clients.
 
 \paragraph{}Ce protocole peut se diviser en 3 phases : 
@@ -92,9 +91,10 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 	\item[3] La déconnexion du client, annoncée par un message spécifique
 \end{itemize}
 
+
 \textit{Dans ce chapitre, les messages seront décrits sous la forme [ expéditeur ; type ; contenu ] pour plus de lisibilité}
 
-\subsection{Connexion}
+\subsubsection{Connexion}
 On suppose que le client A veut se connecter à un serveur, sur lequel sont déjà les clients B et C.
 \begin{itemize}
 	\item[1] A envoie une demande de connexion au serveur, du type [ A ; CONNECT ; mon\_pseudo ]
@@ -103,10 +103,22 @@ On suppose que le client A veut se connecter à un serveur, sur lequel sont déj
 	\item[3] Comme le client prend un certain temps (variable selon la machine employée) pour préparer son interface, le serveur attends de lui un message de confirmation [ A ; ACCEPT ; ], qui indiquera que la transmission des données de dessin peut commencer
 \end{itemize}
 
-\subsection{Échanges de données entre clients par le serveur}
+\paragraph{}Lorsqu'un client démarre l'application, il se trouve face à une boite de dialogue lui demandant le pseudo qu'il veut utiliser, ainsi que l'adresse du serveur. On ouvre alors une connexion entre le serveur et le client en premier lieu.
+
+Ensuite on test si le pseudo demandé par le client est valide, ceci ce fait en envoyant un message avec la commande CONNECT et le pseudo désiré par le client au serveur. Le serveur test alors l'unicité du pseudonyme, et renvoie le message approprié.
+
+La connexion entre le serveur et le client étant engagé avant même que le client est réellement démarré l'application de dessin, si le client s'arrête (en fermant la fenêtre de connexion) alors le message DISCONNECT est envoyé au serveur qui s'occupe de rompre la connexion.
+
+
+\paragraph{}Le serveur se met ensuite en attente d'un message du client l'informant qu'il est prêt à recevoir le dessin, l'application pouvant mettre du temps à charger nous devons être sur que tout soit en place pour recevoir et afficher le dessin.
+
+Quand le client à chargé tout ses composants il envoie au serveur le message avec la commande ACCEPT, celui si répond alors en envoyant un message avec la commande UPDATE et comme contenu le dessin SVG qu'il stocke à ce moment. Le client est maintenant correctement connecté et peut alors afficher le dessin, et recevoir les futurs modifications ou demander à prendre la main, etc
+
 \subsubsection{Processus de prise de main}
-Afin de pouvoir modifier le dessin, le client A doit avoir la main sur son serveur. Pour cela, il va la demander en envoyant un message [ A ; REQUEST\_CTRL ; ]. \\
-Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main. \\
+Afin de pouvoir modifier le dessin, le client A doit avoir la main sur son serveur. Pour cela, il va la demander en envoyant un message [ A ; REQUEST\_CTRL ; ].
+
+Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main.
+
 Après 30 secondes, le serveur fait savoir au client A que son temps est écoulé, et fait savoir par la même occasion aux autres clients que A n'a plus la main par le message [ SERVER ; LEAVE\_CTRL ; A ].
 
 \subsubsection{Envoi de données par le clients ayant la main}
@@ -115,7 +127,7 @@ Lorsque le client A a la main, il va donc renvoyer la totalité du dessin à cha
 \subsubsection{Transmission de l'image du serveur au client}
 Le serveur va ensuite transmettre l'image mise à jour à tous les clients (c'est aussi par ce procédé que le client reçoit l'image après sa connexion). De la même façon, pour éviter des problèmes de synchronisation, le dessin est transmis en entier à chaque fois. Le message sera [ SERVER ; UPDATE ; nouveau\_dessin ].
 
-\subsection{Déconnexion}
+\subsubsection{Déconnexion}
 Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur par un message [ A ; DISCONNECT ; ], pour éviter que le serveur continue d'écouter sur un socket "vide". Il peut ensuite se déconnecter sans risque : en effet, l'emploi du protocole TCP pour acheminer les messages permet d'être sûr que le serveur a bien reçu cette annonce de déconnexion.
 
 \end{document}
