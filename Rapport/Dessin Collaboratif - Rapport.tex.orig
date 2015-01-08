@@ -190,13 +190,18 @@ Le choix de r\'ealis\'er ces diff\'erentes zones s'est impos\'e petit \`a petit.
 Il y a trois grands types d'actions: 
 
 \begin{itemize}
+<<<<<<< HEAD
  \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace \`a un des boutons d\'edi\'es. Ensuite, on r\'ealis\'e un \og drag\&drop \fg (\og glisser-d\'eposer \fg en fran\c{c}ais) sur la zone de dessin.
+=======
+ \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace au des boutons d\'edi\'es. Ensuite, on r\'ealise un "drag\&drop" ("glisser-d\'eposer" en fran\c{c}ais) sur la zone de dessin.
+>>>>>>> f3af69cfb391d71a1ccd0230d57f2d0bde4ef1a1
  
  \item[Modifier:] On s\'electionne la forme \`a modifier en r\'ealisant un clic sp\'ecial (double clic pour d\'eplacer ou redimensionner, clic droit pour modifier le contenu d'un texte) dessus dans la zone de dessin ou en cliquant sur la forme dans la liste. 
  
  \item[Autres:] Les autres actions inclassables sont par exemple \og prendre la main \fg qui permet d'\^etre celui qui dessine.
 \end{itemize}
 
+<<<<<<< HEAD
 \subsubsection{La d\'etection du clic}
 
 Le plus gros morceau d\'evelopp\'e pour cette interface est la fonction  \texttt{public void click(MouseEvent e)} de \texttt{dessin.collaboratif.controller.component.SvgCanvasMouseAdapter}. Celle-ci prend en paramètre un \'ev\'enement de la souris, et va d\'etecter si le click s'est r\'ealis\'e sur une figure pr\'esente sur la zone de dessin. Le principe utilis\'e est celui de la d\'etection de collisions. Pour cela, on s'est servi chaque forme de \texttt{java.awt.geom.*2D} qui repr\'esentent ces formes. Par exemple, une cercle sera repr\'esent\'e par Circle2D. Le choix s'est port\'e sur cette bibliothèque car il permet de repr\'esenter une forme dans un plan et de d\'etecter la pr\'esence ou non d'un point dans cette forme, gr\^ace \`a la m\'ethode \texttt{boolean contains(double x, double y)}. En ce qui concerne le texte, nous avons utilis\'e \texttt{org.apache.batik.gvt.TextNode} avec sa m\'ethode \texttt{boolean contains(Point2D p)} prenant un Point2D (de la bibliothèque vue pr\'ec\'edemment). Tout comme les \texttt{java.awt.geom.*2D}, cette m\'ethode est tr\`es pr\'ecise: il faut cliquer sur la partie pleine d'une lettre pour consid\'erer que le point est contenu. Cliquer sur le \og trou \fg \`a l'int\'erieur d'un D sera consid\'er\'e comme nul.
@@ -308,7 +313,10 @@ De plus, nous avons r\'ealis\'e nos calculs de ces points A et B en fonction de 
 
 Pour afficher ces formes, nous nous sommes servi utilis\'e la bibliothèque Batik qui fournit un JSVGCanvas, sous-classe de JComponent de la bibliothèque Swing. JSVGCanvas permet d'afficher un SVG tr\`es simplement car il \og parse \fg le fichier et affiche ses \'el\'ements. En effet, il est \`a rappeler que le SVG n'est pas un format d'image matricielle mais vectorielle dont la description est bas\'ee sur XML. Cependant, ce traitement est tr\`es co\^uteux. Une fois l'application presque viable, nous avons souhait\'e la rendre plus intuitive en affichant \`a chaque mouvement du \og drag\&drop \fg la forme telle qu'elle serait si l'utilisateur relâchait la pression. Un traitement de l'image est donc r\'ealis\'ee \`a chaque mouvement de la souris. Cela induit un effet de clignotement de la zone de dessin. JSVGCanvas ne g\'erant pas le double buffering, il aurait \'et\'e n\'ecessaire de changer de bibliothèque, mais la date finale approchant et l'optimisation graphique n'\'etant pas un enjeux capital dans ce projet, nous avons plac\'e cette t\^ache dans les moins prioritaires. 
 
+\subsubsection{Les probl\`emes rencontr\'es}
+=======
 \subsubsection{Probl\`emes rencontr\'es}
+>>>>>>> f3af69cfb391d71a1ccd0230d57f2d0bde4ef1a1
 
 Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En effet, cette classe permet l'affichage d'un svg dans un composant Swing. Cependant \`a chaque rafra\^ichissement de la vue, le JSVGCanvas relit le SVG pour le r\'einterpr\'eter en entier. Un svg n'étant initialement pas fait pour être modifié, le double buffering n'a pas été implémenté pour ce composant ce qui induit un effet de scintillement lors du dessin. 
 
@@ -426,7 +434,11 @@ Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur pa
 
 \section{Recette}
 
+<<<<<<< HEAD
+Les test unitaires n'\'etant pas enseign\'es dans notre formation, il s'agissait en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit. Le temps manquant, nous n'avons compos\'e des tests que pour la classe Client de l'interface et quelques autres classes de la partie serveur. Finalement, r\'ealiser ces quelques tests nous ont permis d'\'eviter les r\'egressions de code, c'est-\`a-dire \'eviter qu'une modification ou une am\'elioration d'une ou plusieurs fonctions ne r\'epondent plus \`a tous les cas d'utilisation. 
+=======
 Les test unitaires n'\'etant pas enseign\'es dans notre formation, il a fallu en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions jugées critiques notamment au niveau du Modèle et du serveur mais n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit et supposent que les classes fournies par la biblioth\`eque Swing sont susceptible de ne pas fonctionner correctement. Nous avons donc suppos\'e infaillible cette biblioth\`eque.
+>>>>>>> f3af69cfb391d71a1ccd0230d57f2d0bde4ef1a1
 
 \section{Gestion de projet}
 Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés.

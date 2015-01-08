@@ -179,20 +179,20 @@ La bibliothèque Swing permet l'agencement de projets en MVC. L'utilisation de \
 L'interface graphique, impl\'ement\'ee avec la bibliothèque Swing, est compos\'ee de 4 zones principales.
 
 \begin{description}
- \item[La zone de menu] permet d'acc\'eder \`a un ensemble d'actions telles que la fermeture de l'application ou la demande de main;
- \item[La barre de dessin] permet de s\'electionner la fonction du curseur sur la zone de dessin;
+ \item[La zone de menu] permet d'acc\'eder \`a un ensemble d'actions telles que la fermeture de l'application ou demander la main;
+ \item[La barre de dessin] permet s\'electionner la fonction du curseur sur la zone de dessin;
  \item[La zone de dessin] affiche le dessin et chaque clic r\'ealis\'e sur cette surface actionnera la fonction d\'esir\'ee (ajout de forme, \ldots) ;
  \item[La liste des formes] recense les formes dessin\'ees sur la zone de dessin.
 \end{description}
 
-Le choix de r\'ealis\'er ces diff\'erentes zones s'est impos\'e petit \`a petit. N'utiliser qu'une barre de menu pour choisir les diff\'erentes formes ou leur couleur devenait r\'ebarbatif. Avoir un panel de boutons sous la main s'est r\'ev\'el\'e plus intuitif. De plus, ajouter une liste des formes composant le dessin permet de plus facilement s\'electionner un \'el\'ement. Une ligne d'un pixel d'\'epaisseur est difficile \`a s\'electionner, tout autant qu'un \'el\'ement cach\'e par un autre. 
+Le choix de r\'ealis\'er ces diff\'erentes zones s'est impos\'e petit \`a petit. N'utilisez qu'une barre de menu pour choisir les diff\'erentes formes ou sa couleur devenait r\'ebarbatif. Avoir un panel de boutons sous la main s'est r\'ev\'el\'e plus intuitif. De plus, ajouter une liste des formes composant le dessin permet de plus facilement s\'electionner un \'el\'ement. Une ligne d'un pixel d'\'epaisseur est difficile \`a s\'electionner, tout autant qu'un \'el\'ement cach\'e par un autre. 
 
 Il y a trois grands types d'actions: 
 
 \begin{itemize}
  \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace \`a un des boutons d\'edi\'es. Ensuite, on r\'ealis\'e un \og drag\&drop \fg (\og glisser-d\'eposer \fg en fran\c{c}ais) sur la zone de dessin.
  
- \item[Modifier:] On s\'electionne la forme \`a modifier en r\'ealisant un clic sp\'ecial (double clic pour d\'eplacer ou redimensionner, clic droit pour modifier le contenu d'un texte) dessus dans la zone de dessin ou en cliquant sur la forme dans la liste. 
+ \item[Modifier:] On s\'electionne la forme \`a modifier en r\'ealisant un clic sp\'ecial (double clic pour d\'eplacer ou redimensionner, simple clic droit pour modifier le contenu d'un texte) dessus dans la zone de dessin ou en cliquant sur la forme dans la liste. 
  
  \item[Autres:] Les autres actions inclassables sont par exemple \og prendre la main \fg qui permet d'\^etre celui qui dessine.
 \end{itemize}
@@ -208,6 +208,10 @@ Pour pouvoir d\'etecter une forme, il faut tout d'abord l'ajouter. Pour cela, on
 Dans le cas d'un rectangle, A et B correspondent \`a deux sommets oppos\'es. Pour une ellipse, on consid\`ere un rectangle th\'eorique form\'e par A et B et on dessine l'ellipse inscrit dans ce rectangle. En ce qui concerne le carr\'e\footnote{Le carr\'e a \'et\'e retir\'e des formes pour ne laisser que le rectangle, afin de limiter le nombre d'\'el\'ements dans la barre. Dans une version sup\'erieure, nous pourrons regrouper le carr\'e et le rectangle dans un m\^eme groupe, le cercle et l'ellipse de m\^eme.} (et par le m\^eme principe que pr\'ec\'edemment pour le cercle inscrit), afin de garder la propri\'et\'e \'equilat\'erale, on consid\`ere la coordonn\'ee la plus grande pour \'egaliser son abscisse et son ordonn\'ee. 
 
 De plus, nous avons r\'ealis\'e nos calculs de ces points A et B en fonction de la direction dans laquelle se dirigeait le curseur. L'abscisse de A et B sont le minimum (resp. le maximum) entre l'abscisse de A et l'abscisse de B, idem pour l'ordonn\'ee, ce qui donne un A' (resp. B') utilis\'es pour le dessin de la forme.
+
+\subsubsection{L'utilisation de Batik}
+
+Pour afficher ces formes, nous nous sommes servi utilis\'e la bibliothèque Batik qui fournit un JSVGCanvas, une 
 
 \begin{picture}(500,70)(0,-30)
 
@@ -304,13 +308,9 @@ De plus, nous avons r\'ealis\'e nos calculs de ces points A et B en fonction de 
 
 \end{picture}
 
-\subsubsection{L'utilisation de Batik}
+\subsubsection{Les probl\`emes rencontr\'es}
 
-Pour afficher ces formes, nous nous sommes servi utilis\'e la bibliothèque Batik qui fournit un JSVGCanvas, sous-classe de JComponent de la bibliothèque Swing. JSVGCanvas permet d'afficher un SVG tr\`es simplement car il \og parse \fg le fichier et affiche ses \'el\'ements. En effet, il est \`a rappeler que le SVG n'est pas un format d'image matricielle mais vectorielle dont la description est bas\'ee sur XML. Cependant, ce traitement est tr\`es co\^uteux. Une fois l'application presque viable, nous avons souhait\'e la rendre plus intuitive en affichant \`a chaque mouvement du \og drag\&drop \fg la forme telle qu'elle serait si l'utilisateur relâchait la pression. Un traitement de l'image est donc r\'ealis\'ee \`a chaque mouvement de la souris. Cela induit un effet de clignotement de la zone de dessin. JSVGCanvas ne g\'erant pas le double buffering, il aurait \'et\'e n\'ecessaire de changer de bibliothèque, mais la date finale approchant et l'optimisation graphique n'\'etant pas un enjeux capital dans ce projet, nous avons plac\'e cette t\^ache dans les moins prioritaires. 
-
-\subsubsection{Probl\`emes rencontr\'es}
-
-Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En effet, cette classe permet l'affichage d'un svg dans un composant Swing. Cependant \`a chaque rafra\^ichissement de la vue, le JSVGCanvas relit le SVG pour le r\'einterpr\'eter en entier. Un svg n'étant initialement pas fait pour être modifié, le double buffering n'a pas été implémenté pour ce composant ce qui induit un effet de scintillement lors du dessin. 
+Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En effet, ce dernier permet l'affichage simplifi\'e d'un svg dans Swing. Cependant \`a chaque rafra\^ichissement de la vue, il relit le SVG pour le r\'einterpr\'eter en entier. Ainsi cela rend inutile le double buffering et induit un effet de scintillement lors du dessin. 
 
 De plus, dans un soucis de respect des d\'elais, le d\'eplacement et le redimensionnement des formes s'effectuent par le biais de boutons et non par \og drag\&drop \fg.
 
@@ -426,7 +426,7 @@ Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur pa
 
 \section{Recette}
 
-Les test unitaires n'\'etant pas enseign\'es dans notre formation, il a fallu en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions jugées critiques notamment au niveau du Modèle et du serveur mais n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit et supposent que les classes fournies par la biblioth\`eque Swing sont susceptible de ne pas fonctionner correctement. Nous avons donc suppos\'e infaillible cette biblioth\`eque.
+Les test unitaires n'\'etant pas enseign\'es dans notre formation, il s'agissait en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit. Le temps manquant, nous n'avons compos\'e des tests que pour la classe Client de l'interface et quelques autres classes de la partie serveur. Finalement, r\'ealiser ces quelques tests nous ont permis d'\'eviter les r\'egressions de code, c'est-\`a-dire \'eviter qu'une modification ou une am\'elioration d'une ou plusieurs fonctions ne r\'epondent plus \`a tous les cas d'utilisation. 
 
 \section{Gestion de projet}
 Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés.

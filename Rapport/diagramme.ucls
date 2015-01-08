@@ -3,7 +3,7 @@
   associations="true" dependencies="true" nesting-relationships="true">  
   <class id="1" language="java" name="dessin.collaboratif.model.Client" project="scaling-adventure" 
     file="/scaling-adventure/src/dessin/collaboratif/model/Client.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="588" y="284"/>    
+    <position height="-1" width="-1" x="833" y="240"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="false" private="false" static="true"/>      
@@ -12,12 +12,12 @@
   </class>  
   <package id="2" language="java" name="dessin.collaboratif.controller.component" project="scaling-adventure" 
     file="/scaling-adventure/src/dessin/collaboratif/controller/component" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="312" y="109"/>    
+    <position height="-1" width="-1" x="304" y="-247"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <class id="3" language="java" name="dessin.collaboratif.misc.GeneralVariables" project="scaling-adventure" 
     file="/scaling-adventure/src/dessin/collaboratif/misc/GeneralVariables.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="1195" width="328" x="834" y="-348"/>    
+    <position height="-1" width="-1" x="1203" y="265"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="false" private="false" static="true"/>      
@@ -26,22 +26,22 @@
   </class>  
   <package id="4" language="java" name="dessin.collaboratif.view.component" project="scaling-adventure" 
     file="/scaling-adventure/src/dessin/collaboratif/view/component" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="185" y="379"/>    
+    <position height="-1" width="-1" x="165" y="47"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="5" language="java" name="launcher" project="scaling-adventure" file="/scaling-adventure/src/launcher" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="146" y="478"/>    
+    <position height="-1" width="-1" x="202" y="234"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="6" language="java" name="reseau.common" project="scaling-adventure" 
     file="/scaling-adventure/src/reseau/common" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="70" y="565"/>    
+    <position height="-1" width="-1" x="146" y="345"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <class id="7" language="java" name="reseau.client.ClientNetwork" project="scaling-adventure" 
     file="/scaling-adventure/src/reseau/client/ClientNetwork.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="363" y="782"/>    
+    <position height="-1" width="-1" x="513" y="438"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="false" private="false" static="true"/>      
@@ -50,7 +50,7 @@
   </class>  
   <class id="8" language="java" name="reseau.server.ClientManager" project="scaling-adventure" 
     file="/scaling-adventure/src/reseau/server/ClientManager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="42" y="747"/>    
+    <position height="-1" width="-1" x="26" y="547"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="false" private="false" static="true"/>      
@@ -59,7 +59,7 @@
   </class>  
   <class id="9" language="java" name="reseau.server.Server" project="scaling-adventure" 
     file="/scaling-adventure/src/reseau/server/Server.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="125" y="1001"/>    
+    <position height="-1" width="-1" x="293" y="554"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="false" private="false" static="true"/>      
@@ -67,6 +67,15 @@
     </display>  
   </class>  
   <association id="10">    
+    <bendpoint x="550" y="626"/>    
+    <bendpoint x="562" y="650"/>    
+    <bendpoint x="584" y="668"/>    
+    <bendpoint x="614" y="669"/>    
+    <bendpoint x="636" y="654"/>    
+    <bendpoint x="654" y="624"/>    
+    <bendpoint x="658" y="605"/>    
+    <bendpoint x="650" y="586"/>    
+    <bendpoint x="634" y="560"/>    
     <end type="SOURCE" refId="7" navigable="false">      
       <attribute id="11" name="INSTANCE"/>      
       <multiplicity id="12" minimum="0" maximum="1"/>    
@@ -95,12 +104,12 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="20">    
-    <bendpoint x="663" y="832"/>    
-    <bendpoint x="691" y="850"/>    
-    <bendpoint x="744" y="845"/>    
-    <bendpoint x="775" y="816"/>    
-    <bendpoint x="783" y="782"/>    
-    <bendpoint x="775" y="752"/>    
+    <bendpoint x="908" y="788"/>    
+    <bendpoint x="936" y="806"/>    
+    <bendpoint x="989" y="801"/>    
+    <bendpoint x="1020" y="772"/>    
+    <bendpoint x="1028" y="738"/>    
+    <bendpoint x="1020" y="708"/>    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="21" name="INSTANCE"/>      
       <multiplicity id="22" minimum="0" maximum="1"/>    
@@ -159,6 +168,10 @@
   <dependency id="36">    
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="37">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
