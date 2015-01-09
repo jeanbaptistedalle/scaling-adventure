@@ -387,6 +387,8 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 
 \subsubsection{Connexion}
 On suppose que le client A veut se connecter à un serveur, sur lequel sont déjà les clients B et C.
+
+\includegraphics[scale=1]{image/Connexion.png}
 \begin{itemize}
 	\item[1] A envoie une demande de connexion au serveur, du type [ A ; CONNECT ; mon\_pseudo ]
 	\item[2] Si le serveur ne comporte aucun client portant ce pseudo, il renvoie [ SERVER ; ACCEPT ; ] \\
@@ -407,6 +409,8 @@ Quand le client à chargé tout ses composants il envoie au serveur le message a
 
 \subsubsection{Processus de prise de main}
 Afin de pouvoir modifier le dessin, le client A doit avoir la main sur son serveur. Pour cela, il va la demander en envoyant un message [ A ; REQUEST\_CTRL ; ].
+
+\includegraphics[scale=1]{image/Prise_de_main.png}
 
 \paragraph{} Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main.
 
