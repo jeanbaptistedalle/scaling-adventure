@@ -56,7 +56,7 @@ Définition d'un scénario nominal et alternatif
 
 \paragraph{} Dans le cadre de ce projet et notamment de son analyse, nous avons défini un scénario nominal, expliquant l'utilisation normale du logiciel par des utilisateurs avertis, puis un scénario alternatif, décrivant de quelle façon seront gérés certains cas évident comme la perte de connexion.
 
-Scénario nominal
+\paragraph{} Scénario nominal
 
 \begin{itemize}
 	\item[1]Le « propriétaire » lance le serveur.
@@ -68,7 +68,7 @@ Scénario nominal
 	\item[7]A et B se déconnectent.
 \end{itemize}
 
-Scénario alternatif
+\paragraph{} Scénario alternatif
 
 \begin{itemize}
 	\item[1]Le « propriétaire » lance le serveur
@@ -109,7 +109,7 @@ Nous avons aussi mis en avant quelques normes de développement. En premier lieu
 
 \begin{itemize}
 	\item Un composant graphique se trouvera dans le package \texttt{dessin.collaboratif.view.component}. Cette hiérarchie est poursuivie par le type de composant. Ainsi, le bouton « Quitter » du menu se trouvera dans \texttt{dessin.collaboratif.view.component.menu.item}
-	\item Un contrôleur aura toujours la même hiérarchie de package que le composant auquel il est rattaché, à ceci près que le package view est remplacé par le package controller. Pour l'exemple précédent, la classe permettant d'écouter le clic sur le bouton quitter se trouvera dans \texttt{dessin.collaboratif.controller.components.menu.item}
+	\item Un contrôleur aura toujours la même hiérarchie de package que le composant auquel il est rattaché, à ceci près que le package view est remplacé par le package controller. Pour l'exemple précédent, la classe permettant d'écouter le clic sur le bouton quitter se trouvera dans \\ \texttt{dessin.collaboratif.controller.components.menu.item}
 	\item Une classe JUnit permettant de tester les fonctionnalités d'un composants se trouvera de la même façon dans un package test. Toujours pour l'exemple précédent, une possible classe JUnit permettant de tester la fonction quitter se trouvera dans \texttt{dessin.collaboratif.test.components.menu.item}
 	\item Les classes correspondant aux données seront situé dans \texttt{dessin.collaboratif.model}, néanmoins, les données étant communes à tous les composants, la suite de la hiérarchie est différentes des composants qui l'utilisent.
 	\item La classe GeneralVariables contenant toutes les constantes ainsi que les différentes énumération se trouveront dans \texttt{dessin.collaboratif.misc}
@@ -189,13 +189,13 @@ Le choix de r\'ealis\'er ces diff\'erentes zones s'est impos\'e petit \`a petit.
 
 Il y a trois grands types d'actions: 
 
-\begin{itemize}
+\begin{description}
  \item[Dessiner:] On dessine une forme en s\'electionnant le type de la forme (rectangle, cercle, \ldots) gr\^ace \`a un des boutons d\'edi\'es. Ensuite, on r\'ealis\'e un \og drag\&drop \fg (\og glisser-d\'eposer \fg en fran\c{c}ais) sur la zone de dessin.
  
  \item[Modifier:] On s\'electionne la forme \`a modifier en r\'ealisant un clic sp\'ecial (double clic pour d\'eplacer ou redimensionner, clic droit pour modifier le contenu d'un texte) dessus dans la zone de dessin ou en cliquant sur la forme dans la liste. 
  
  \item[Autres:] Les autres actions inclassables sont par exemple \og prendre la main \fg qui permet d'\^etre celui qui dessine.
-\end{itemize}
+\end{description}
 
 \subsubsection{La d\'etection du clic}
 
@@ -317,7 +317,7 @@ Cet aspect nous a aussi posé des problèmes concernant le redimenssionnement et
 \subsubsection{Format des messages échangés}
 Afin de communiquer entre les clients et le serveurs nous avons définis un format précis de messages à envoyer qui permettra de savoir qui a envoyé le message d'une part et de faire passer une commande / une instructions et éventuellement (suivant le type de la commande) des paramètres ou des informations complémentaires.
 
-
+\paragraph{}
 \includegraphics[scale=0.5]{image/message.png}
 
 \paragraph{}Les messages sont donc constitués de quatre parties : 
@@ -335,48 +335,49 @@ Afin de communiquer entre les clients et le serveurs nous avons définis un form
 \subsubsection{Types de messages échangés}
 \paragraph{}Afin de faire fonctionner notre application nous avons mis en place 13 commandes différentes qui vont être échangées entre les clients et la serveur.
 
-\paragraph{}\begin{itemize}
-\item CONNECT : Cette commande est utilisée par le client pour demander une connexion auprès du serveur. Cette commande est utilisée avec comme contenu de message le pseudo désiré par le client. Cette commande attend en retour, comme réponse soit la commande ACCEPT, soit la commande DENY que nous verons plus tard.
+\paragraph{}
+\begin{description}
+\item[CONNECT] : Cette commande est utilisée par le client pour demander une connexion auprès du serveur. Cette commande est utilisée avec comme contenu de message le pseudo désiré par le client. Cette commande attend en retour, comme réponse soit la commande ACCEPT, soit la commande DENY que nous verons plus tard.
 
-\item DISCONNECT : Cette commande est utilisée par le client pour se déconnecter. La commande n'attend rien en retour, le serveur en recevant le message retire le client de sa liste.
+\item [DISCONNECT] : Cette commande est utilisée par le client pour se déconnecter. La commande n'attend rien en retour, le serveur en recevant le message retire le client de sa liste.
 
-\item ACCEPT : Cette commande est envoyé par le serveur au client pour informer que le pseudo demandé par le client et valide et que la connexion est acceptée. Cette commande est aussi utilisée par le client pour informer le serveur qu'il est pret à recevoir le dessin stocké sur le serveur.
+\item [ACCEPT] : Cette commande est envoyé par le serveur au client pour informer que le pseudo demandé par le client et valide et que la connexion est acceptée. Cette commande est aussi utilisée par le client pour informer le serveur qu'il est pret à recevoir le dessin stocké sur le serveur.
 
-\item DENY : Cette commande est envoyée par le serveur dans le cas où le pseudo demandé par le client est déjà utilisé. Le client doit alors demander un autre pseudonyme à l'utilisateur.
+\item [DENY] : Cette commande est envoyée par le serveur dans le cas où le pseudo demandé par le client est déjà utilisé. Le client doit alors demander un autre pseudonyme à l'utilisateur.
 
-\item  REQUEST$\_$CTRL : Il s'agit de la commande utilisée par les clients pour demander le contrôle du dessin. Lorsqu'un client demande à prendre le contrôle du dessin le serveur l'ajoute à une liste d'attente, le client en tête de la liste obtient le contrôle pendant 30 secondes. A la fin du temps imparti, le client qui avait le contrôle est éliminé de la liste et on passe au client suivant, le client qui avait le contrôle doit donc redemander le contrôle pour être ré-inséré en fin de liste d'attente.
+\item  [REQUEST$\_$CTRL] : Il s'agit de la commande utilisée par les clients pour demander le contrôle du dessin. Lorsqu'un client demande à prendre le contrôle du dessin le serveur l'ajoute à une liste d'attente, le client en tête de la liste obtient le contrôle pendant 30 secondes. A la fin du temps imparti, le client qui avait le contrôle est éliminé de la liste et on passe au client suivant, le client qui avait le contrôle doit donc redemander le contrôle pour être ré-inséré en fin de liste d'attente.
 
-\item GIVE$\_$CTRL : Cette commande est utilisée par le serveur pour indiquer aux clients qui prend le contrôle. 
+\item [GIVE$\_$CTRL] : Cette commande est utilisée par le serveur pour indiquer aux clients qui prend le contrôle. 
 
-\item LEAVE$\_$CTRL : Cette commande est envoyée du serveur au client qui a la main, afin qu'il la relâche,
+\item [LEAVE$\_$CTRL] : Cette commande est envoyée du serveur au client qui a la main, afin qu'il la relâche,
 
-\item SUBMIT : Cette commande est envoyée à chaque fois que le dessin est modifié. Le client qui a la main, l'envoie au serveur quand il fait une modification. Le contenu du message joint avec la commande est le contenu du dessin, c'est à dire le document SVG (sous forme de XML donc) servant à le stocker.
+\item [SUBMIT] : Cette commande est envoyée à chaque fois que le dessin est modifié. Le client qui a la main, l'envoie au serveur quand il fait une modification. Le contenu du message joint avec la commande est le contenu du dessin, c'est à dire le document SVG (sous forme de XML donc) servant à le stocker.
 
-\item UPDATE : Cette commande est renvoyée par le serveur à tous les client après qu'il ait reçu une modification du dessin de la part du client qui a le contrôle du dessin. Comme pour la commande SUBMIT, le contenu du message est le document SVG qui stocke le dessin.
+\item [UPDATE] : Cette commande est renvoyée par le serveur à tous les client après qu'il ait reçu une modification du dessin de la part du client qui a le contrôle du dessin. Comme pour la commande SUBMIT, le contenu du message est le document SVG qui stocke le dessin.
 On envoie également cette commande lorsque le client se connecte et qu'il a indiqué avec la commande ACCEPT, qu'il était près à recevoir le dessin.
 
-\item GET$\_$USERS : Les clients utilisent cette commande pour demander la liste des utilisateurs connectés. Nous n'utilisons actuellement pas cette commande dans notre application, mais elle pourrait très bien servir pour afficher la liste complète des utilisateurs à chaque client et pourrait permettre d'ajouter un tchat à notre application de dessin collaboratif, facilitant ainsi la collaboration justement.
+\item [GET$\_$USERS] : Les clients utilisent cette commande pour demander la liste des utilisateurs connectés. Nous n'utilisons actuellement pas cette commande dans notre application, mais elle pourrait très bien servir pour afficher la liste complète des utilisateurs à chaque client et pourrait permettre d'ajouter un tchat à notre application de dessin collaboratif, facilitant ainsi la collaboration justement.
 
-\item LIST$\_$USERS : La commande devait servir de réponse à GET$\_$USERS, le contenu du message contient la liste des utilisateurs dans la même room que le client qui reçoit le message.
+\item [LIST$\_$USERS] : La commande devait servir de réponse à GET$\_$USERS, le contenu du message contient la liste des utilisateurs dans la même room que le client qui reçoit le message.
 
-\item LIST$\_$ROOMS : Cette commande est envoyée par le serveur au client demandant une connexion afin qu'il puisse choisir une room dans la liste. Une room représentant un serveur avec un dessin différent stocké sur chaque room.
+\item [LIST$\_$ROOMS] : Cette commande est envoyée par le serveur au client demandant une connexion afin qu'il puisse choisir une room dans la liste. Une room représentant un serveur avec un dessin différent stocké sur chaque room.
 Nous n'avons cependant pas eu le temps d'implémenter complètement cette fonctionnalité à notre application, nous n'utilisons donc qu'une seule et unique room actuellement.
 
-\item JOIN$\_$ROOM : Cette commande est utilisée par le client pour indiquer au serveur quelle room il veut rejoindre, et donc sur quel dessin il veut travailler. Comme les autres commandes liées aux room, celle-ci n'est actuellement pas utilisée.
-\end{itemize}
+\item [JOIN$\_$ROOM] : Cette commande est utilisée par le client pour indiquer au serveur quelle room il veut rejoindre, et donc sur quel dessin il veut travailler. Comme les autres commandes liées aux room, celle-ci n'est actuellement pas utilisée.
+\end{description}
 
 \subsection{Déroulement du protocole réseau}
 \paragraph{}Nous allons maintenant suivre dans cette partie le déroulement du protocole depuis la connexion d'un client jusqu'à la modification du dessin et les répercution de cette modification sur les autres clients.
 
 \paragraph{}Ce protocole peut se diviser en 3 phases : 
 \begin{itemize}
-	\item[1] La connexion proprement dite, où le client choisit son pseudonyme (ainsi que sa room quand cette fonctionnalité sera intégrée)
-	\item[2] La communication de données, que l'on peut séparer en 2 catégories :
+	\item[1.] La connexion proprement dite, où le client choisit son pseudonyme (ainsi que sa room quand cette fonctionnalité sera intégrée)
+	\item[2.] La communication de données, que l'on peut séparer en 2 catégories :
 	\begin{itemize}
-		\item[a] La réception de données, pour tous les clients
-		\item[b] L'envoi de mises à jours concernant le dessin, fait seulement par le client ayant la main
+		\item[a.] La réception de données, pour tous les clients
+		\item[b.] L'envoi de mises à jours concernant le dessin, fait seulement par le client ayant la main
 	\end{itemize}
-	\item[3] La déconnexion du client, annoncée par un message spécifique
+	\item[3.] La déconnexion du client, annoncée par un message spécifique
 \end{itemize}
 
 \textit{Dans ce chapitre, les messages seront décrits sous la forme [ expéditeur ; type ; contenu ] pour plus de lisibilité}
@@ -384,10 +385,10 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 \subsubsection{Connexion}
 On suppose que le client A veut se connecter à un serveur, sur lequel sont déjà les clients B et C.
 \begin{itemize}
-	\item[1] A envoie une demande de connexion au serveur, du type [ A ; CONNECT ; mon\_pseudonyme ]
-	\item[2] Si le serveur ne comporte aucun client portant ce pseudo, il renvoie [ SERVER ; ACCEPT ; ] \\
+	\item[1.] A envoie une demande de connexion au serveur, du type [ A ; CONNECT ; mon\_pseudonyme ]
+	\item[2.] Si le serveur ne comporte aucun client portant ce pseudo, il renvoie [ SERVER ; ACCEPT ; ] \\
 	Sinon, il renvoie [ SERVER ; DENY ; ] et le client recommence l'étape 1
-	\item[3] Comme le client prend un certain temps (variable selon la machine employée) pour préparer son interface, le serveur attends de lui un message de confirmation [ A ; ACCEPT ; ], qui indiquera que la transmission des données de dessin peut commencer
+	\item[3.] Comme le client prend un certain temps (variable selon la machine employée) pour préparer son interface, le serveur attends de lui un message de confirmation [ A ; ACCEPT ; ], qui indiquera que la transmission des données de dessin peut commencer
 \end{itemize}
 
 \paragraph{}Lorsqu'un client démarre l'application, il se trouve face à une boite de dialogue lui demandant le pseudo qu'il veut utiliser, ainsi que l'adresse du serveur. On ouvre alors une connexion entre le serveur et le client en premier lieu.
@@ -420,7 +421,7 @@ Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur pa
 \subsection{Branchement Interface et Réseau}
 Comme nous l'avons dit précédemment nous avons fait le choix de développer l'application en deux parties bien distinctes. D'un côté l'interface utilisateur et de l'autre la partie réseau. Il à donc fallut à un moment réunir ces deux parties du programme pour arriver au résultat souhaité, à savoir l'application de dessin collaboratif.
 
-La partie réseau ayant été codée comme une sorte de mini-API, nous n'avons eu qu'à utiliser les fonctions de communications préparées à certains emplacements clef de la partie interface, c'est à dire dans la partie Controller du modèle MVC.
+\paragraph{}La partie réseau ayant été codée comme une mini-API, nous n'avons eu qu'à utiliser les fonctions de communications préparées à certains emplacements clef de la partie interface, c'est à dire dans la partie Controller du modèle MVC.
 
 \paragraph{} Même si de cette manière la tâche nous à été grandement simplifiée c'est aussi à ce moment que nous nous sommes rendu compte que certaines fonctionnalités avait été oubliées ou mal pensées dans notre application, et il a donc fallut revoir certaines parties de notre code.
 
@@ -430,11 +431,9 @@ La partie réseau ayant été codée comme une sorte de mini-API, nous n'avons e
 
 \paragraph{} Nous avons également ajouté une icône indiquant à l'utilisateur si il à la main ou non. En effet, avant la mise en commun il n'y avait pas de problème de prise de main, l'utilisateur étant seul. Ce besoin était donc passé inaperçu lors de la conception de l'interface.
 
-\paragraph{} Puis, nous avons du réfléchir à ce qui ce passait lorsqu'un client en train de dessiner, c'est à dire avec le bouton gauche de la souris enfoncé, perdait la main.
+\paragraph{} Puis, nous avons du réfléchir à ce qui ce passait lorsqu'un client en train de dessiner, c'est à dire avec le bouton gauche de la souris enfoncé, perdait la main. En effet ce problème est fréquent car nous avons fait le choix de changer le client qui à la main aussitôt que le temps de prise de contrôle est écoulé. Une autre option aurait été de laisser le contrôle tant que le client à le bouton de la souris enfoncé, mais cela compliquait la tâche si le client gardait indéfiniment enfoncé le bouton de sa souris. Nous avons donc choisi de conserver le timeout.
 
-En effet ce problème est fréquent car nous avons fait le choix de changer le client qui à la main aussitôt que le temps de prise de contrôle est écoulé. Une autre option aurait été de laisser le contrôle tant que le client à le bouton de la souris enfoncé, mais cela compliquait la tâche si le client gardait indéfiniment enfoncé le bouton de sa souris. Nous avons donc choisi de conserver le timeout.
-
-Il s'est avéré qu'avec ce choix il y avait un décalage lorsque le client perdait la main, car de la façon dont l'application était codée la perte de contrôle du client faisait que la forme en cours de dessin, au moment de la perte de contrôle, était dessinée du côté du client mais non envoyée sur le serveur (le forme disparaissait ensuite avec la modification suivante par le prochain client ayant la main). Comme nous ne voulions pas envoyer au serveur un forme non terminé par le client et que nous voulions éviter que le client croit que la forme qu'il dessinait été enregistré. Nous avons du modifier de nouveau très légèrement notre protocole pour que le client qui perd la main reçoive le dessin stocké sur le serveur à la fin du temps qu'il lui était imparti, afin de gommer les éventuelles modifications qui n'auraient été que locales.
+\paragraph{}Il s'est avéré qu'avec ce choix il y avait un décalage lorsque le client perdait la main, car de la façon dont l'application était codée la perte de contrôle du client faisait que la forme en cours de dessin, au moment de la perte de contrôle, était dessinée du côté du client mais non envoyée sur le serveur (le forme disparaissait ensuite avec la modification suivante par le prochain client ayant la main). Comme nous ne voulions pas envoyer au serveur un forme non terminé par le client et que nous voulions éviter que le client croit que la forme qu'il dessinait été enregistré. Nous avons du modifier de nouveau très légèrement notre protocole pour que le client qui perd la main reçoive le dessin stocké sur le serveur à la fin du temps qu'il lui était imparti, afin de gommer les éventuelles modifications qui n'auraient été que locales.
 
 \paragraph{} L'écriture très modulaire du code et la séparation bien précise des différents éléments de l'application nous grandement facilité la tâche pour corriger ces problèmes rapidement et sans avoir à ré-écrire les différentes fonctions déjà écrites.
 
