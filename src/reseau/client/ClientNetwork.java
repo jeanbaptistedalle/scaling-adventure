@@ -50,10 +50,6 @@ public class ClientNetwork extends Thread {
     /**
      * @fn ClientNetwork
      * @brief Constructeur de Client
-     * @param server_ip
-     *            l'ip du serveur
-     * @param port
-     *            le port du serveur
      */
     private ClientNetwork() {}
 

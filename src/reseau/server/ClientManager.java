@@ -105,8 +105,8 @@ class ClientManager extends Thread {
         System.out.println("¤ Client " + this.getPseudo() + " joined");
         server.addClient(this);
 
-        /* Puis il choisit sa Room */
-
+        // TODO Non implémenté pour l'instant, sera décommenté avec l'implémentation des Rooms
+        
         /*
          *  sendMessage(Constant.command.LIST_ROOMS, server.getRoomList());
          *
