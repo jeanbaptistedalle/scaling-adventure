@@ -17,20 +17,18 @@
 
 
 \geometry{hscale=0.85,vscale=0.85,centering}
-\title{Dessin Collaboratif}
+\title{Dessin Collaboratif\\ M1 Informatique, Réseaux, Génie Logiciel\\
+Année 2014-2015}
 \author{Jean-Baptiste Dalle - Romain Gaborieau - Kevin Hivert - Alexis Braine}
 \date{}
 
 \begin{document}
 
 \maketitle
-
-\clearpage
-
+\pagebreak
 \tableofcontents
 
-\clearpage
-
+\pagebreak
 \section{Introduction}
 Dans le cadre du premier semestre du Master 1 Informatique de l'Université d'Angers, nous avons été amenés à réaliser un projet rattaché à deux unités d'enseignement : Génie Logiciel et Réseaux. Le but de ce projet était de réaliser un logiciel permettant de dessiner collaborativement. On entend par là un logiciel permettant à plusieurs utilisateurs de coopérer dans la réalisation d'un dessin.
 
@@ -317,8 +315,9 @@ Cet aspect nous a aussi posé des problèmes concernant le redimenssionnement et
 \subsubsection{Format des messages échangés}
 Afin de communiquer entre les clients et le serveurs nous avons définis un format précis de messages à envoyer qui permettra de savoir qui a envoyé le message d'une part et de faire passer une commande / une instructions et éventuellement (suivant le type de la commande) des paramètres ou des informations complémentaires.
 
-\paragraph{}
+\begin{center}
 \includegraphics[scale=0.5]{image/message.png}
+\end{center}
 
 \paragraph{}Les messages sont donc constitués de quatre parties : 
 \begin{itemize}
@@ -385,7 +384,10 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 \subsubsection{Connexion}
 On suppose que le client A veut se connecter à un serveur, sur lequel sont déjà les clients B et C.
 
-\includegraphics[scale=1]{image/Connexion.png}
+\begin{center}
+\includegraphics[scale=0.8]{image/Connexion.png}
+\end{center}
+
 \begin{itemize}
 	\item[1.] A envoie une demande de connexion au serveur, du type [ A ; CONNECT ; mon\_pseudonyme ]
 	\item[2.] Si le serveur ne comporte aucun client portant ce pseudo, il renvoie [ SERVER ; ACCEPT ; ] \\
@@ -407,7 +409,9 @@ Quand le client a chargé tout ses composants il envoie au serveur le message av
 \subsubsection{Processus de prise de main}
 Afin de pouvoir modifier le dessin, le client A doit avoir la main sur son serveur. Pour cela, il va la demander en envoyant un message [ A ; REQUEST\_CTRL ; ].
 
-\includegraphics[scale=1]{image/Prise_de_main.png}
+\begin{center}
+\includegraphics[scale=0.8]{image/Prise_de_main.png}
+\end{center}
 
 \paragraph{} Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main. Cette manière de gérer la prise de main permet notamment d'empêcher un utilisateur inactif de monopoliser la main inutilement. 
 
@@ -445,7 +449,12 @@ Comme nous l'avons dit précédemment nous avons fait le choix de développer l'
 
 Les test unitaires n'\'etant pas enseign\'es dans notre formation, il a fallu en premier lieu se documenter \`a propos de JUnit qui est la bibliothèque la plus largement utilisée pour le test d'application Java. Nous avons r\'ealis\'e des tests sur les fonctions que nous avons jugées critiques notamment au niveau du Modèle, notamment en ce qui concerne les fonctions modifiant le svg (ajout de forme, suppression de forme, choix de couleur, etc.) et du Serveur (transfert de message, etc.)  mais n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit et supposent que les classes fournies par la biblioth\`eque Swing sont susceptible de ne pas fonctionner correctement. Dans le cadre de ce projet, nous avons donc suppos\'e infaillible cette biblioth\`eque, jugeant inadapté de tester un par un nos composants graphique de manière à savoir si le lien Vue/Controlleur fournis par Swing fonctionne correctement.
 
-\paragraph{} Concernant le Modèle, nous avons donc décidé de créer des tests reproduisant les actions d'un client. On commence donc par créer une image sur laquelle s'appuiront nos tests. En effet, la base des tests est de ne pas utiliser de vrais données mais des données de tests. Ainsi, on s'assure de ne pas dépendre d'une image initialisée à la main qui pourrait être modifié ou supprimée par un propriétaire peu alerte. Nous nous sommes aussi assuré que les tests ne dépendaient pas les un des autres. En effet, on ne peut lancer une première fonction de test créant une forme puis une seconde fonction la supprimant car les tests peuvent être lancés par des programmes tiers et rien n'assure qu'ils seront bien lancé dans l'ordre souhaité. 
+\paragraph{} Concernant le Modèle, nous avons donc décidé de créer des tests reproduisant les actions d'un client. On commence donc par créer une image sur laquelle s'appuiront nos tests. En effet, la base des tests est de ne pas utiliser de vrais données mais des données de tests. Ainsi, on s'assure de ne pas dépendre d'une image initialisée à la main qui pourrait être modifié ou supprimée par un propriétaire peu alerte. Nous nous sommes aussi assuré que les tests ne dépendaient pas les un des autres. En effet, on ne peut lancer une première fonction de test créant une forme puis une seconde fonction la supprimant car les tests peuvent être lancés par des programmes tiers et rien n'assure qu'ils seront bien lancé dans l'ordre souhaité.
+
+\paragraph{} Pour ce qui est de la partie réseau nous avons écris les tests permettant d'assurer la bonne conversion des messages de chaine de caractères en bytes et vise-versa. Puisque les messages sont traduits en tableau de bytes avant d'être envoyés et sont ensuite re-convertis en chaines de caractères avant d'être interprétés.
+
+Nous avons également écris les tests permettant de s'assurer que les clients obtenaient bien le contrôle du dessin après l'avoir demandés et le perdaient bien après 30 secondes. Ces tests faisant transiter des messages en réseau, ils permettent également de vérifier que les messages sont bien transmit du client vers le serveur et inversement.
+Nous n'avons cependant pas testé le bon fonctionnement de la file d'attente puisque celle ci n'utilise qu'un élément Vector et que nous avons supposé que cette élément avait été correctement testé.
 
 \section{Gestion de projet}
 Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés.
