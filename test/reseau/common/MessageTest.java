@@ -7,9 +7,6 @@ import java.util.logging.Logger;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
-import reseau.common.Message;
-import reseau.common.Constant;
-
 public class MessageTest {
     @Test
     public void validMessage(){
