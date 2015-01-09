@@ -44,10 +44,10 @@ public class Message {
             cmd  = Constant.getCommand(byteArrayToInt(b_cmd));
 
             int    content_size = byteArrayToInt(b_content_size);
-            char[] c_content    = new char[content_size];
+            byte[] b_content    = new byte[content_size];
 
-            System.arraycopy(b_Array, 12, c_content, 0, content_size);
-            content = String.copyValueOf(c_content);
+            System.arraycopy(b_Array, 12, b_content, 0, content_size);
+            content = String.copyValueOf(byteArrayToCharArray(b_content));
         } catch (UnknownHostException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
         }
