@@ -32,7 +32,7 @@
 \clearpage
 
 \section*{Introduction}
-Dans le cadre du premier semestre du Master 1 Informatique de l'Université d'Angers, nous avons été amenés à réaliser un projet rattaché à deux unités d'enseignement : Génie Logiciel et Réseaux. Le but de ce projet était de réaliser un logiciel permettant de \textbf{dessiner collaborativement}. On entend par là un logiciel permettant à plusieurs utilisateurs de coopérer dans la réalisation d'un dessin.
+Dans le cadre du premier semestre du Master 1 Informatique de l'Université d'Angers, nous avons été amenés à réaliser un projet rattaché à deux unités d'enseignement : Génie Logiciel et Réseaux. Le but de ce projet était de réaliser un logiciel permettant de dessiner collaborativement. On entend par là un logiciel permettant à plusieurs utilisateurs de coopérer dans la réalisation d'un dessin.
 
 \paragraph{} Étant rattaché à deux matières, ce projet induit deux aspects importants :
 
@@ -308,11 +308,7 @@ De plus, nous avons r\'ealis\'e nos calculs de ces points A et B en fonction de 
 
 Pour afficher ces formes, nous nous sommes servi utilis\'e la bibliothèque Batik qui fournit un JSVGCanvas, sous-classe de JComponent de la bibliothèque Swing. JSVGCanvas permet d'afficher un SVG tr\`es simplement car il \og parse \fg le fichier et affiche ses \'el\'ements. En effet, il est \`a rappeler que le SVG n'est pas un format d'image matricielle mais vectorielle dont la description est bas\'ee sur XML. Cependant, ce traitement est tr\`es co\^uteux. Une fois l'application presque viable, nous avons souhait\'e la rendre plus intuitive en affichant \`a chaque mouvement du \og drag\&drop \fg la forme telle qu'elle serait si l'utilisateur relâchait la pression. Un traitement de l'image est donc r\'ealis\'ee \`a chaque mouvement de la souris. Cela induit un effet de clignotement de la zone de dessin. JSVGCanvas ne g\'erant pas le double buffering, il aurait \'et\'e n\'ecessaire de changer de bibliothèque, mais la date finale approchant et l'optimisation graphique n'\'etant pas un enjeux capital dans ce projet, nous avons plac\'e cette t\^ache dans les moins prioritaires. 
 
-\subsubsection{Probl\`emes rencontr\'es}
-
-Le probl\`eme majeur vient de l'utilisation de Batik et de son JSVGCanvas. En effet, cette classe permet l'affichage d'un svg dans un composant Swing. Cependant \`a chaque rafra\^ichissement de la vue, le JSVGCanvas relit le SVG pour le r\'einterpr\'eter en entier. Un svg n'étant initialement pas fait pour être modifié, le double buffering n'a pas été implémenté pour ce composant ce qui induit un effet de scintillement lors du dessin. 
-
-De plus, dans un soucis de respect des d\'elais, le d\'eplacement et le redimensionnement des formes s'effectuent par le biais de boutons et non par \og drag\&drop \fg.
+Cet aspect nous a aussi posé des problèmes concernant le redimenssionnement et le déplacement. En effet, initialement, nous voulions que la forme selectionnée soit encadré par des petites balise, à la manière de la plupart des traitement de texte. Celle-ci aurait pu être glissées afin d'agrandir la forme en question selon les nouvelles dimensions de la balise. Néanmoins, pour obtenir un tel comportement, il aurait fallu soit afficher un deuxième canvas supperposé au premier mais cela aurait encore accentué le problème de scintillement, soit ajouter ces balise au JSVGCanvas, mais cela aurait impliqué de modifier le SVG en concéquence, hors les balises ne font pas parties du dessin, ce n'est donc pas ce que nous voulions. Nous avons donc répondu à ce problème en permettant le déplacement et le redimenssionnement grâce à des boutons.
 
 \subsection{Protocole Réseau}
 
@@ -344,37 +340,37 @@ Afin de communiquer entre les clients et le serveurs nous avons définis un form
 
 \item DISCONNECT : Cette commande est utilisée par le client pour se déconnecter. La commande n'attend rien en retour, le serveur en recevant le message retire le client de sa liste.
 
-\item ACCEPT : Cette commande est envoyé par le serveur au client pour informer que le pseudo demander par le client et valide et que la connexion est accepté. Cette commande est aussi utilisé par le client pour informer le serveur qu'il est près à recevoir le dessin stocké sur le serveur.
+\item ACCEPT : Cette commande est envoyé par le serveur au client pour informer que le pseudo demandé par le client et valide et que la connexion est acceptée. Cette commande est aussi utilisée par le client pour informer le serveur qu'il est pret à recevoir le dessin stocké sur le serveur.
 
-\item DENY : Cette commande est envoyé par le serveur dans le cas où le pseudo demander par le client est déjà utilisé. Le client doit alors demander un autre pseudo.
+\item DENY : Cette commande est envoyée par le serveur dans le cas où le pseudo demandé par le client est déjà utilisé. Le client doit alors demander un autre pseudonyme à l'utilisateur.
 
-\item  REQUEST$\_$CTRL : Il s'agit de la commande utilisé par les clients pour demander le contrôle du dessin.  Lorsqu'un client demande à prendre le contrôle du dessin le serveur l'ajoute à une liste d'attente, le client en tête de la liste obtient le contrôle pendant 30 secondes. A la fin du temps imparti, le client qui avait le contrôle est éliminé de la liste et on passe au client suivant, le client qui avait le contrôle doit donc redemander le contrôle pour être ré-inséré en fin de liste d'attente.
+\item  REQUEST$\_$CTRL : Il s'agit de la commande utilisée par les clients pour demander le contrôle du dessin. Lorsqu'un client demande à prendre le contrôle du dessin le serveur l'ajoute à une liste d'attente, le client en tête de la liste obtient le contrôle pendant 30 secondes. A la fin du temps imparti, le client qui avait le contrôle est éliminé de la liste et on passe au client suivant, le client qui avait le contrôle doit donc redemander le contrôle pour être ré-inséré en fin de liste d'attente.
 
-\item GIVE$\_$CTRL : Cette commande est utilisée par le serveur pour indiquer aux clients, qui prend le contrôle. 
+\item GIVE$\_$CTRL : Cette commande est utilisée par le serveur pour indiquer aux clients qui prend le contrôle. 
 
 \item LEAVE$\_$CTRL : Cette commande est envoyée du serveur au client qui a la main, afin qu'il la relâche,
 
-\item SUBMIT : Cette commande est envoyé à chaque fois que le dessin est modifié. Le client qui a la main, l'envoie au serveur quand il fait une modification. Le contenu du message joint avec la commande est le contenu du dessin, c'est à dire le document SVG servant à le stocker.
+\item SUBMIT : Cette commande est envoyée à chaque fois que le dessin est modifié. Le client qui a la main, l'envoie au serveur quand il fait une modification. Le contenu du message joint avec la commande est le contenu du dessin, c'est à dire le document SVG (sous forme de XML donc) servant à le stocker.
 
-\item UPDATE : Cette commande est renvoyé par le serveur à tous les client après qu'il ait reçu une modification du dessin de la part du client qui a le contrôle du dessin. Comme pour la commande SUBMIT, le contenu du message est le document SVG qui stocke le dessin.
+\item UPDATE : Cette commande est renvoyée par le serveur à tous les client après qu'il ait reçu une modification du dessin de la part du client qui a le contrôle du dessin. Comme pour la commande SUBMIT, le contenu du message est le document SVG qui stocke le dessin.
 On envoie également cette commande lorsque le client se connecte et qu'il a indiqué avec la commande ACCEPT, qu'il était près à recevoir le dessin.
 
-\item GET$\_$USERS : Les clients utilisent cette commande pour demander la liste des utilisateurs connectés. Nous n'utilisons actuellement pas cette commande dans notre application, mais elle pourrait très bien servir pour afficher la liste complète des utilisateurs à chaque client et pourrait permettre d'ajouter un tchat à notre application de dessin.
+\item GET$\_$USERS : Les clients utilisent cette commande pour demander la liste des utilisateurs connectés. Nous n'utilisons actuellement pas cette commande dans notre application, mais elle pourrait très bien servir pour afficher la liste complète des utilisateurs à chaque client et pourrait permettre d'ajouter un tchat à notre application de dessin collaboratif, facilitant ainsi la collaboration justement.
 
 \item LIST$\_$USERS : La commande devait servir de réponse à GET$\_$USERS, le contenu du message contient la liste des utilisateurs dans la même room que le client qui reçoit le message.
 
 \item LIST$\_$ROOMS : Cette commande est envoyée par le serveur au client demandant une connexion afin qu'il puisse choisir une room dans la liste. Une room représentant un serveur avec un dessin différent stocké sur chaque room.
-Nous n'avons cependant pas eu le temps d'implémenter complètement cette fonctionnalité à notre application, nous n'utilisons donc qu'une seule et unique room.
+Nous n'avons cependant pas eu le temps d'implémenter complètement cette fonctionnalité à notre application, nous n'utilisons donc qu'une seule et unique room actuellement.
 
-\item JOIN$\_$ROOM : Cette commande est utilisé par le client pour indiquer au serveur quelle room il veut rejoindre, et donc sur quel dessin il veut travailler.
+\item JOIN$\_$ROOM : Cette commande est utilisée par le client pour indiquer au serveur quelle room il veut rejoindre, et donc sur quel dessin il veut travailler. Comme les autres commandes liées aux room, celle-ci n'est actuellement pas utilisée.
 \end{itemize}
 
 \subsection{Déroulement du protocole réseau}
-\paragraph{}Nous allons maintenant suivre dans cette partie le déroulement du protocole depuis la connexion d'un client jusqu'à la modification du dessin et les répercutions de cette modification sur les autres clients.
+\paragraph{}Nous allons maintenant suivre dans cette partie le déroulement du protocole depuis la connexion d'un client jusqu'à la modification du dessin et les répercution de cette modification sur les autres clients.
 
 \paragraph{}Ce protocole peut se diviser en 3 phases : 
 \begin{itemize}
-	\item[1] La connexion proprement dite, où le client choisit son pseudonyme (ainsi que sa room si cette fonctionnalité est implémentée
+	\item[1] La connexion proprement dite, où le client choisit son pseudonyme (ainsi que sa room quand cette fonctionnalité sera intégrée)
 	\item[2] La communication de données, que l'on peut séparer en 2 catégories :
 	\begin{itemize}
 		\item[a] La réception de données, pour tous les clients
@@ -388,7 +384,7 @@ Nous n'avons cependant pas eu le temps d'implémenter complètement cette foncti
 \subsubsection{Connexion}
 On suppose que le client A veut se connecter à un serveur, sur lequel sont déjà les clients B et C.
 \begin{itemize}
-	\item[1] A envoie une demande de connexion au serveur, du type [ A ; CONNECT ; mon\_pseudo ]
+	\item[1] A envoie une demande de connexion au serveur, du type [ A ; CONNECT ; mon\_pseudonyme ]
 	\item[2] Si le serveur ne comporte aucun client portant ce pseudo, il renvoie [ SERVER ; ACCEPT ; ] \\
 	Sinon, il renvoie [ SERVER ; DENY ; ] et le client recommence l'étape 1
 	\item[3] Comme le client prend un certain temps (variable selon la machine employée) pour préparer son interface, le serveur attends de lui un message de confirmation [ A ; ACCEPT ; ], qui indiquera que la transmission des données de dessin peut commencer
@@ -396,55 +392,57 @@ On suppose que le client A veut se connecter à un serveur, sur lequel sont déj
 
 \paragraph{}Lorsqu'un client démarre l'application, il se trouve face à une boite de dialogue lui demandant le pseudo qu'il veut utiliser, ainsi que l'adresse du serveur. On ouvre alors une connexion entre le serveur et le client en premier lieu.
 
-Ensuite on test si le pseudo demandé par le client est valide, ceci ce fait en envoyant un message avec la commande CONNECT et le pseudo désiré par le client au serveur. Le serveur test alors l'unicité du pseudonyme, et renvoie le message approprié.
+Ensuite on teste si le pseudonyme demandé par le client est valide, ceci ce fait en envoyant un message avec la commande CONNECT et le pseudo désiré par le client au serveur. Le serveur teste alors l'unicité du pseudonyme, et renvoie le message approprié.
 
-La connexion entre le serveur et le client étant engagé avant même que le client est réellement démarré l'application de dessin, si le client s'arrête (en fermant la fenêtre de connexion) alors le message DISCONNECT est envoyé au serveur qui s'occupe de rompre la connexion.
+La connexion entre le serveur et le client étant engagé avant même que le client ait réellement démarré l'application de dessin, si le client s'arrête (en fermant la fenêtre de connexion) alors le message DISCONNECT est envoyé au serveur qui s'occupe de rompre la connexion.
 
 
-\paragraph{} Le serveur se met ensuite en attente d'un message du client l'informant qu'il est prêt à recevoir le dessin, l'application pouvant mettre du temps à charger nous devons être sur que tout soit en place pour recevoir et afficher le dessin.
+\paragraph{} Le serveur se met ensuite en attente d'un message du client l'informant qu'il est prêt à recevoir le dessin, l'application pouvant mettre du temps à se charger nous devons être sur que tout soit en place avant de recevoir l'image.
 
-Quand le client à chargé tout ses composants il envoie au serveur le message avec la commande ACCEPT, celui si répond alors en envoyant un message avec la commande UPDATE et comme contenu le dessin SVG qu'il stocke à ce moment. Le client est maintenant correctement connecté et peut alors afficher le dessin, et recevoir les futurs modifications ou demander à prendre la main, etc
+Quand le client a chargé tout ses composants il envoie au serveur le message avec la commande ACCEPT. Celui-ci répond alors en envoyant un message avec la commande UPDATE et comme contenu le dessin SVG qu'il stocke à ce moment. Le client est maintenant correctement connecté et peut alors afficher le dessin, et recevoir les futurs modifications ou demander à prendre la main, etc
 
 \subsubsection{Processus de prise de main}
 Afin de pouvoir modifier le dessin, le client A doit avoir la main sur son serveur. Pour cela, il va la demander en envoyant un message [ A ; REQUEST\_CTRL ; ].
 
-\paragraph{} Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main.
+\paragraph{} Le serveur recevra cette requête et ajoutera donc A à la fin de la file d'attente pour la prise de main (ou lui donnera la main immédiatement si la file est vide). Lorsque le client ayant la main la rend, le client suivant est pris dans la file d'attente, et reçoit la main pour un temps défini (ici, 30 secondes). Le serveur fait alors savoir au client A que celui-ci a la main par le message [ SERVER ; GIVE\_CTRL ; A ]. Ce message est aussi transmis à tous les autres clients afin que ceux-ci sachent qui a la main. Cette manière de gérer la prise de main permet notamment d'empêcher un utilisateur inactif de monopoliser la main inutilement. 
 
 \paragraph{} Après 30 secondes, le serveur fait savoir au client A que son temps est écoulé, et fait savoir par la même occasion aux autres clients que A n'a plus la main par le message [ SERVER ; LEAVE\_CTRL ; A ].
 
 \subsubsection{Envoi de données par le clients ayant la main}
-Lorsque le client A a la main, il va donc renvoyer la totalité du dessin à chaque modification effectuée (souris relachée pour la création de forme, bouton cliqué pour le redimensionnement/déplacement). Bien que ce soit plus coûteux, cette technique permet d'éviter beaucoup de bugs de synchronisation entre le client et le serveur. Ces messages se présenteront sous la forme [ A ; SUBMIT ; nouveau\_dessin ]
+Lorsque le client A a la main, il va donc renvoyer la totalité du dessin à chaque modification effectuée (souris relachée pour la création de forme, bouton cliqué pour le redimensionnement/déplacement). Bien que ce soit plus coûteux que de simplement envoyer les parties modifiées, cette technique permet d'éviter beaucoup de bugs de synchronisation entre le client et le serveur (un message mal transmis sera corrigé à la synchronisation suivante). De plus, le dessin étant vectorielle et donc sous forme de XML, le poids de l'image reste relativement léger. Ces messages se présenteront sous la forme [ A ; SUBMIT ; nouveau\_dessin ]
 
 \subsubsection{Transmission de l'image du serveur au client}
 Le serveur va ensuite transmettre l'image mise à jour à tous les clients (c'est aussi par ce procédé que le client reçoit l'image après sa connexion). De la même façon, pour éviter des problèmes de synchronisation, le dessin est transmis en entier à chaque fois. Le message sera [ SERVER ; UPDATE ; nouveau\_dessin ].
 
 \subsubsection{Déconnexion}
-Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur par un message [ A ; DISCONNECT ; ], pour éviter que le serveur continue d'écouter sur un socket \og vide \fg. Il peut ensuite se déconnecter sans risque : en effet, l'emploi du protocole TCP pour acheminer les messages permet d'être sûr que le serveur a bien reçu cette annonce de déconnexion.
+Lorsque le client A souhaite se déconnecter, il prévient d'abord le serveur par un message [ A ; DISCONNECT ; ], pour éviter que le serveur continue d'écouter sur une socket \og vide \fg. Il peut ensuite se déconnecter sans risque : en effet, l'emploi du protocole TCP pour acheminer les messages permet d'être sûr que le serveur a bien reçu cette annonce de déconnexion.
 
 \subsection{Branchement Interface et Réseau}
-Comme nous l'avons dit précédemment nous avons fait le choix de développer l'application en deux parties bien distincte. D'un côté l'interface utilisateur et de l'autre la partie réseau, il à donc fallut à un moment réunir ces deux partie du programme pour arriver au résultat souhaiter à savoir, l'application de dessin collaboratif.
+Comme nous l'avons dit précédemment nous avons fait le choix de développer l'application en deux parties bien distinctes. D'un côté l'interface utilisateur et de l'autre la partie réseau. Il à donc fallut à un moment réunir ces deux parties du programme pour arriver au résultat souhaité, à savoir l'application de dessin collaboratif.
 
-La partie réseau ayant été codé comme une sorte de mini-API, nous n'avons eu qu'à utiliser les fonctions de communications préparées à certains emplacements clef de la partie interface, c'est à dire dans la partie Controller du modèle MVC.
+La partie réseau ayant été codée comme une sorte de mini-API, nous n'avons eu qu'à utiliser les fonctions de communications préparées à certains emplacements clef de la partie interface, c'est à dire dans la partie Controller du modèle MVC.
 
-\paragraph{} Même si de cette manière la tâche nous à été grandement simplifié c'est aussi à ce moment que nous nous sommes rendu compte que certaines choses avait été oubliées ou mal pensées dans notre application, et il a donc fallut revoir et développer de nouvelle choses.
+\paragraph{} Même si de cette manière la tâche nous à été grandement simplifiée c'est aussi à ce moment que nous nous sommes rendu compte que certaines fonctionnalités avait été oubliées ou mal pensées dans notre application, et il a donc fallut revoir certaines parties de notre code.
 
-\paragraph{} Par exemple nous nous sommes rendu compte qu'il fallait un certain temps à l'application pour charger l'interface et que si le serveur envoyait directement au client le dessin avant que l'interface ne soit chargée complètement alors certaines exception remontaient. Nous avons donc modifier légèrement notre protocole afin que le client envoie au serveur un message pour indiquer qu'il est près à recevoir le dessin.
+\paragraph{} Par exemple nous nous sommes rendu compte qu'il fallait un certain temps à l'application pour charger l'interface et que si le serveur envoyait directement au client le dessin avant que l'interface ne soit chargée complètement alors certaines exception remontaient et terminaient l'application. Nous avons donc modifier légèrement notre protocole en ajoutant un message demandant le premier envoi de l'image comme expliqué précédemment.
 
-\paragraph{} Nous avons également modifié certaine action des boutons du menu, comme par exemple le bouton nouveau qui avant la mise en commun des deux parties de l'application créait un nouveau dessin et demandais donc un noms de fichier à l'utilisateur pur l'enregistrer sur l'ordinateur, maintenant ce bouton remet simplement le dessin à une page blanche, comme c'est le serveur qui stocke le dessin on le fait simplement repartir d'un nouveau dessin vide.
+\paragraph{} Nous avons modifié certaines actions des boutons du menu, comme par exemple le bouton nouveau qui, avant la mise en commun des deux parties de l'application créait un nouveau dessin et demandais donc un noms de fichier à l'utilisateur pour l'enregistrer sur l'ordinateur. Avec la partie réseau, le dessin étant stocké sur le serveur, nous avons décidé que ce bouton remettrait simplement le dessin à une page blanche.
 
-\paragraph{} Nous avons également ajouté une icône indiquant à l'utilisateur si il à la main ou non, comme avant la mise en commun il n'y avait pas ce problème de prise de main, le besoin de la fonctionnalité était passé inaperçu.
+\paragraph{} Nous avons également ajouté une icône indiquant à l'utilisateur si il à la main ou non. En effet, avant la mise en commun il n'y avait pas de problème de prise de main, l'utilisateur étant seul. Ce besoin était donc passé inaperçu lors de la conception de l'interface.
 
-\paragraph{} Nous avons également du réfléchir à ce qui ce passait lorsqu'un client en train de dessiné, c'est à dire avec le bouton gauche de la souris appuyé, perdait la main.
+\paragraph{} Puis, nous avons du réfléchir à ce qui ce passait lorsqu'un client en train de dessiner, c'est à dire avec le bouton gauche de la souris enfoncé, perdait la main.
 
-En effet cela peut très bien arrivé puisque, nous avons fait le choix de changer le client qui à la main aussitôt que le temps de prise de contrôle est écoulée. Une autre option aurait été de laisser le contrôle tant que le client à le bouton de la souris appuyé, mais cela compliquait la tâche si le client gardait indéfiniment enfoncé le bouton de sa souris et nous avons donc choisi l'autre option.
+En effet ce problème est fréquent car nous avons fait le choix de changer le client qui à la main aussitôt que le temps de prise de contrôle est écoulé. Une autre option aurait été de laisser le contrôle tant que le client à le bouton de la souris enfoncé, mais cela compliquait la tâche si le client gardait indéfiniment enfoncé le bouton de sa souris. Nous avons donc choisi de conserver le timeout.
 
-Il s'est avéré qu'avec ce choix il y avait un décalage lorsque le client perdait la main, car de la façon dont l'application était codée la perte de contrôle du client faisait que la forme en cours de dessin, au moment de la perte de contrôle, était dessinée du côté du client mais non envoyée sur le serveur (le forme disparaissait ensuite avec la modification suivante par le prochain client ayant la main). Comme nous ne voulions pas envoyer au serveur un forme non terminé par le client et que nous voulions évité que le client croit que la forme qu'il dessinait avait été envoyé, nous avons du modifier de nouveau très légèrement notre protocole pour que le client qui perd la main reçoive le dessin stocké sur le serveur à la fin du temps qu'il lui était imparti, afin de gommer les éventuelles modifications qui n'auraient été que locales.
+Il s'est avéré qu'avec ce choix il y avait un décalage lorsque le client perdait la main, car de la façon dont l'application était codée la perte de contrôle du client faisait que la forme en cours de dessin, au moment de la perte de contrôle, était dessinée du côté du client mais non envoyée sur le serveur (le forme disparaissait ensuite avec la modification suivante par le prochain client ayant la main). Comme nous ne voulions pas envoyer au serveur un forme non terminé par le client et que nous voulions éviter que le client croit que la forme qu'il dessinait été enregistré. Nous avons du modifier de nouveau très légèrement notre protocole pour que le client qui perd la main reçoive le dessin stocké sur le serveur à la fin du temps qu'il lui était imparti, afin de gommer les éventuelles modifications qui n'auraient été que locales.
 
-\paragraph{} L'écriture très modulaire du code et la séparation bien précise des différents éléments de l'application nous à donc été grandement utile pour corriger ces problèmes assez rapidement et sans avoir à ré-écrire les différentes fonctions déjà écrites.
+\paragraph{} L'écriture très modulaire du code et la séparation bien précise des différents éléments de l'application nous grandement facilité la tâche pour corriger ces problèmes rapidement et sans avoir à ré-écrire les différentes fonctions déjà écrites.
 
 \section{Recette}
 
-Les test unitaires n'\'etant pas enseign\'es dans notre formation, il a fallu en premier lieu de se documenter \`a propos de JUnit. Nous avons r\'ealis\'e des tests sur quelques fonctions jugées critiques notamment au niveau du Modèle et du serveur mais n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit et supposent que les classes fournies par la biblioth\`eque Swing sont susceptible de ne pas fonctionner correctement. Nous avons donc suppos\'e infaillible cette biblioth\`eque.
+Les test unitaires n'\'etant pas enseign\'es dans notre formation, il a fallu en premier lieu se documenter \`a propos de JUnit qui est la bibliothèque la plus largement utilisée pour le test d'application Java. Nous avons r\'ealis\'e des tests sur les fonctions que nous avons jugées critiques notamment au niveau du Modèle, notamment en ce qui concerne les fonctions modifiant le svg (ajout de forme, suppression de forme, choix de couleur, etc.) et du Serveur (transfert de message, etc.)  mais n'intervenant pas dans l'interface graphique. En effet, les tests unitaires d'\'el\'ements graphiques n\'ecessitent une appr\'ehension plus compl\`ete de JUnit et supposent que les classes fournies par la biblioth\`eque Swing sont susceptible de ne pas fonctionner correctement. Dans le cadre de ce projet, nous avons donc suppos\'e infaillible cette biblioth\`eque, jugeant inadapté de tester un par un nos composants graphique de manière à savoir si le lien Vue/Controlleur fournis par Swing fonctionne correctement.
+
+\paragraph{} Concernant le Modèle, nous avons donc décidé de créer des tests reproduisant les actions d'un client. On commence donc par créer une image sur laquelle s'appuiront nos tests. En effet, la base des tests est de ne pas utiliser de vrais données mais des données de tests. Ainsi, on s'assure de ne pas dépendre d'une image initialisée à la main qui pourrait être modifié ou supprimée par un propriétaire peu alerte. Nous nous sommes aussi assuré que les tests ne dépendaient pas les un des autres. En effet, on ne peut lancer une première fonction de test créant une forme puis une seconde fonction la supprimant car les tests peuvent être lancés par des programmes tiers et rien n'assure qu'ils seront bien lancé dans l'ordre souhaité. 
 
 \section{Gestion de projet}
 Au fil de la réalisation de ce projet, il nous est apparu que la gestion de projet a été d'une importance capitale. En effet, si nous avions lu le cahier des charges chacun de notre côté, sans nous soucier de la répartition des tâches, des délais à tenir et de la cohérence entre nous, il est plus que probable que le projet n'aurait pas été terminé dans les temps. Nous expliquerons dans cette partie les différentes techniques de gestion de projet mises en places ainsi que les problèmes rencontrés.
@@ -468,22 +466,20 @@ De manière à terminer le projet dans le temps imparti tout en livrant toutes l
 \paragraph{} Le planning a été réaliser grâce à Gantt Project. Le planning ainsi créé étant trop imposant pour être inséré dans le rapport, il est trouvable sous forme d'image dans l'archive contenant le projet (cf : Dessin collaboratif – Planning). Le diagramme de PERT quant à lui été généré grâce à Gantt Project à partir du planning (cf : Dessin collaboratif – Diagramme de PERT).
 
 \section{Bilan}
-\subsection{Bilan technique}
-Ce projet a été très formateur pour chacun d'entre nous et ce pour divers raisons. 
+Ce projet a été très formateur pour chacun d'entre nous et ce pour plusieurs raisons.
 
 \paragraph{} En premier lieu, il nous a permis d'améliorer notre maîtrise du langage Java. En effet, venant chacun de formations différentes, nous ne sommes pas partis avec la même maîtrise de ce langage et, bien que nous connaissions tous des langages objets, il a fallut que nous nous mettions au même niveau.
 
 \paragraph{} Ensuite, nous avons découvert différents outils nécessaires à la bonne mises en œuvre de ce projet. Bien que nous en connaissions déjà certains comme Git et Swing, ce projet nous a permis d'approfondir nos connaissances et d'être plus efficace et rapide à les utiliser. Mais nous avons aussi eu l'occasion de découvrir d'autres outils et bibliothèques que nous n'aurions peut-être pas découvert sans ce projet comme Batik par exemple.
 
-\paragraph{} Mais ce projet nous a surtout montré que le choix des outils en début de projet est déterminant dans la bonne mise en œuvre ce projet et qu'un mauvais choix d'outils est déterminant par la suite. Dans notre cas, nous avons compris que, même si Batik permet de gérer simplement l'affichage de .svg, cette bibliothèque permet des traitements génériques mais ne répondant pas forcément à nos besoins. Notamment, nous avons besoin de ré-afficher le canvas contenant l'image, mais la bibliothèque ne gère pas le double buffering, cause du clignotement de l'image lors des modifications. Nous en avons conclu que, si nous avions à refaire ce projet, nous n'utiliserions pas cette bibliothèque, préférant créer nos propres composants répondant au problème plutôt que de tenter de modifier les comportement de Batik, de peur de la rendre instable.
+\paragraph{} Mais ce projet nous a surtout montré que le choix des outils en début de projet est déterminant dans la bonne mise en œuvre ce projet et qu'un mauvais choix d'outils est déterminant par la suite. Dans notre cas, nous avons compris que, même si Batik permet de gérer simplement l'affichage de .svg, cette bibliothèque permet des traitements génériques mais ne répondant pas forcément à nos besoins. Notamment, nous avons besoin de ré-afficher le canvas contenant l'image, mais la bibliothèque ne gère pas le double buffering, cause du clignotement de l'image lors des modifications. Nous en avons conclu que, si nous avions à refaire ce projet, nous n'utiliserions pas cette bibliothèque, préférant créer nos propres composants répondant au problème plutôt que de tenter de modifier les comportement de Batik, de peur de la rendre instable. Nous avons aussi compris l'interêt de developper un code clair et peu couplé, permettant ainsi de rendre plus maintenable et plus evolutive notre application.
 
-\subsection{Bilan humain}
-Ce projet nous a beaucoup appris, notamment concernant la gestion de projet. En effet, beaucoup des processus mis en œuvre afin de mener à bien notre projet peuvent finalement s'apparenter à ceux utilisés en entreprise. En effet, notre chiffrage, bien que sommaire permettra en entreprise d'estimer combien de temps de développement demandera un projet. Le planning quant à lui est similaire et permet aux développeurs de connaître leurs affectations au fil du temps.
+\paragraph{} Nous avons aussi beaucoup appris concernant la gestion de projet. En effet, beaucoup des processus mis en œuvre afin de mener à bien notre projet peuvent finalement s'apparenter à ceux utilisés en entreprise. En effet, notre chiffrage, bien que sommaire permettra en entreprise d'estimer combien de temps de développement demandera un projet. Le planning quant à lui est similaire et permet aux développeurs de connaître leurs affectations au fil du temps.
+
+
 
 \section*{Conclusion}
+Nous pouvons dire que ce projet est un succès, ayant répondu à toutes les fonctionnalités demandées dans le cahier des charges dans le temps imparti. Tout ceci n'aurait cependant pas été possible sans l'utilisation d'outil collaboratif ni la bonne mise en place de la gestion de projet. En effet, grâce à une bonne communication entre chacun d'entre nous et des objectifs clairs, il a été possible de connaître l'avencement du projet ainsi que de cibler facilement les problèmes pour ensuite les résoudre rapidement.
 
-\section*{Lexique}
-
-\section*{Annexe}
 
 \end{document}
