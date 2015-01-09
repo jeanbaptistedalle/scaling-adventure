@@ -36,7 +36,7 @@ public class WaitList {
 
     /**
      * @fn leave
-     * @brief Lorqu'un client à rendu la main (ou bien il la rend, ou bien il annule sa demande);
+     * @brief Lorqu'un client à rendu la main (ou bien il la rend, ou bien il annule sa demande)
      * @param elem l'élément à retirer
      * @return true si l'élément qui a la main est actualisé, false sinon
      */
@@ -54,7 +54,7 @@ public class WaitList {
 
     /**
      * @fn unshift
-     * @brief Retire le premier élément de la liste et le place dans current
+     * @brief Retire le premier élément de la liste
      */
     private void unshift() {
         if (!list.isEmpty()) {
@@ -75,7 +75,7 @@ public class WaitList {
 
     /**
      * @fn getCurrent
-     * @brief Accesseur de l'élément courant (ici, client qui a la main)
+     * @brief Accesseur de l'élément courant, c'est-à-dire le premier de la liste (ici, client qui a la main)
      * @return list.get(0)
      */
     public ClientManager getCurrent() {
