@@ -59,9 +59,9 @@ Définition d'un scénario nominal et alternatif
 \begin{itemize}
 	\item[1]Le « propriétaire » lance le serveur.
 	\item[2]Deux utilisateur A et B se connectent sur le serveur.
-	\item[3]A peut donc prendre la main. Il dessine quelques formes.
+	\item[3]A peut donc prendre la main. Il dessine quelques formes. Après chaque modification, l'image est répercutée sur B.
 	\item[4]B demande la main.
-	\item[5]Lorsque A perd la main (volontairement ou par inactivité), B récupère la main et peut maintenant dessiner.
+	\item[5]Lorsque A perd la main (à la fin d'un timer défini), B récupère la main et peut maintenant dessiner.
 	\item[6]A et B peuvent exporter le dessin sur leur machine (au format .jpeg ou .svg).
 	\item[7]A et B se déconnectent.
 \end{itemize}
@@ -71,9 +71,9 @@ Définition d'un scénario nominal et alternatif
 \begin{itemize}
 	\item[1]Le « propriétaire » lance le serveur
 	\item[2]Deux utilisateur A et B se connectent sur le serveur.
-	\item[3]A, ayant rejoins en premier le salon, à la main et décide d'importer un dessin au format .svg. Puis il dessine quelques formes.
+	\item[3]A dessine quelques formes. Après chaque modification, l'image est répercutée sur B.
 	\item[4]A perd sa connexion internet.
-	\item[5]La main passe automatiquement à B qui est alors le seul utilisateur encore présent dans ce salon.
+	\item[5]La main passe automatiquement à B si il l'avait demandé qui est alors le seul utilisateur encore présent dans ce salon.
 	\item[6]B peut exporter le dessin sur sa machine.
 	\item[7]B se déconnecte.
 \end{itemize}
@@ -90,11 +90,19 @@ Dans un premier temps, nous avons réfléchi à la façon de stocker les images 
 \paragraph{} Nous avons aussi pensé qu'il serait bon que l'utilisateur puisse exporter son image sous un autre format plus commun comme le jpeg par exemple. 
 
 \subsubsection{Architecture}
-Après avoir analysé et débattu sur le sujet, nous avons défini que l'application suivrait l'architecture Client/Serveur. En effet, cette architecture permet de centraliser dans un seul serveur toutes les données nécessaires au(x) client(s). Cette centralisation nous permettra de stocker en un point les images de manière à ce que tous les clients puissent y accéder sans avoir à questionner les autres clients.
+Après avoir analysé et débattu sur le sujet, nous avons défini que l'application suivrait l'architecture Client/Serveur. En effet, cette architecture permet de centraliser dans un seul serveur toutes les données nécessaires au(x) client(s). Cette centralisation nous permettra de stocker en un point les images de manière à ce que tous les clients puissent y accéder sans avoir à questionner les autres clients. Ainsi, lors de la modification d'une image par un client, le serveur pourra envoyer celle-ci à tous les autres clients.
 
-\paragraph{} Cette architecture sera couplée, pour le côté Client à une architecture MVC, qui est un design pattern particulièrement adapté à l'élaboration d'application ayant un aspect graphique. Cette architecture sépare le Client en 3 parties : le modèle, qui contient les données de l'application, la vue, qui correspond à l'affichage de l'application et le contrôleur, qui effectue les modifications de la vue et du modèle lorsque l'utilisateur interagit avec la vue. 
+\begin{center}
+\includegraphics[scale=0.5]{image/server.jpg}
+\end{center}
+
+\paragraph{} Cette architecture sera couplée, pour le côté Client, à une architecture MVC, qui est un design pattern particulièrement adapté à l'élaboration d'application ayant un aspect graphique. Cette architecture sépare le Client en 3 parties : le modèle, qui contient les données de l'application, la vue, qui correspond à l'affichage de l'application et le contrôleur, qui effectue les modifications de la vue et du modèle lorsque l'utilisateur interagit avec la vue. 
 
 \paragraph{} Dans le cas d'un couplage avec une architecture Client/Serveur, le contrôleur agira sur le modèle et la vue comme l'impose l'architecture MVC mais agira aussi sur le serveur en envoyant des messages en fonctions des actions de l'utilisateur sur la vue. A l'inverse, lorsque le serveur communique avec le client, il s'occupera de modifier les données et de mettre à jour la vue en conséquence.
+
+\begin{center}
+\includegraphics[scale=0.5]{image/architecture.jpg}
+\end{center}
 
 \paragraph{} Finalement, nous avons opté pour le design pattern Singleton pour plusieurs de nos composants. En effet, celui-ci permet de s'assurer que, pour une classe l'implémentant, on ne puisse avoir qu'une seule instance de celle-ci. L'utilisation de ce design pattern nous permet ainsi de s'assurer qu'il n'existera qu'une seule instance des composants graphique et du modèle pour un même client.
 
@@ -453,7 +461,7 @@ Les test unitaires n'\'etant pas enseign\'es dans notre formation, il a fallu en
 
 \paragraph{} Pour ce qui est de la partie réseau nous avons écris les tests permettant d'assurer la bonne conversion des messages de chaine de caractères en bytes et vise-versa. Puisque les messages sont traduits en tableau de bytes avant d'être envoyés et sont ensuite re-convertis en chaines de caractères avant d'être interprétés.
 
-Nous avons également écris les tests permettant de s'assurer que les clients obtenaient bien le contrôle du dessin après l'avoir demandés et le perdaient bien après 30 secondes. Ces tests faisant transiter des messages en réseau, ils permettent également de vérifier que les messages sont bien transmit du client vers le serveur et inversement.
+\paragraph{} Nous avons également écris les tests permettant de s'assurer que les clients obtenaient bien le contrôle du dessin après l'avoir demandés et le perdaient bien après 30 secondes. Ces tests faisant transiter des messages en réseau, ils permettent également de vérifier que les messages sont bien transmit du client vers le serveur et inversement.
 Nous n'avons cependant pas testé le bon fonctionnement de la file d'attente puisque celle ci n'utilise qu'un élément Vector et que nous avons supposé que cette élément avait été correctement testé.
 
 \section{Gestion de projet}

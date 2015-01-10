@@ -3,126 +3,153 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="scaling-adventure">
-    <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../usr/share/eclipse/eclipse/"/>
-    <property name="junit.output.dir" value="junit"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.7"/>
-    <property name="source" value="1.7"/>
-    <path id="JUnit 4.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
-        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
-    </path>
-    <path id="scaling-adventure.classpath">
-        <pathelement location="bin1"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/org.apache.commons.io.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-anim.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-awt-util.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-bridge.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-codec.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-css.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-dom.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-ext.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-extension.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-gui-util.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-gvt.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-parser.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-rasterizer.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-script.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-slideshow.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-squiggle.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-svg-dom.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-svggen.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-svgpp.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-swing.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-transcoder.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-ttf2svg.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-util.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-xml.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/js.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/pdf-transcoder.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/xalan-2.6.0.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/xerces_2_5_0.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/xml-apis.jar"/>
-        <pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/xml-apis-ext.jar"/>
-        <path refid="JUnit 4.libraryclasspath"/>
-    </path>
-    <target name="init">
-        <mkdir dir="bin1"/>
-        <copy includeemptydirs="false" todir="bin1">
-            <fileset dir="src">
-                <exclude name="**/*.ucls"/>
-                <exclude name="**/*.useq"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="bin1">
-            <fileset dir="test">
-                <exclude name="**/*.ucls"/>
-                <exclude name="**/*.useq"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="bin1"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin1" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
-            <src path="test"/>
-            <classpath refid="scaling-adventure.classpath"/>
-        </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
-    </target>
-    <target name="Launcher">
-        <java classname="dessin.collaboratif.launcher.Launcher" failonerror="true" fork="yes">
-            <classpath refid="scaling-adventure.classpath"/>
-        </java>
-    </target>
-    <target name="Server">
-        <java classname="reseau.server.Server" failonerror="true" fork="yes">
-            <classpath refid="scaling-adventure.classpath"/>
-        </java>
-    </target>
-    <target name="ClientTest">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="dessin.collaboratif.model.ClientTest" todir="${junit.output.dir}"/>
-            <classpath refid="scaling-adventure.classpath"/>
-        </junit>
-    </target>
-    <target name="Launcher (1)">
-        <java classname="launcher.Launcher" failonerror="true" fork="yes">
-            <classpath refid="scaling-adventure.classpath"/>
-        </java>
-    </target>
-    <target name="junitreport">
-        <junitreport todir="${junit.output.dir}">
-            <fileset dir="${junit.output.dir}">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${junit.output.dir}"/>
-        </junitreport>
-    </target>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="scaling-adventure">
+	<property environment="env" />
+	<property name="ECLIPSE_HOME" value="../../../../usr/share/eclipse/eclipse/" />
+	<property name="junit.output.dir" value="junit" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.7" />
+	<property name="source" value="1.7" />
+	<path id="JUnit 4.libraryclasspath">
+		<pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.11.0.v201303080030/junit.jar" />
+		<pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar" />
+	</path>
+	<path id="scaling-adventure.classpath">
+		<pathelement location="bin1" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/org.apache.commons.io.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-anim.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-awt-util.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-bridge.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-codec.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-css.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-dom.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-ext.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-extension.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-gui-util.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-gvt.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-parser.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-rasterizer.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-script.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-slideshow.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-squiggle.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-svg-dom.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-svggen.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-svgpp.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-swing.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-transcoder.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-ttf2svg.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-util.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/batik-xml.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/js.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/pdf-transcoder.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/xalan-2.6.0.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/xerces_2_5_0.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/xml-apis.jar" />
+		<pathelement location="http://forge.info.univ-angers.fr/~rgaborieau/jar/batik/xml-apis-ext.jar" />
+		<path refid="JUnit 4.libraryclasspath" />
+	</path>
+	<target name="init">
+		<mkdir dir="bin1" />
+		<copy includeemptydirs="false" todir="bin1">
+			<fileset dir="src">
+				<exclude name="**/*.ucls" />
+				<exclude name="**/*.useq" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<copy includeemptydirs="false" todir="bin1">
+			<fileset dir="test">
+				<exclude name="**/*.ucls" />
+				<exclude name="**/*.useq" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin1" />
+	</target>
+	<target depends="clean" name="cleanall" />
+	<target depends="build-subprojects,build-project" name="build" />
+	<target name="build-subprojects" />
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin1" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src" />
+			<src path="test" />
+			<classpath refid="scaling-adventure.classpath" />
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+		<copy todir="${ant.library.dir}">
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+		</copy>
+		<unzip dest="${ant.library.dir}">
+			<patternset includes="jdtCompilerAdapter.jar" />
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+		</unzip>
+	</target>
+	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+		<antcall target="build" />
+	</target>
+	<target name="ClientLauncher">
+		<java classname="launcher.ClientLauncher" failonerror="true" fork="yes">
+			<classpath refid="scaling-adventure.classpath" />
+		</java>
+	</target>
+	<target name="ClientTest">
+		<mkdir dir="${junit.output.dir}" />
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml" />
+			<test name="test.dessin.collaboratif.model.ClientTest" todir="${junit.output.dir}" />
+			<classpath refid="scaling-adventure.classpath" />
+		</junit>
+	</target>
+	<target name="ClientNetworkTest">
+		<mkdir dir="${junit.output.dir}" />
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml" />
+			<test name="test.reseau.client.ClientNetworkTest" todir="${junit.output.dir}" />
+			<classpath refid="scaling-adventure.classpath" />
+		</junit>
+	</target>
+	<target name="MessageTest">
+		<mkdir dir="${junit.output.dir}" />
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml" />
+			<test name="test.reseau.common.MessageTest" todir="${junit.output.dir}" />
+			<classpath refid="scaling-adventure.classpath" />
+		</junit>
+	</target>
+	<target name="ServerLauncher">
+		<java classname="launcher.ServerLauncher" failonerror="true" fork="yes">
+			<classpath refid="scaling-adventure.classpath" />
+		</java>
+	</target>
+	<target name="Launcher">
+		<java classname="launcher.Launcher" failonerror="true" fork="yes">
+			<classpath refid="scaling-adventure.classpath" />
+		</java>
+	</target>
+	<target name="Launcher (2)">
+		<java classname="dessin.collaboratif.launcher.Launcher" failonerror="true" fork="yes">
+			<classpath refid="scaling-adventure.classpath" />
+		</java>
+	</target>
+	<target name="Server">
+		<java classname="reseau.server.Server" failonerror="true" fork="yes">
+			<classpath refid="scaling-adventure.classpath" />
+		</java>
+	</target>
+	<target name="junitreport">
+		<junitreport todir="${junit.output.dir}">
+			<fileset dir="${junit.output.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit.output.dir}" />
+		</junitreport>
+	</target>
 </project>
